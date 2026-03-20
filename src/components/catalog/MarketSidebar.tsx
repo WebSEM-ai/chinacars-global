@@ -45,13 +45,13 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
             />
             {/* Ranking circle badge */}
             <div className="absolute top-3 right-3 w-14 h-14 rounded-full bg-slate-900 border-2 border-[#E63946] flex flex-col items-center justify-center shadow-lg">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 leading-none">Rank</span>
+              <span className="text-[9px] font-light uppercase tracking-wider text-slate-400 leading-none">Rank</span>
               <span className="text-lg font-black text-white leading-none">{rankNumber}</span>
             </div>
           </div>
           <div className="px-4 pb-3 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{brandName}</p>
-            <p className="text-sm font-bold text-slate-900">{modelName}</p>
+            <p className="text-[10px] font-light uppercase tracking-widest text-slate-400">{brandName}</p>
+            <p className="text-sm font-black text-slate-900">{modelName}</p>
           </div>
         </div>
       )}
@@ -60,19 +60,19 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
       <div className="bg-slate-900 rounded-xl p-4 text-white">
         <div className="flex items-center gap-2 mb-3">
           <BarChart3 className="h-3.5 w-3.5 text-[#E63946]" />
-          <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Market Intelligence</h3>
+          <h3 className="text-[10px] font-light uppercase tracking-widest text-slate-500">Market Intelligence</h3>
         </div>
 
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase tracking-wide">EV Rank</span>
-              <p className="text-lg font-bold leading-tight">{marketData.globalRank}</p>
+              <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">EV Rank</span>
+              <p className="text-lg font-black leading-tight">{marketData.globalRank}</p>
             </div>
             <div>
-              <span className="text-[10px] text-slate-500 uppercase tracking-wide">Share</span>
+              <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">Share</span>
               <div className="flex items-center gap-1">
-                <p className="text-lg font-bold leading-tight">{marketData.marketShare}</p>
+                <p className="text-lg font-black leading-tight">{marketData.marketShare}</p>
                 {isUp ? (
                   <TrendingUp className="h-3 w-3 text-emerald-400" />
                 ) : (
@@ -85,9 +85,9 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
           <div className="border-t border-white/5" />
 
           <div>
-            <span className="text-[10px] text-slate-500 uppercase tracking-wide">YTD Sales ({year || 2025})</span>
+            <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">YTD Sales ({year || 2025})</span>
             <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-xl font-bold">{marketData.ytdSales}</span>
+              <span className="text-xl font-black">{marketData.ytdSales}</span>
               <span className={`text-xs font-bold ${marketData.ytdGrowth.startsWith('+') ? 'text-emerald-400' : 'text-red-400'}`}>
                 {marketData.ytdGrowth}
               </span>
@@ -95,8 +95,8 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
           </div>
 
           <div>
-            <span className="text-[10px] text-slate-500 uppercase tracking-wide">EU Sales</span>
-            <p className="text-base font-bold mt-0.5">{marketData.euSales}</p>
+            <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">EU Sales</span>
+            <p className="text-base font-black mt-0.5">{marketData.euSales}</p>
           </div>
         </div>
       </div>
@@ -105,26 +105,26 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
       <div className="grid grid-cols-2 gap-2">
         <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
           <Factory className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-          <p className="text-base font-bold text-slate-900 leading-tight">{marketData.factories}</p>
-          <p className="text-[10px] text-slate-500">Factories</p>
+          <p className="text-base font-black text-slate-900 leading-tight">{marketData.factories}</p>
+          <p className="text-[10px] font-light text-slate-400">Factories</p>
         </div>
         <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
           <Globe className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-          <p className="text-base font-bold text-slate-900 leading-tight">{marketData.countries}</p>
-          <p className="text-[10px] text-slate-500">Countries</p>
+          <p className="text-base font-black text-slate-900 leading-tight">{marketData.countries}</p>
+          <p className="text-[10px] font-light text-slate-400">Countries</p>
         </div>
         {ncapStars && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <Award className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-            <p className="text-base font-bold text-slate-900 leading-tight">{ncapStars}/5</p>
-            <p className="text-[10px] text-slate-500">Euro NCAP</p>
+            <p className="text-base font-black text-slate-900 leading-tight">{ncapStars}/5</p>
+            <p className="text-[10px] font-light text-slate-400">Euro NCAP</p>
           </div>
         )}
         {markets && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <MapPin className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-            <p className="text-base font-bold text-slate-900 leading-tight">{markets.length}</p>
-            <p className="text-[10px] text-slate-500">Markets</p>
+            <p className="text-base font-black text-slate-900 leading-tight">{markets.length}</p>
+            <p className="text-[10px] font-light text-slate-400">Markets</p>
           </div>
         )}
       </div>
@@ -134,12 +134,12 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
         <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5">
           <div className="flex items-center gap-1.5 mb-1.5">
             <DollarSign className="h-3 w-3 text-slate-400" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Stock</span>
+            <span className="text-[10px] font-light uppercase tracking-widest text-slate-400">Stock</span>
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] text-slate-500">{marketData.stockTicker}</p>
-              <p className="text-base font-bold text-slate-900">{marketData.stockPrice}</p>
+              <p className="text-[10px] font-light text-slate-400">{marketData.stockTicker}</p>
+              <p className="text-base font-black text-slate-900">{marketData.stockPrice}</p>
             </div>
             <span className={`text-xs font-bold px-2 py-0.5 rounded ${
               marketData.stockChange?.startsWith('+')
@@ -157,9 +157,9 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
         <div className="bg-[#E63946]/5 border border-[#E63946]/15 rounded-lg px-3 py-2.5">
           <div className="flex items-center gap-1.5 mb-1.5">
             <Target className="h-3 w-3 text-[#E63946]" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#E63946]">Price Context</span>
+            <span className="text-[10px] font-light uppercase tracking-widest text-[#E63946]">Price Context</span>
           </div>
-          <p className="text-xs text-slate-600 leading-relaxed">
+          <p className="text-xs font-light text-slate-500 leading-relaxed">
             <span className="font-bold text-slate-900">{'\u20AC'}{priceEurFrom.toLocaleString()}</span> is{' '}
             <span className="font-bold text-emerald-600">
               {Math.round(((marketData.competitorPrice - priceEurFrom) / marketData.competitorPrice) * 100)}% less
@@ -173,7 +173,7 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
       <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5">
         <div className="flex items-center gap-1.5 mb-2">
           <Users className="h-3 w-3 text-slate-400" />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Top Markets</span>
+          <span className="text-[10px] font-light uppercase tracking-widest text-slate-400">Top Markets</span>
         </div>
         <div className="space-y-1.5">
           {marketData.topMarkets.map((market, i) => (
@@ -182,7 +182,7 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
                 <span className="w-4 h-4 rounded bg-slate-100 flex items-center justify-center text-[9px] font-bold text-slate-500">
                   {i + 1}
                 </span>
-                <span className="text-xs text-slate-700">{market}</span>
+                <span className="text-xs font-light text-slate-600">{market}</span>
               </div>
               <div className="h-1 w-12 bg-slate-100 rounded-full overflow-hidden">
                 <div className="h-full bg-[#E63946] rounded-full" style={{ width: `${100 - i * 18}%` }} />

@@ -353,18 +353,18 @@ export default async function ModelDetailPage({
           <div className="flex flex-col gap-3 max-w-2xl">
             {/* Brand */}
             <div className="flex items-center gap-3">
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-slate-500">
+              <p className="text-[11px] font-light uppercase tracking-[0.3em] text-slate-400">
                 {model.brand.name}
               </p>
             </div>
 
             {/* Model + Year */}
             <div className="flex flex-wrap items-end gap-3">
-              <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
                 {model.name}
               </h1>
               {model.year && (
-                <span className="mb-0.5 inline-flex items-center rounded-md bg-white/8 px-2.5 py-1 text-xs font-bold text-white/70 ring-1 ring-white/10 sm:mb-1">
+                <span className="mb-1 inline-flex items-center rounded-md bg-white/8 px-2.5 py-1 text-xs font-light text-white/60 ring-1 ring-white/10 sm:mb-2">
                   {model.year}
                 </span>
               )}
@@ -372,10 +372,10 @@ export default async function ModelDetailPage({
 
             {/* Price */}
             {model.priceEurFrom && (
-              <p className="text-xl font-bold text-[#E63946] sm:text-2xl">
+              <p className="text-2xl font-black text-[#E63946] sm:text-3xl">
                 {'\u20AC'}{model.priceEurFrom.toLocaleString()}
                 {model.priceEurTo && model.priceEurTo !== model.priceEurFrom && (
-                  <span className="text-base font-normal text-[#E63946]/50 sm:text-lg">
+                  <span className="text-lg font-light text-[#E63946]/40 sm:text-xl">
                     {' '}&mdash; {'\u20AC'}{model.priceEurTo.toLocaleString()}
                   </span>
                 )}
@@ -388,7 +388,7 @@ export default async function ModelDetailPage({
                 {quickSpecs.map((pill) => (
                   <span
                     key={pill}
-                    className="inline-flex items-center gap-1 rounded-md bg-white/5 px-2.5 py-1.5 text-xs font-medium text-white/80 ring-1 ring-white/10"
+                    className="inline-flex items-center gap-1 rounded-md bg-white/5 px-2.5 py-1.5 text-xs font-light text-white/70 ring-1 ring-white/10"
                   >
                     <Zap className="h-3 w-3 text-[#E63946]" />
                     {pill}
@@ -455,7 +455,7 @@ export default async function ModelDetailPage({
                   <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
                     <SectionIcon type="variants" />
                   </div>
-                  <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('variants')}</h2>
+                  <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">{t('variants')}</h2>
                 </div>
                 {model.variants.length <= 4 ? (
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -483,7 +483,7 @@ export default async function ModelDetailPage({
                           <div className="space-y-1.5 text-xs">
                             {variant.priceEur && (
                               <div className="flex justify-between">
-                                <span className="text-slate-500">Price</span>
+                                <span className="font-light text-slate-400">Price</span>
                                 <span className="font-bold text-[#E63946]">
                                   {'\u20AC'}{variant.priceEur.toLocaleString()}
                                 </span>
@@ -491,26 +491,26 @@ export default async function ModelDetailPage({
                             )}
                             {variant.batteryKwh && (
                               <div className="flex justify-between">
-                                <span className="text-slate-500">Battery</span>
-                                <span className="font-semibold text-slate-900">{variant.batteryKwh} kWh</span>
+                                <span className="font-light text-slate-400">Battery</span>
+                                <span className="font-bold text-slate-900">{variant.batteryKwh} kWh</span>
                               </div>
                             )}
                             {variant.rangeWltpKm && (
                               <div className="flex justify-between">
-                                <span className="text-slate-500">Range</span>
-                                <span className="font-semibold text-slate-900">{variant.rangeWltpKm} km</span>
+                                <span className="font-light text-slate-400">Range</span>
+                                <span className="font-bold text-slate-900">{variant.rangeWltpKm} km</span>
                               </div>
                             )}
                             {variant.powerHp && (
                               <div className="flex justify-between">
-                                <span className="text-slate-500">Power</span>
-                                <span className="font-semibold text-slate-900">{variant.powerHp} hp</span>
+                                <span className="font-light text-slate-400">Power</span>
+                                <span className="font-bold text-slate-900">{variant.powerHp} hp</span>
                               </div>
                             )}
                             {variant.driveType && (
                               <div className="flex justify-between">
-                                <span className="text-slate-500">Drive</span>
-                                <span className="font-semibold text-slate-900">{variant.driveType}</span>
+                                <span className="font-light text-slate-400">Drive</span>
+                                <span className="font-bold text-slate-900">{variant.driveType}</span>
                               </div>
                             )}
                           </div>
@@ -570,9 +570,9 @@ export default async function ModelDetailPage({
                       <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
                         <SectionIcon type="about" />
                       </div>
-                      <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('about')}</h2>
+                      <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">{t('about')}</h2>
                     </div>
-                    <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+                    <p className="text-sm font-light text-slate-500 leading-relaxed whitespace-pre-line">
                       {description}
                     </p>
                   </div>
@@ -584,7 +584,7 @@ export default async function ModelDetailPage({
                       <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
                         <Sparkles className="h-4 w-4" />
                       </div>
-                      <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('highlights')}</h2>
+                      <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">{t('highlights')}</h2>
                     </div>
                     <ul className="grid gap-1.5 sm:grid-cols-2">
                       {highlights.map((item, i) => (
@@ -595,7 +595,7 @@ export default async function ModelDetailPage({
                           <div className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100">
                             <Check className="h-2.5 w-2.5 text-emerald-600" />
                           </div>
-                          <span className="text-xs text-slate-700 leading-relaxed">{item}</span>
+                          <span className="text-xs font-light text-slate-600 leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -610,7 +610,7 @@ export default async function ModelDetailPage({
                 <div className="w-7 h-7 rounded-lg bg-[#E63946] text-white flex items-center justify-center">
                   <SectionIcon type="specs" />
                 </div>
-                <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">
                   {t('performanceSpecs').replace(/specs?/i, '').trim() || 'Specifications'}
                 </h2>
               </div>
@@ -624,7 +624,7 @@ export default async function ModelDetailPage({
                   <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
                     <SectionIcon type="video" />
                   </div>
-                  <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('video')}</h2>
+                  <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">{t('video')}</h2>
                 </div>
                 <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 ring-1 ring-slate-200">
                   <iframe
@@ -645,7 +645,7 @@ export default async function ModelDetailPage({
                   <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
                     <SectionIcon type="markets" />
                   </div>
-                  <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('availableMarkets')}</h2>
+                  <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">{t('availableMarkets')}</h2>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {model.markets.map((market) => (

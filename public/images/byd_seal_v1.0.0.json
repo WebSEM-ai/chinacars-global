@@ -1,0 +1,316 @@
+{
+  "meta": {
+    "vehicle_id": "f3a2b1c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+    "schema_version": "1.0.0",
+    "powertrain_type": "BEV",
+    "status": "published",
+    "data_source": "manual",
+    "created_at": "2026-03-20T10:00:00Z",
+    "updated_at": "2026-03-20T10:00:00Z",
+    "language_origin": "en"
+  },
+  "identity": {
+    "brand": "BYD",
+    "brand_slug": "byd",
+    "model_name": "Seal",
+    "model_slug": "byd-seal",
+    "model_name_local": "海豹",
+    "body_type": "sedan",
+    "segment": "D",
+    "year_introduced": 2022,
+    "year_introduced_eu": 2023,
+    "generation": "Gen1",
+    "platform": "e-Platform 3.0",
+    "manufacture_country": "CN",
+    "manufacture_plants": [
+      { "country": "CN", "city": "Shenzhen", "active_since": 2022 },
+      { "country": "HU", "city": "Debrecen", "active_since": 2026 }
+    ],
+    "number_of_seats": 5,
+    "number_of_doors": 4
+  },
+  "variants": [
+    {
+      "variant_id": "seal-dynamic-rwd",
+      "variant_name": "Dynamic RWD",
+      "drivetrain": "RWD",
+      "battery_capacity_kwh": 61.4,
+      "motor_power_kw": 150,
+      "motor_power_hp": 204,
+      "torque_nm": 310,
+      "range_wltp_km": 460,
+      "acceleration_0_100_sec": 7.6,
+      "top_speed_kmh": 180,
+      "is_base_variant": true,
+      "is_featured": false
+    },
+    {
+      "variant_id": "seal-premium-rwd",
+      "variant_name": "Premium RWD",
+      "drivetrain": "RWD",
+      "battery_capacity_kwh": 82.5,
+      "motor_power_kw": 230,
+      "motor_power_hp": 313,
+      "torque_nm": 360,
+      "range_wltp_km": 570,
+      "acceleration_0_100_sec": 5.9,
+      "top_speed_kmh": 180,
+      "is_base_variant": false,
+      "is_featured": true
+    },
+    {
+      "variant_id": "seal-performance-awd",
+      "variant_name": "Performance AWD",
+      "drivetrain": "AWD",
+      "battery_capacity_kwh": 82.5,
+      "motor_power_kw": 390,
+      "motor_power_hp": 530,
+      "torque_nm": 670,
+      "range_wltp_km": 520,
+      "acceleration_0_100_sec": 3.8,
+      "top_speed_kmh": 180,
+      "is_base_variant": false,
+      "is_featured": false
+    }
+  ],
+  "battery": {
+    "chemistry": "LFP",
+    "brand_name": "Blade Battery",
+    "capacity_kwh_gross": 82.5,
+    "capacity_kwh_usable": 80.0,
+    "cell_to_body": true,
+    "thermal_management": "liquid_cooling_heat_pump",
+    "warranty_years": 8,
+    "warranty_km": 160000,
+    "warranty_soh_percent": 70
+  },
+  "motor": {
+    "configuration": "single_rear",
+    "max_power_kw": 150,
+    "max_power_hp": 204,
+    "max_power_kw_top": 390,
+    "max_torque_nm": 310,
+    "max_torque_nm_top": 670,
+    "acceleration_0_100_sec": 7.6,
+    "acceleration_0_100_sec_top": 3.8,
+    "top_speed_kmh": 180,
+    "drivetrain_base": "RWD",
+    "has_torque_vectoring": false
+  },
+  "range_efficiency": {
+    "range_wltp_km_base": 460,
+    "range_wltp_km_top": 570,
+    "range_real_world_km_estimated": 490,
+    "efficiency_wh_per_km": 149,
+    "efficiency_kwh_per_100km": 14.9,
+    "heat_pump_standard": true
+  },
+  "charging": {
+    "dc_max_kw": 150,
+    "dc_charging_time_10_80_min": 26,
+    "dc_charging_time_10_80_min_max": 37,
+    "ac_max_kw": 11,
+    "ac_phases": 3,
+    "connector_eu": { "dc": "CCS2", "ac": "Type2" },
+    "connector_other_markets": [
+      { "market": "AU", "dc": "CCS2", "ac": "Type2" },
+      { "market": "MY", "dc": "CCS2", "ac": "Type2" },
+      { "market": "TH", "dc": "CCS2", "ac": "Type2" }
+    ],
+    "v2l_supported": false,
+    "v2g_supported": false,
+    "v2h_supported": false,
+    "plug_and_charge": false
+  },
+  "dimensions": {
+    "length_mm": 4800,
+    "width_mm": 1875,
+    "width_with_mirrors_mm": 2110,
+    "height_mm": 1460,
+    "wheelbase_mm": 2920,
+    "track_front_mm": 1610,
+    "track_rear_mm": 1620,
+    "turning_circle_m": 11.4,
+    "ground_clearance_mm": 150,
+    "drag_coefficient_cd": 0.219,
+    "trunk_volume_liters": 400,
+    "frunk_volume_liters": 53,
+    "trunk_volume_seats_folded_liters": 0,
+    "kerb_weight_kg": 2065,
+    "gross_weight_kg": 2560,
+    "towing_capacity_kg": 0,
+    "roof_load_kg": 75
+  },
+  "safety": {
+    "euro_ncap": {
+      "stars": 5,
+      "year_tested": 2023,
+      "adult_occupant_percent": 89,
+      "child_occupant_percent": 87,
+      "vulnerable_road_users_percent": 82,
+      "safety_assist_percent": 80,
+      "url_results": "https://www.euroncap.com/en/results/byd/seal/50012"
+    },
+    "nhtsa_stars": null,
+    "airbags_count": 9,
+    "airbags_detail": [
+      "front_driver", "front_passenger",
+      "side_front_left", "side_front_right",
+      "curtain_left", "curtain_right",
+      "knee_driver", "knee_passenger", "center"
+    ],
+    "adas_standard": [
+      "AEB", "LKA", "LDW", "ACC", "BSM", "RCTA",
+      "360_camera", "parking_sensors_rear", "TSR",
+      "DAW", "predictive_collision", "intelligent_speed_assist",
+      "emergency_lane_keeping"
+    ],
+    "adas_optional": ["HUD", "auto_parking"],
+    "torsional_stiffness_nm_deg": 40500
+  },
+  "technology": {
+    "infotainment_screen_inches": 15.6,
+    "infotainment_screen_rotates": true,
+    "instrument_cluster_screen_inches": 10.25,
+    "os": "Android (BYD DiLink)",
+    "ota_updates": true,
+    "apple_carplay": "wireless",
+    "android_auto": "wireless",
+    "wireless_charging_pads": 2,
+    "audio_brand": "Dynaudio",
+    "audio_speakers_count": 12,
+    "nfc_key": true,
+    "digital_key": true,
+    "keyless_entry": true,
+    "ambient_lighting": true,
+    "head_up_display": "optional",
+    "panoramic_roof": "electric_sunshade",
+    "autonomous_driving_level": "L2"
+  },
+  "comfort": {
+    "climate_zones": 2,
+    "heated_seats_front": true,
+    "heated_seats_rear": false,
+    "ventilated_seats_front": false,
+    "heated_steering_wheel": false,
+    "electric_seat_adjustment_driver": true,
+    "massage_seats": false,
+    "rear_privacy_glass": true
+  },
+  "suspension": {
+    "front_type": "macpherson",
+    "rear_type": "multi_link",
+    "adaptive_damping": "none"
+  },
+  "markets": {
+    "available_in": [
+      "DE", "GB", "FR", "NO", "NL", "SE", "DK", "BE", "AT", "CH",
+      "AU", "NZ", "SG", "MY", "TH", "ID", "VN", "PH",
+      "MX", "BR", "ZA", "IL"
+    ],
+    "eu_type_approval": true,
+    "eu_type_approval_number": "e1*2018/858*01234*00",
+    "pricing": [
+      { "market": "DE", "currency": "EUR", "price_base": 44900, "price_top": 58000, "includes_vat": true, "as_of_date": "2026-01-01" },
+      { "market": "GB", "currency": "GBP", "price_base": 45695, "price_top": 48695, "includes_vat": true, "as_of_date": "2026-01-01" },
+      { "market": "NO", "currency": "NOK", "price_base": 499900, "price_top": 599900, "includes_vat": true, "as_of_date": "2026-01-01" },
+      { "market": "AU", "currency": "AUD", "price_base": 46990, "price_top": 61990, "includes_vat": true, "as_of_date": "2026-01-01" }
+    ],
+    "import_tariff_eu_percent": 17.0,
+    "subject_to_eu_price_floor": true
+  },
+  "media": {
+    "hero_image_url": "https://cdn.chinacars.global/byd/seal/hero-3q-front.jpg",
+    "images": [
+      { "url": "https://cdn.chinacars.global/byd/seal/ext-front.jpg", "type": "exterior_front", "color": "Cosmos Black" },
+      { "url": "https://cdn.chinacars.global/byd/seal/ext-rear.jpg", "type": "exterior_rear", "color": "Cosmos Black" },
+      { "url": "https://cdn.chinacars.global/byd/seal/ext-side.jpg", "type": "exterior_side", "color": "Cosmos Black" },
+      { "url": "https://cdn.chinacars.global/byd/seal/int-dashboard.jpg", "type": "interior_dashboard" },
+      { "url": "https://cdn.chinacars.global/byd/seal/int-seats-front.jpg", "type": "interior_seats_front" },
+      { "url": "https://cdn.chinacars.global/byd/seal/int-seats-rear.jpg", "type": "interior_seats_rear" },
+      { "url": "https://cdn.chinacars.global/byd/seal/trunk.jpg", "type": "trunk" },
+      { "url": "https://cdn.chinacars.global/byd/seal/frunk.jpg", "type": "frunk" },
+      { "url": "https://cdn.chinacars.global/byd/seal/charging-port.jpg", "type": "charging_port" }
+    ],
+    "video_urls": [
+      { "url": "https://www.youtube.com/watch?v=example_official", "type": "official_launch", "language": "en" },
+      { "url": "https://www.youtube.com/watch?v=example_review", "type": "review", "language": "en" }
+    ],
+    "brochure_urls": [
+      { "market": "DE", "language": "de", "url": "https://cdn.chinacars.global/byd/seal/brochure-de.pdf" },
+      { "market": "GB", "language": "en", "url": "https://cdn.chinacars.global/byd/seal/brochure-en.pdf" }
+    ]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "tagline": "Electric performance redefined",
+        "description_short": "BYD's flagship electric sedan — 5-star Euro NCAP, up to 570km WLTP range, starting from €44,900.",
+        "description_long": "The BYD Seal is a D-segment electric sedan built on BYD's e-Platform 3.0, featuring the proprietary Blade Battery with Cell-to-Body (CTB) integration. Launched in China in 2022 and arriving in Europe in 2023, the Seal competes directly with the Tesla Model 3, Hyundai Ioniq 6 and Polestar 2 — offering comparable or superior specifications at a more competitive price point.\n\nAvailable in three variants (Dynamic RWD, Premium RWD and Performance AWD), the Seal covers a wide range of needs — from efficient daily driving to sports sedan performance (0–100 km/h in 3.8 seconds). All variants are equipped with BYD's rotating 15.6-inch touchscreen, wireless CarPlay and Android Auto, and a comprehensive ADAS suite including AEB, ACC, LKA and 360-degree cameras.\n\nThe Seal achieved a maximum five-star Euro NCAP rating in 2023, with 89% adult occupant protection. The Blade Battery uses LFP chemistry, integrated into the vehicle's structure for enhanced rigidity, with an 8-year/160,000km warranty.",
+        "key_selling_points": [
+          "5-star Euro NCAP (2023) — 89% adult occupant protection",
+          "Blade Battery LFP — safer and longer-lasting than NMC",
+          "Up to 570km WLTP range on the 82.5kWh battery",
+          "0–100 km/h in 3.8 sec (Performance AWD)",
+          "From €44,900 — strong value vs Tesla Model 3"
+        ],
+        "seo_title": "BYD Seal 2025 – Electric Sedan Specs, Range & Prices | ChinaCars.Global",
+        "seo_description": "BYD Seal: 5-star Euro NCAP, up to 570km range, from €44,900. Full specs, all variants, prices in 20+ markets. Compare with Tesla Model 3 and Ioniq 6."
+      },
+      "de": {
+        "tagline": "Elektro-Performance neu definiert",
+        "description_short": "BYDs Flaggschiff-Elektrolimousine — 5 Sterne Euro NCAP, bis zu 570 km WLTP-Reichweite, ab 44.900 €.",
+        "key_selling_points": [
+          "5 Sterne Euro NCAP (2023) — 89 % Erwachsenenschutz",
+          "Blade Battery LFP — sicher und langlebig",
+          "Bis zu 570 km WLTP-Reichweite",
+          "0–100 km/h in 3,8 Sek. (Performance AWD)",
+          "Ab 44.900 € — starkes Preis-Leistungs-Verhältnis"
+        ],
+        "seo_title": "BYD Seal 2025 – Elektrolimousine Specs & Preise | ChinaCars.Global",
+        "seo_description": "BYD Seal: 5 Sterne Euro NCAP, bis 570 km Reichweite, ab 44.900 €. Vollständige Specs, alle Varianten, Preise in 20+ Märkten."
+      },
+      "ro": {
+        "tagline": "Performanță electrică redefinită",
+        "description_short": "Sedanul electric flagship BYD — 5 stele Euro NCAP, până la 570 km autonomie WLTP, de la 44.900 €.",
+        "description_long": "BYD Seal este un sedan electric de segment D construit pe platforma e-Platform 3.0 a BYD, cu tehnologia proprietară Blade Battery integrată structural în caroserie (CTB). Lansat în China în 2022 și ajuns în Europa în 2023, Seal concurează direct cu Tesla Model 3, Hyundai Ioniq 6 și Polestar 2, oferind specificații comparabile sau superioare la un preț mai competitiv.\n\nDisponibil în trei variante (Dynamic RWD, Premium RWD și Performance AWD), Seal acoperă un spectru larg de nevoi. Toate variantele includ ecranul tactil rotativ de 15,6 inch, CarPlay și Android Auto wireless și o suită ADAS completă.\n\nSeal a obținut 5 stele Euro NCAP în 2023, cu 89% protecție ocupanți adulți. Bateria Blade LFP vine cu garanție de 8 ani / 160.000 km.",
+        "key_selling_points": [
+          "5 stele Euro NCAP (2023) — 89% protecție adulți",
+          "Blade Battery LFP — mai sigură și mai durabilă",
+          "Până la 570 km autonomie WLTP",
+          "0–100 km/h în 3,8 sec (Performance AWD)",
+          "De la 44.900 € — valoare excelentă față de Tesla Model 3"
+        ],
+        "seo_title": "BYD Seal 2025 – Sedan Electric Specificații & Prețuri | ChinaCars.Global",
+        "seo_description": "BYD Seal: 5 stele Euro NCAP, până la 570 km autonomie, de la 44.900 €. Specificații complete, toate variantele, prețuri în 20+ piețe."
+      },
+      "fr": {
+        "tagline": "La performance électrique redéfinie",
+        "description_short": "La berline électrique phare de BYD — 5 étoiles Euro NCAP, jusqu'à 570 km d'autonomie WLTP, à partir de 44 900 €.",
+        "key_selling_points": [
+          "5 étoiles Euro NCAP (2023) — 89% de protection des occupants adultes",
+          "Blade Battery LFP — plus sûre et plus durable",
+          "Jusqu'à 570 km d'autonomie WLTP",
+          "0–100 km/h en 3,8 sec (Performance AWD)",
+          "À partir de 44 900 € — excellent rapport qualité-prix"
+        ],
+        "seo_title": "BYD Seal 2025 – Berline Électrique Specs & Prix | ChinaCars.Global",
+        "seo_description": "BYD Seal: 5 étoiles Euro NCAP, jusqu'à 570 km d'autonomie, à partir de 44 900 €. Spécifications complètes dans 20+ marchés."
+      }
+    }
+  },
+  "comparisons": {
+    "competitor_models": [
+      { "brand": "Tesla", "model": "Model 3", "vehicle_id": null },
+      { "brand": "Hyundai", "model": "Ioniq 6", "vehicle_id": null },
+      { "brand": "Polestar", "model": "2", "vehicle_id": null },
+      { "brand": "BMW", "model": "i4", "vehicle_id": null }
+    ],
+    "awards": [
+      { "name": "World Car of the Year — Top 3 Finalist", "year": 2024, "organization": "World Car Awards" },
+      { "name": "Japan EV of the Year", "year": 2024, "organization": "Japan EV of the Year Committee" },
+      { "name": "iF Design Award", "year": 2023, "organization": "iF International Forum Design" },
+      { "name": "Euro NCAP 5 Stars", "year": 2023, "organization": "Euro NCAP" }
+    ]
+  }
+}

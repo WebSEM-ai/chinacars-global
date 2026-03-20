@@ -1,0 +1,1011 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chinacars.global/schemas/vehicle/bev/v1.0.0",
+  "title": "ChinaCars.Global — Vehicle Schema (BEV)",
+  "description": "Schema de import pentru vehicule electrice pure (Battery Electric Vehicle). Versiunea 1.0.0. Toate câmpurile marcate required:true sunt obligatorii pentru publicarea fișei de model. Câmpurile optional pot fi adăugate progresiv.",
+  "type": "object",
+
+  "required": [
+    "meta",
+    "identity",
+    "battery",
+    "motor",
+    "charging",
+    "dimensions",
+    "safety",
+    "markets"
+  ],
+
+  "properties": {
+
+    "meta": {
+      "type": "object",
+      "description": "Metadate interne ale înregistrării. Gestionate de platformă, nu de importator.",
+      "required": ["vehicle_id", "schema_version", "powertrain_type", "status", "created_at", "updated_at"],
+      "properties": {
+        "vehicle_id": {
+          "type": "string",
+          "description": "UUID unic generat de platformă la prima importare.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "example": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
+        },
+        "schema_version": {
+          "type": "string",
+          "description": "Versiunea schemei folosite la import.",
+          "enum": ["1.0.0"],
+          "example": "1.0.0"
+        },
+        "powertrain_type": {
+          "type": "string",
+          "description": "Tipul de propulsie. Determină câmpurile aplicabile.",
+          "enum": ["BEV"],
+          "example": "BEV"
+        },
+        "status": {
+          "type": "string",
+          "description": "Starea înregistrării în platformă.",
+          "enum": ["draft", "pending_review", "published", "archived"],
+          "example": "draft"
+        },
+        "data_source": {
+          "type": "string",
+          "description": "Sursa datelor: manual, api_import, partner_feed.",
+          "enum": ["manual", "api_import", "partner_feed"],
+          "example": "manual"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-03-20T10:00:00Z"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-03-20T10:00:00Z"
+        },
+        "language_origin": {
+          "type": "string",
+          "description": "Limba în care au fost introduse datele original.",
+          "default": "en",
+          "example": "en"
+        }
+      }
+    },
+
+    "identity": {
+      "type": "object",
+      "description": "Identitatea comercială și clasificarea modelului.",
+      "required": ["brand", "model_name", "model_slug", "body_type", "segment", "year_introduced", "generation"],
+      "properties": {
+        "brand": {
+          "type": "string",
+          "description": "Numele brandului exact, ca pe vehicul.",
+          "example": "BYD"
+        },
+        "brand_slug": {
+          "type": "string",
+          "description": "Slug URL-safe al brandului. Generat automat dacă lipsește.",
+          "pattern": "^[a-z0-9-]+$",
+          "example": "byd"
+        },
+        "model_name": {
+          "type": "string",
+          "description": "Numele comercial al modelului.",
+          "example": "Seal"
+        },
+        "model_slug": {
+          "type": "string",
+          "description": "Slug URL-safe unic pentru model. Folosit în URL-uri.",
+          "pattern": "^[a-z0-9-]+$",
+          "example": "byd-seal"
+        },
+        "model_name_local": {
+          "type": "string",
+          "description": "Numele modelului în chineză (opțional, pentru SEO și date origine).",
+          "example": "海豹"
+        },
+        "body_type": {
+          "type": "string",
+          "description": "Tipul de caroserie.",
+          "enum": ["sedan", "hatchback", "suv", "crossover", "mpv", "coupe", "pickup", "van", "convertible"],
+          "example": "sedan"
+        },
+        "segment": {
+          "type": "string",
+          "description": "Segmentul european de clasificare.",
+          "enum": ["A", "B", "C", "D", "E", "F", "J", "M", "S"],
+          "example": "D"
+        },
+        "year_introduced": {
+          "type": "integer",
+          "description": "Anul lansării globale (nu neapărat China).",
+          "minimum": 2015,
+          "maximum": 2030,
+          "example": 2022
+        },
+        "year_introduced_eu": {
+          "type": "integer",
+          "description": "Anul lansării pe piața europeană.",
+          "minimum": 2015,
+          "maximum": 2030,
+          "example": 2023
+        },
+        "generation": {
+          "type": "string",
+          "description": "Generația modelului (ex: Gen1, Mk2, facelift).",
+          "example": "Gen1"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Platforma tehnică a vehiculului.",
+          "example": "e-Platform 3.0"
+        },
+        "manufacture_country": {
+          "type": "string",
+          "description": "Țara de fabricație principală (cod ISO 3166-1 alpha-2).",
+          "pattern": "^[A-Z]{2}$",
+          "example": "CN"
+        },
+        "manufacture_plants": {
+          "type": "array",
+          "description": "Lista uzinelor de fabricație (util pentru tarife de import).",
+          "items": {
+            "type": "object",
+            "required": ["country", "city"],
+            "properties": {
+              "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+              "city": { "type": "string" },
+              "active_since": { "type": "integer" }
+            }
+          },
+          "example": [
+            { "country": "CN", "city": "Shenzhen", "active_since": 2022 },
+            { "country": "HU", "city": "Debrecen", "active_since": 2026 }
+          ]
+        },
+        "number_of_seats": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9,
+          "example": 5
+        },
+        "number_of_doors": {
+          "type": "integer",
+          "enum": [2, 3, 4, 5],
+          "example": 4
+        }
+      }
+    },
+
+    "variants": {
+      "type": "array",
+      "description": "Lista variantelor/trim-urilor disponibile. Minim un variant recomandat.",
+      "items": {
+        "type": "object",
+        "required": ["variant_id", "variant_name"],
+        "properties": {
+          "variant_id": {
+            "type": "string",
+            "description": "ID unic al variantei în cadrul modelului.",
+            "example": "seal-dynamic-rwd"
+          },
+          "variant_name": {
+            "type": "string",
+            "description": "Denumirea comercială a variantei.",
+            "example": "Dynamic RWD"
+          },
+          "drivetrain": {
+            "type": "string",
+            "enum": ["RWD", "FWD", "AWD"],
+            "example": "RWD"
+          },
+          "battery_capacity_kwh": {
+            "type": "number",
+            "example": 61.4
+          },
+          "motor_power_kw": {
+            "type": "number",
+            "example": 150
+          },
+          "motor_power_hp": {
+            "type": "number",
+            "example": 204
+          },
+          "torque_nm": {
+            "type": "number",
+            "example": 310
+          },
+          "range_wltp_km": {
+            "type": "number",
+            "example": 460
+          },
+          "acceleration_0_100_sec": {
+            "type": "number",
+            "example": 7.6
+          },
+          "top_speed_kmh": {
+            "type": "number",
+            "example": 180
+          },
+          "is_base_variant": {
+            "type": "boolean",
+            "description": "True pentru varianta de bază (cea folosită la prețul de start).",
+            "example": true
+          },
+          "is_featured": {
+            "type": "boolean",
+            "description": "True pentru varianta recomandată de platformă.",
+            "example": false
+          }
+        }
+      }
+    },
+
+    "battery": {
+      "type": "object",
+      "description": "Specificații baterie. Obligatoriu pentru BEV.",
+      "required": ["chemistry", "capacity_kwh_usable", "warranty_years", "warranty_km"],
+      "properties": {
+        "chemistry": {
+          "type": "string",
+          "description": "Chimia celulelor de baterie.",
+          "enum": ["LFP", "NMC", "NCA", "LMFP", "solid_state", "other"],
+          "example": "LFP"
+        },
+        "brand_name": {
+          "type": "string",
+          "description": "Denumirea comercială a bateriei (ex: Blade Battery).",
+          "example": "Blade Battery"
+        },
+        "capacity_kwh_gross": {
+          "type": "number",
+          "description": "Capacitatea totală brută în kWh.",
+          "example": 82.5
+        },
+        "capacity_kwh_usable": {
+          "type": "number",
+          "description": "Capacitatea utilizabilă în kWh.",
+          "example": 80.0
+        },
+        "cell_to_body": {
+          "type": "boolean",
+          "description": "True dacă bateria este integrată structural în șasiu (CTB/CTP).",
+          "example": true
+        },
+        "thermal_management": {
+          "type": "string",
+          "description": "Sistemul de management termic.",
+          "enum": ["liquid_cooling", "air_cooling", "heat_pump", "liquid_cooling_heat_pump"],
+          "example": "liquid_cooling_heat_pump"
+        },
+        "warranty_years": {
+          "type": "integer",
+          "description": "Garanția bateriei în ani.",
+          "minimum": 1,
+          "maximum": 15,
+          "example": 8
+        },
+        "warranty_km": {
+          "type": "integer",
+          "description": "Garanția bateriei în km.",
+          "example": 160000
+        },
+        "warranty_soh_percent": {
+          "type": "number",
+          "description": "State of Health garantat la expirarea garanției (%).",
+          "minimum": 60,
+          "maximum": 100,
+          "example": 70
+        }
+      }
+    },
+
+    "motor": {
+      "type": "object",
+      "description": "Specificații motor electric. Valorile pentru varianta de bază. Variantele suplimentare se specifică în 'variants'.",
+      "required": ["configuration", "max_power_kw"],
+      "properties": {
+        "configuration": {
+          "type": "string",
+          "description": "Configurația motorului.",
+          "enum": ["single_rear", "single_front", "dual_awd", "tri_motor"],
+          "example": "single_rear"
+        },
+        "max_power_kw": {
+          "type": "number",
+          "description": "Puterea maximă în kW (varianta de bază).",
+          "example": 150
+        },
+        "max_power_hp": {
+          "type": "number",
+          "description": "Puterea maximă în CP (calculat automat dacă lipsește).",
+          "example": 204
+        },
+        "max_power_kw_top": {
+          "type": "number",
+          "description": "Puterea maximă în kW (varianta top, dacă există).",
+          "example": 390
+        },
+        "max_torque_nm": {
+          "type": "number",
+          "description": "Cuplul maxim în Nm (varianta de bază).",
+          "example": 310
+        },
+        "max_torque_nm_top": {
+          "type": "number",
+          "description": "Cuplul maxim în Nm (varianta top).",
+          "example": 670
+        },
+        "acceleration_0_100_sec": {
+          "type": "number",
+          "description": "Accelerație 0–100 km/h în secunde (varianta de bază).",
+          "example": 7.6
+        },
+        "acceleration_0_100_sec_top": {
+          "type": "number",
+          "description": "Accelerație 0–100 km/h în secunde (varianta top).",
+          "example": 3.8
+        },
+        "top_speed_kmh": {
+          "type": "number",
+          "description": "Viteza maximă în km/h.",
+          "example": 180
+        },
+        "drivetrain_base": {
+          "type": "string",
+          "enum": ["RWD", "FWD", "AWD"],
+          "example": "RWD"
+        },
+        "has_torque_vectoring": {
+          "type": "boolean",
+          "description": "True dacă are torque vectoring activ.",
+          "example": false
+        }
+      }
+    },
+
+    "range_efficiency": {
+      "type": "object",
+      "description": "Autonomie și eficiență energetică.",
+      "properties": {
+        "range_wltp_km_base": {
+          "type": "number",
+          "description": "Autonomie WLTP în km, varianta de bază.",
+          "example": 460
+        },
+        "range_wltp_km_top": {
+          "type": "number",
+          "description": "Autonomie WLTP în km, varianta cu cea mai mare baterie.",
+          "example": 570
+        },
+        "range_real_world_km_estimated": {
+          "type": "number",
+          "description": "Autonomie reală estimată în condiții normale (nu WLTP).",
+          "example": 490
+        },
+        "efficiency_wh_per_km": {
+          "type": "number",
+          "description": "Consum mediu în Wh/km (WLTP).",
+          "example": 149
+        },
+        "efficiency_kwh_per_100km": {
+          "type": "number",
+          "description": "Consum mediu în kWh/100km (WLTP).",
+          "example": 14.9
+        },
+        "heat_pump_standard": {
+          "type": "boolean",
+          "description": "True dacă pompa de căldură este standard (nu opțional).",
+          "example": true
+        }
+      }
+    },
+
+    "charging": {
+      "type": "object",
+      "description": "Specificații de încărcare. Obligatoriu pentru BEV.",
+      "required": ["dc_max_kw", "ac_max_kw", "connector_eu"],
+      "properties": {
+        "dc_max_kw": {
+          "type": "number",
+          "description": "Puterea maximă de încărcare DC în kW.",
+          "example": 150
+        },
+        "dc_charging_time_10_80_min": {
+          "type": "integer",
+          "description": "Timp de încărcare DC de la 10% la 80% în minute.",
+          "example": 30
+        },
+        "dc_charging_time_10_80_min_max": {
+          "type": "integer",
+          "description": "Timp maxim de încărcare DC 10–80% (pentru bateria mare).",
+          "example": 37
+        },
+        "ac_max_kw": {
+          "type": "number",
+          "description": "Puterea maximă de încărcare AC (wallbox) în kW.",
+          "example": 11
+        },
+        "ac_phases": {
+          "type": "integer",
+          "description": "Numărul de faze pentru încărcare AC.",
+          "enum": [1, 3],
+          "example": 3
+        },
+        "connector_eu": {
+          "type": "object",
+          "description": "Tipurile de conectori pentru piața europeană.",
+          "required": ["dc", "ac"],
+          "properties": {
+            "dc": {
+              "type": "string",
+              "enum": ["CCS2", "CHAdeMO", "GB_T", "NACS"],
+              "example": "CCS2"
+            },
+            "ac": {
+              "type": "string",
+              "enum": ["Type2", "Type1", "GB_T_AC", "NACS"],
+              "example": "Type2"
+            }
+          }
+        },
+        "connector_other_markets": {
+          "type": "array",
+          "description": "Conectori pentru alte piețe (non-EU).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "market": { "type": "string", "example": "AU" },
+              "dc": { "type": "string", "example": "CCS2" },
+              "ac": { "type": "string", "example": "Type2" }
+            }
+          }
+        },
+        "v2l_supported": {
+          "type": "boolean",
+          "description": "Vehicle-to-Load: poate alimenta dispozitive externe.",
+          "example": false
+        },
+        "v2g_supported": {
+          "type": "boolean",
+          "description": "Vehicle-to-Grid: poate returna energie în rețea.",
+          "example": false
+        },
+        "v2h_supported": {
+          "type": "boolean",
+          "description": "Vehicle-to-Home: poate alimenta casa.",
+          "example": false
+        },
+        "plug_and_charge": {
+          "type": "boolean",
+          "description": "Suport ISO 15118 Plug & Charge.",
+          "example": false
+        }
+      }
+    },
+
+    "dimensions": {
+      "type": "object",
+      "description": "Dimensiuni fizice și capacitate de spațiu.",
+      "required": ["length_mm", "width_mm", "height_mm", "wheelbase_mm"],
+      "properties": {
+        "length_mm": { "type": "integer", "example": 4800 },
+        "width_mm": { "type": "integer", "description": "Fără oglinzi.", "example": 1875 },
+        "width_with_mirrors_mm": { "type": "integer", "example": 2110 },
+        "height_mm": { "type": "integer", "example": 1460 },
+        "wheelbase_mm": { "type": "integer", "example": 2920 },
+        "track_front_mm": { "type": "integer", "example": 1610 },
+        "track_rear_mm": { "type": "integer", "example": 1620 },
+        "turning_circle_m": { "type": "number", "example": 11.4 },
+        "ground_clearance_mm": { "type": "integer", "example": 150 },
+        "drag_coefficient_cd": { "type": "number", "example": 0.219 },
+        "trunk_volume_liters": {
+          "type": "integer",
+          "description": "Volumul portbagajului spate în litri.",
+          "example": 400
+        },
+        "frunk_volume_liters": {
+          "type": "integer",
+          "description": "Volumul portbagajului față (frunk) în litri. 0 dacă nu există.",
+          "example": 53
+        },
+        "trunk_volume_seats_folded_liters": {
+          "type": "integer",
+          "description": "Volum portbagaj cu scaunele spate rabatate.",
+          "example": 0
+        },
+        "kerb_weight_kg": {
+          "type": "integer",
+          "description": "Masa proprie în kg (varianta de bază).",
+          "example": 2065
+        },
+        "gross_weight_kg": {
+          "type": "integer",
+          "description": "Masa totală autorizată în kg.",
+          "example": 2560
+        },
+        "towing_capacity_kg": {
+          "type": "integer",
+          "description": "Capacitate de remorcare în kg. 0 dacă nu este permisă.",
+          "example": 0
+        },
+        "roof_load_kg": {
+          "type": "integer",
+          "description": "Sarcină maximă pe portbagaj de acoperiș.",
+          "example": 75
+        }
+      }
+    },
+
+    "safety": {
+      "type": "object",
+      "description": "Certificări de siguranță și sisteme ADAS.",
+      "required": ["airbags_count"],
+      "properties": {
+        "euro_ncap": {
+          "type": "object",
+          "description": "Rezultate Euro NCAP.",
+          "properties": {
+            "stars": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "example": 5
+            },
+            "year_tested": {
+              "type": "integer",
+              "example": 2023
+            },
+            "adult_occupant_percent": {
+              "type": "number",
+              "example": 89
+            },
+            "child_occupant_percent": {
+              "type": "number",
+              "example": 87
+            },
+            "vulnerable_road_users_percent": {
+              "type": "number",
+              "example": 82
+            },
+            "safety_assist_percent": {
+              "type": "number",
+              "example": 80
+            },
+            "url_results": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://www.euroncap.com/en/results/byd/seal/50012"
+            }
+          }
+        },
+        "nhtsa_stars": {
+          "type": "integer",
+          "description": "Rating NHTSA (SUA). Null dacă nu a fost testat.",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "airbags_count": {
+          "type": "integer",
+          "description": "Numărul total de airbaguri standard.",
+          "example": 9
+        },
+        "airbags_detail": {
+          "type": "array",
+          "description": "Tipurile de airbaguri.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "front_driver", "front_passenger", "side_front_left", "side_front_right",
+              "curtain_left", "curtain_right", "knee_driver", "knee_passenger",
+              "rear_side_left", "rear_side_right", "center"
+            ]
+          }
+        },
+        "adas_standard": {
+          "type": "array",
+          "description": "Sisteme ADAS incluse standard pe toate variantele.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "AEB", "LKA", "LDW", "ACC", "BSM", "RCTA", "FCTA",
+              "TSR", "DAW", "HUD", "360_camera", "parking_sensors_front",
+              "parking_sensors_rear", "auto_parking", "rear_cross_traffic_alert",
+              "predictive_collision", "intelligent_speed_assist", "emergency_lane_keeping"
+            ]
+          },
+          "example": ["AEB", "LKA", "LDW", "ACC", "BSM", "360_camera", "parking_sensors_rear", "TSR", "DAW"]
+        },
+        "adas_optional": {
+          "type": "array",
+          "description": "Sisteme ADAS disponibile ca opțional sau pe variante superioare.",
+          "items": { "type": "string" },
+          "example": ["HUD", "auto_parking"]
+        },
+        "torsional_stiffness_nm_deg": {
+          "type": "number",
+          "description": "Rigiditatea torsională a caroseriei în Nm/grad.",
+          "example": 40500
+        }
+      }
+    },
+
+    "technology": {
+      "type": "object",
+      "description": "Tehnologie, infotainment și conectivitate.",
+      "properties": {
+        "infotainment_screen_inches": {
+          "type": "number",
+          "example": 15.6
+        },
+        "infotainment_screen_rotates": {
+          "type": "boolean",
+          "description": "True dacă ecranul central se poate roti.",
+          "example": true
+        },
+        "instrument_cluster_screen_inches": {
+          "type": "number",
+          "example": 10.25
+        },
+        "os": {
+          "type": "string",
+          "description": "Sistemul de operare al infotainment-ului.",
+          "example": "Android (BYD DiLink)"
+        },
+        "ota_updates": {
+          "type": "boolean",
+          "description": "True dacă suportă actualizări software over-the-air.",
+          "example": true
+        },
+        "apple_carplay": {
+          "type": "string",
+          "enum": ["wired", "wireless", "not_supported"],
+          "example": "wireless"
+        },
+        "android_auto": {
+          "type": "string",
+          "enum": ["wired", "wireless", "not_supported"],
+          "example": "wireless"
+        },
+        "wireless_charging_pads": {
+          "type": "integer",
+          "description": "Numărul de pad-uri de încărcare wireless.",
+          "minimum": 0,
+          "maximum": 4,
+          "example": 2
+        },
+        "audio_brand": {
+          "type": "string",
+          "description": "Brandul sistemului audio premium (dacă există).",
+          "example": "Dynaudio"
+        },
+        "audio_speakers_count": {
+          "type": "integer",
+          "example": 12
+        },
+        "nfc_key": {
+          "type": "boolean",
+          "description": "Acces la mașină prin card NFC.",
+          "example": true
+        },
+        "digital_key": {
+          "type": "boolean",
+          "description": "Cheie digitală prin smartphone.",
+          "example": true
+        },
+        "keyless_entry": {
+          "type": "boolean",
+          "example": true
+        },
+        "ambient_lighting": {
+          "type": "boolean",
+          "example": true
+        },
+        "head_up_display": {
+          "type": "string",
+          "enum": ["standard", "optional", "not_available"],
+          "example": "optional"
+        },
+        "panoramic_roof": {
+          "type": "string",
+          "enum": ["fixed", "opening", "electric_sunshade", "not_available"],
+          "example": "electric_sunshade"
+        },
+        "autonomous_driving_level": {
+          "type": "string",
+          "description": "Nivelul SAE de conducere autonomă.",
+          "enum": ["L0", "L1", "L2", "L2+", "L3", "L4", "L5"],
+          "example": "L2"
+        }
+      }
+    },
+
+    "comfort": {
+      "type": "object",
+      "description": "Dotări de confort relevante pentru fișa de produs.",
+      "properties": {
+        "climate_zones": {
+          "type": "integer",
+          "description": "Numărul de zone de climatizare independente.",
+          "minimum": 1,
+          "maximum": 4,
+          "example": 2
+        },
+        "heated_seats_front": { "type": "boolean", "example": true },
+        "heated_seats_rear": { "type": "boolean", "example": false },
+        "ventilated_seats_front": { "type": "boolean", "example": false },
+        "heated_steering_wheel": { "type": "boolean", "example": false },
+        "electric_seat_adjustment_driver": { "type": "boolean", "example": true },
+        "massage_seats": { "type": "boolean", "example": false },
+        "rear_privacy_glass": { "type": "boolean", "example": true }
+      }
+    },
+
+    "suspension": {
+      "type": "object",
+      "description": "Sistemul de suspensie.",
+      "properties": {
+        "front_type": {
+          "type": "string",
+          "enum": ["macpherson", "double_wishbone", "multi_link", "torsion_beam", "air"],
+          "example": "macpherson"
+        },
+        "rear_type": {
+          "type": "string",
+          "enum": ["multi_link", "torsion_beam", "macpherson", "double_wishbone", "air"],
+          "example": "multi_link"
+        },
+        "adaptive_damping": {
+          "type": "string",
+          "description": "Tipul de amortizare adaptivă, dacă există.",
+          "enum": ["none", "fsd", "cdc", "disus_c", "air_suspension", "other"],
+          "example": "none"
+        }
+      }
+    },
+
+    "markets": {
+      "type": "object",
+      "description": "Disponibilitate pe piețe și prețuri. Minim o piață obligatorie.",
+      "required": ["available_in"],
+      "properties": {
+        "available_in": {
+          "type": "array",
+          "description": "Coduri ISO 3166-1 alpha-2 ale piețelor unde modelul este oficial disponibil.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "example": ["DE", "GB", "FR", "NO", "NL", "SE", "AU", "SG", "MY", "TH", "MX", "ZA"]
+        },
+        "eu_type_approval": {
+          "type": "boolean",
+          "description": "True dacă modelul are homologare EU (e-mark / COC).",
+          "example": true
+        },
+        "eu_type_approval_number": {
+          "type": "string",
+          "description": "Numărul oficial de omologare EU.",
+          "example": "e1*2018/858*01234*00"
+        },
+        "pricing": {
+          "type": "array",
+          "description": "Prețuri de start pe piețe. Include TVA-ul local.",
+          "items": {
+            "type": "object",
+            "required": ["market", "currency", "price_base", "as_of_date"],
+            "properties": {
+              "market": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$",
+                "example": "DE"
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$",
+                "example": "EUR"
+              },
+              "price_base": {
+                "type": "number",
+                "description": "Prețul variantei de bază cu TVA.",
+                "example": 44900
+              },
+              "price_top": {
+                "type": "number",
+                "description": "Prețul variantei top cu TVA.",
+                "example": 58000
+              },
+              "includes_vat": {
+                "type": "boolean",
+                "default": true
+              },
+              "as_of_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Data la care prețul era valabil.",
+                "example": "2026-01-01"
+              }
+            }
+          }
+        },
+        "import_tariff_eu_percent": {
+          "type": "number",
+          "description": "Tariful total de import UE aplicabil (%). Include taxa de bază + anti-subvenție.",
+          "example": 17.0
+        },
+        "subject_to_eu_price_floor": {
+          "type": "boolean",
+          "description": "True dacă brandul a semnat acordul de preț minim cu UE (2026).",
+          "example": true
+        }
+      }
+    },
+
+    "media": {
+      "type": "object",
+      "description": "Resurse media asociate modelului.",
+      "properties": {
+        "hero_image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL imagine principală (exterior, 3/4 față). Min 1200x800px.",
+          "example": "https://cdn.chinacars.global/byd-seal/hero.jpg"
+        },
+        "images": {
+          "type": "array",
+          "description": "Galerie foto completă.",
+          "items": {
+            "type": "object",
+            "required": ["url", "type"],
+            "properties": {
+              "url": { "type": "string", "format": "uri" },
+              "type": {
+                "type": "string",
+                "enum": ["exterior_front", "exterior_rear", "exterior_side", "exterior_3q_front",
+                         "exterior_3q_rear", "interior_dashboard", "interior_seats_front",
+                         "interior_seats_rear", "trunk", "frunk", "charging_port", "detail"]
+              },
+              "variant": {
+                "type": "string",
+                "description": "Varianta la care se referă (dacă diferă vizual)."
+              },
+              "color": {
+                "type": "string",
+                "description": "Culoarea vehiculului în imagine."
+              }
+            }
+          }
+        },
+        "video_urls": {
+          "type": "array",
+          "description": "URL-uri video (YouTube, Vimeo etc.).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string", "format": "uri" },
+              "type": {
+                "type": "string",
+                "enum": ["official_launch", "test_drive", "review", "walkaround"]
+              },
+              "language": { "type": "string", "example": "en" }
+            }
+          }
+        },
+        "brochure_urls": {
+          "type": "array",
+          "description": "PDF-uri broșuri oficiale pe piețe.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "market": { "type": "string", "pattern": "^[A-Z]{2}$" },
+              "language": { "type": "string" },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    },
+
+    "content": {
+      "type": "object",
+      "description": "Conținut editorial multilingv pentru SEO și pagina de model.",
+      "properties": {
+        "translations": {
+          "type": "object",
+          "description": "Cheie: cod limbă ISO 639-1. Valoare: obiect cu texte traduse.",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "tagline": {
+                "type": "string",
+                "description": "Slogan scurt al modelului (max 80 caractere).",
+                "example": "Performanță electrică redefinită"
+              },
+              "description_short": {
+                "type": "string",
+                "description": "Descriere scurtă pentru carduri și listing (max 200 caractere).",
+                "example": "Sedanul electric flagship BYD, cu 5 stele Euro NCAP și autonomie de până la 570 km."
+              },
+              "description_long": {
+                "type": "string",
+                "description": "Descriere completă pentru pagina de model. Markdown permis."
+              },
+              "key_selling_points": {
+                "type": "array",
+                "description": "3–5 puncte cheie de vânzare.",
+                "maxItems": 5,
+                "items": { "type": "string" },
+                "example": [
+                  "5 stele Euro NCAP cu 89% protecție adulți",
+                  "Blade Battery LFP — sigură și durabilă",
+                  "Autonomie reală de peste 490 km",
+                  "Preț competitiv față de Tesla Model 3"
+                ]
+              },
+              "seo_title": {
+                "type": "string",
+                "description": "Title tag SEO (max 60 caractere).",
+                "example": "BYD Seal 2025 – Sedan Electric | ChinaCars.Global"
+              },
+              "seo_description": {
+                "type": "string",
+                "description": "Meta description SEO (max 160 caractere)."
+              }
+            }
+          },
+          "example": {
+            "en": {
+              "tagline": "Electric performance redefined",
+              "description_short": "BYD's flagship electric sedan — 5-star Euro NCAP, up to 570km range, from €44,900.",
+              "key_selling_points": [
+                "5-star Euro NCAP (89% adult protection)",
+                "Blade Battery LFP technology",
+                "Up to 570km WLTP range",
+                "Competitive vs Tesla Model 3"
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "comparisons": {
+      "type": "object",
+      "description": "Date pentru modulul de comparație al platformei.",
+      "properties": {
+        "competitor_models": {
+          "type": "array",
+          "description": "Modele competitoare directe sugerate pentru comparație.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "brand": { "type": "string", "example": "Tesla" },
+              "model": { "type": "string", "example": "Model 3" },
+              "vehicle_id": { "type": "string", "description": "vehicle_id din platformă, dacă există." }
+            }
+          },
+          "example": [
+            { "brand": "Tesla", "model": "Model 3" },
+            { "brand": "Hyundai", "model": "Ioniq 6" },
+            { "brand": "Polestar", "model": "2" }
+          ]
+        },
+        "awards": {
+          "type": "array",
+          "description": "Premii și distincții primite.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "World Car of the Year — Top 3" },
+              "year": { "type": "integer", "example": 2024 },
+              "organization": { "type": "string", "example": "World Car Awards" }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "additionalProperties": false
+}

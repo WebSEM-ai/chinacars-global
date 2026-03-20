@@ -163,6 +163,12 @@ export default async function ModelDetailPage({
   // Hero background image
   const heroImage = sortedImages.find((img) => img.type === 'hero') || sortedImages[0];
 
+  // Cutout image for sidebar (white background product shot)
+  const cutoutImage = sortedImages.find((img) => img.type === 'cutout');
+
+  // Gallery images — exclude cutout type
+  const galleryImages = sortedImages.filter((img) => img.type !== 'cutout');
+
   // Brand logo path (convention: /images/{brandSlug}/ contains logos)
   const brandSlugLower = model.brand.slug.toLowerCase();
 
@@ -321,19 +327,20 @@ export default async function ModelDetailPage({
     <div className="min-h-screen bg-white">
       <JsonLd data={jsonLd} />
 
-      {/* ─── HERO — Full-width with background image fade ──────────────── */}
-      <section className="relative w-full overflow-hidden bg-slate-950">
-        {/* Background image with fade */}
+      {/* ─── HERO — Cinematic full-width with background image fade ──── */}
+      <section className="relative w-full overflow-hidden bg-slate-950 min-h-[320px] sm:min-h-[380px] lg:min-h-[420px]">
+        {/* Background image — wider, more cinematic */}
         {heroImage && (
           <div className="absolute inset-0">
             <img
               src={heroImage.url}
               alt=""
-              className="w-full h-full object-cover opacity-30"
+              className="w-full h-full object-cover opacity-25 scale-105"
               loading="eager"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/60" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-slate-950/50" />
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-950 to-transparent" />
           </div>
         )}
 
@@ -342,7 +349,7 @@ export default async function ModelDetailPage({
           <Breadcrumbs items={breadcrumbItems} />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-10 lg:px-8 lg:pb-16">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8 lg:pb-20 lg:pt-14">
           <div className="flex flex-col gap-3 max-w-2xl">
             {/* Brand */}
             <div className="flex items-center gap-3">
@@ -426,10 +433,10 @@ export default async function ModelDetailPage({
           <div className="space-y-0">
 
             {/* Gallery — White section */}
-            {sortedImages.length > 0 && (
+            {galleryImages.length > 0 && (
               <section className="pb-6">
                 <ProductGallery
-                  images={sortedImages.map((img) => ({
+                  images={galleryImages.map((img) => ({
                     url: img.url,
                     thumbUrl: img.thumbUrl,
                     altEn: img.altEn,
@@ -597,13 +604,13 @@ export default async function ModelDetailPage({
               </section>
             )}
 
-            {/* Specifications — Dark section */}
-            <section className="bg-slate-950 -mx-4 px-4 py-6 sm:-mx-6 sm:px-6 lg:rounded-xl lg:mx-0">
+            {/* Specifications — White section (accordion items go dark when open) */}
+            <section className="py-6">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 rounded-lg bg-[#E63946] text-white flex items-center justify-center">
                   <SectionIcon type="specs" />
                 </div>
-                <h2 className="text-sm font-bold text-white uppercase tracking-wide">
+                <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
                   {t('performanceSpecs').replace(/specs?/i, '').trim() || 'Specifications'}
                 </h2>
               </div>
@@ -665,6 +672,7 @@ export default async function ModelDetailPage({
                 ncapStars={model.ncapStars}
                 markets={model.markets}
                 year={model.year}
+                cutoutImageUrl={cutoutImage?.url ?? null}
               />
             </div>
           </div>

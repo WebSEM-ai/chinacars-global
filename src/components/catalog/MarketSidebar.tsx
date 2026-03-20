@@ -7,9 +7,10 @@ interface MarketSidebarProps {
   ncapStars: number | null;
   markets: string[] | null;
   year: number | null;
+  cutoutImageUrl: string | null;
 }
 
-export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, markets, year }: MarketSidebarProps) {
+export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, markets, year, cutoutImageUrl }: MarketSidebarProps) {
   const marketData = {
     globalRank: brandName === 'BYD' ? '#1' : brandName === 'Geely' ? '#3' : '#8',
     marketShare: brandName === 'BYD' ? '18.4%' : brandName === 'NIO' ? '2.1%' : '4.7%',
@@ -28,8 +29,33 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
 
   const isUp = marketData.marketShareTrend === 'up';
 
+  const rankNumber = marketData.globalRank.replace('#', '');
+
   return (
     <div className="space-y-3">
+      {/* Car Cutout + Ranking Badge */}
+      {cutoutImageUrl && (
+        <div className="relative bg-gradient-to-b from-slate-50 to-white rounded-xl border border-slate-200 overflow-hidden">
+          <div className="relative px-4 pt-4 pb-2">
+            <img
+              src={cutoutImageUrl}
+              alt={`${brandName} ${modelName}`}
+              className="w-full h-auto object-contain max-h-[200px]"
+              loading="eager"
+            />
+            {/* Ranking circle badge */}
+            <div className="absolute top-3 right-3 w-14 h-14 rounded-full bg-slate-900 border-2 border-[#E63946] flex flex-col items-center justify-center shadow-lg">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 leading-none">Rank</span>
+              <span className="text-lg font-black text-white leading-none">{rankNumber}</span>
+            </div>
+          </div>
+          <div className="px-4 pb-3 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{brandName}</p>
+            <p className="text-sm font-bold text-slate-900">{modelName}</p>
+          </div>
+        </div>
+      )}
+
       {/* Market Intelligence — Dark card */}
       <div className="bg-slate-900 rounded-xl p-4 text-white">
         <div className="flex items-center gap-2 mb-3">

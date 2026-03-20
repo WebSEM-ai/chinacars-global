@@ -27,6 +27,10 @@ import {
   Sofa,
   Zap,
   Globe,
+  Play,
+  Sparkles,
+  FileText,
+  Layers,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -94,6 +98,29 @@ export async function generateMetadata({
   };
 }
 
+/* ─── Premium SVG Section Icons ───────────────────────────────────────────── */
+
+function SectionIcon({ type }: { type: 'variants' | 'about' | 'specs' | 'video' | 'markets' }) {
+  const cls = "h-5 w-5";
+  switch (type) {
+    case 'variants':
+      return <Layers className={cls} />;
+    case 'about':
+      return <FileText className={cls} />;
+    case 'specs':
+      return (
+        <svg className={cls} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M6 7h8M6 10h5M6 13h7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      );
+    case 'video':
+      return <Play className={cls} />;
+    case 'markets':
+      return <Globe className={cls} />;
+  }
+}
+
 export default async function ModelDetailPage({
   params,
 }: {
@@ -118,8 +145,6 @@ export default async function ModelDetailPage({
   });
 
   if (!model || !model.isPublished) notFound();
-
-  // Verify brand slug matches
   if (model.brand.slug !== brandSlug) notFound();
 
   const description =
@@ -133,11 +158,14 @@ export default async function ModelDetailPage({
   );
 
   const fullName = `${model.brand.name} ${model.name}`;
-
-  // Access fullSpec JSONB safely
   const spec = (model.fullSpec as any) || {};
 
-  // Breadcrumbs
+  // Hero background image
+  const heroImage = sortedImages.find((img) => img.type === 'hero') || sortedImages[0];
+
+  // Brand logo path (convention: /images/{brandSlug}/ contains logos)
+  const brandSlugLower = model.brand.slug.toLowerCase();
+
   const breadcrumbItems = [
     { label: tCommon('home'), href: '/' },
     { label: tBrands('title'), href: '/brands' },
@@ -145,15 +173,11 @@ export default async function ModelDetailPage({
     { label: model.name },
   ];
 
-  // JSON-LD (Car schema)
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Car',
     name: fullName,
-    brand: {
-      '@type': 'Organization',
-      name: model.brand.name,
-    },
+    brand: { '@type': 'Organization', name: model.brand.name },
     model: model.name,
     vehicleModelDate: model.year?.toString(),
     fuelType:
@@ -168,26 +192,14 @@ export default async function ModelDetailPage({
     vehicleEngine: model.powerKw
       ? {
           '@type': 'EngineSpecification',
-          enginePower: {
-            '@type': 'QuantitativeValue',
-            value: model.powerKw,
-            unitCode: 'KWT',
-          },
+          enginePower: { '@type': 'QuantitativeValue', value: model.powerKw, unitCode: 'KWT' },
           torque: model.torqueNm
-            ? {
-                '@type': 'QuantitativeValue',
-                value: model.torqueNm,
-                unitCode: 'NM',
-              }
+            ? { '@type': 'QuantitativeValue', value: model.torqueNm, unitCode: 'NM' }
             : undefined,
         }
       : undefined,
     speed: model.topSpeedKmh
-      ? {
-          '@type': 'QuantitativeValue',
-          value: model.topSpeedKmh,
-          unitCode: 'KMH',
-        }
+      ? { '@type': 'QuantitativeValue', value: model.topSpeedKmh, unitCode: 'KMH' }
       : undefined,
     seatingCapacity: model.seats || undefined,
     image: sortedImages[0]?.url || undefined,
@@ -202,73 +214,36 @@ export default async function ModelDetailPage({
       : undefined,
   };
 
-  // ─── Build Spec Categories for SpecsAccordion ─────────────────────────────
+  // ─── Spec Categories ─────────────────────────────────────────────────────
 
   const performanceSpecs = [
     { label: t('powerOutput'), value: model.powerHp, unit: 'hp' },
     { label: t('powerKw'), value: model.powerKw, unit: 'kW' },
     { label: t('torque'), value: model.torqueNm, unit: 'Nm' },
     { label: t('topSpeed'), value: model.topSpeedKmh, unit: 'km/h' },
-    {
-      label: t('acceleration'),
-      value: model.acceleration0100 ? `${model.acceleration0100}s` : null,
-    },
+    { label: t('acceleration'), value: model.acceleration0100 ? `${model.acceleration0100}s` : null },
     { label: t('driveType'), value: model.driveType },
-    ...(spec.motor?.configuration
-      ? [{ label: 'Motor Config', value: spec.motor.configuration }]
-      : []),
-    ...(spec.motor?.has_torque_vectoring !== undefined
-      ? [{ label: 'Torque Vectoring', value: spec.motor.has_torque_vectoring as boolean }]
-      : []),
+    ...(spec.motor?.configuration ? [{ label: 'Motor Config', value: spec.motor.configuration }] : []),
+    ...(spec.motor?.has_torque_vectoring !== undefined ? [{ label: 'Torque Vectoring', value: spec.motor.has_torque_vectoring as boolean }] : []),
   ];
 
   const batterySpecs = [
-    {
-      label: t('batteryCapacity'),
-      value: model.batteryKwh ? `${model.batteryKwh}` : null,
-      unit: 'kWh',
-    },
+    { label: t('batteryCapacity'), value: model.batteryKwh ? `${model.batteryKwh}` : null, unit: 'kWh' },
     { label: t('wltpRange'), value: model.rangeWltpKm, unit: 'km', highlight: true },
-    {
-      label: t('dcChargePower'),
-      value: model.chargePowerDcKw ? `${model.chargePowerDcKw}` : null,
-      unit: 'kW',
-    },
-    {
-      label: t('acChargePower'),
-      value: model.chargePowerAcKw ? `${model.chargePowerAcKw}` : null,
-      unit: 'kW',
-    },
-    {
-      label: t('dcChargeTime'),
-      value: model.chargeTimeDcMin,
-      unit: 'min',
-    },
-    ...(spec.battery?.chemistry
-      ? [{ label: 'Battery Chemistry', value: spec.battery.chemistry }]
-      : []),
-    ...(spec.battery?.brand_name
-      ? [{ label: 'Battery Brand', value: spec.battery.brand_name }]
-      : []),
-    ...(spec.battery?.cell_to_body !== undefined
-      ? [{ label: 'Cell-to-Body', value: spec.battery.cell_to_body as boolean }]
-      : []),
-    ...(spec.battery?.thermal_management
-      ? [{ label: 'Thermal Management', value: spec.battery.thermal_management }]
-      : []),
+    { label: t('dcChargePower'), value: model.chargePowerDcKw ? `${model.chargePowerDcKw}` : null, unit: 'kW' },
+    { label: t('acChargePower'), value: model.chargePowerAcKw ? `${model.chargePowerAcKw}` : null, unit: 'kW' },
+    { label: t('dcChargeTime'), value: model.chargeTimeDcMin, unit: 'min' },
+    ...(spec.battery?.chemistry ? [{ label: 'Battery Chemistry', value: spec.battery.chemistry }] : []),
+    ...(spec.battery?.brand_name ? [{ label: 'Battery Brand', value: spec.battery.brand_name }] : []),
+    ...(spec.battery?.cell_to_body !== undefined ? [{ label: 'Cell-to-Body', value: spec.battery.cell_to_body as boolean }] : []),
+    ...(spec.battery?.thermal_management ? [{ label: 'Thermal Management', value: spec.battery.thermal_management }] : []),
     ...(spec.charging?.connector_eu
       ? [{ label: 'EU Connector (DC)', value: spec.charging.connector_eu.dc },
          { label: 'EU Connector (AC)', value: spec.charging.connector_eu.ac }]
       : []),
-    ...(spec.charging?.v2l !== undefined
-      ? [{ label: 'V2L (Vehicle-to-Load)', value: spec.charging.v2l as boolean }]
-      : []),
-    ...(spec.charging?.v2g !== undefined
-      ? [{ label: 'V2G (Vehicle-to-Grid)', value: spec.charging.v2g as boolean }]
-      : []),
-    ...(spec.charging?.v2h !== undefined
-      ? [{ label: 'V2H (Vehicle-to-Home)', value: spec.charging.v2h as boolean }]
-      : []),
+    ...(spec.charging?.v2l !== undefined ? [{ label: 'V2L (Vehicle-to-Load)', value: spec.charging.v2l as boolean }] : []),
+    ...(spec.charging?.v2g !== undefined ? [{ label: 'V2G (Vehicle-to-Grid)', value: spec.charging.v2g as boolean }] : []),
+    ...(spec.charging?.v2h !== undefined ? [{ label: 'V2H (Vehicle-to-Home)', value: spec.charging.v2h as boolean }] : []),
   ];
 
   const dimensionSpecs = [
@@ -278,36 +253,18 @@ export default async function ModelDetailPage({
     { label: t('wheelbase'), value: model.wheelbaseMm, unit: 'mm' },
     { label: t('trunkVolume'), value: model.trunkLiters, unit: 'L' },
     { label: t('seats'), value: model.seats },
-    ...(spec.frunk
-      ? [{ label: 'Frunk', value: spec.frunk, unit: 'L' }]
-      : []),
-    ...(spec.kerb_weight
-      ? [{ label: 'Kerb Weight', value: spec.kerb_weight, unit: 'kg' }]
-      : []),
-    ...(spec.gross_weight
-      ? [{ label: 'Gross Weight', value: spec.gross_weight, unit: 'kg' }]
-      : []),
-    ...(spec.ground_clearance
-      ? [{ label: 'Ground Clearance', value: spec.ground_clearance, unit: 'mm' }]
-      : []),
-    ...(spec.drag_coefficient
-      ? [{ label: 'Drag Coefficient', value: spec.drag_coefficient }]
-      : []),
-    ...(spec.turning_circle
-      ? [{ label: 'Turning Circle', value: spec.turning_circle, unit: 'm' }]
-      : []),
+    ...(spec.frunk ? [{ label: 'Frunk', value: spec.frunk, unit: 'L' }] : []),
+    ...(spec.kerb_weight ? [{ label: 'Kerb Weight', value: spec.kerb_weight, unit: 'kg' }] : []),
+    ...(spec.gross_weight ? [{ label: 'Gross Weight', value: spec.gross_weight, unit: 'kg' }] : []),
+    ...(spec.ground_clearance ? [{ label: 'Ground Clearance', value: spec.ground_clearance, unit: 'mm' }] : []),
+    ...(spec.drag_coefficient ? [{ label: 'Drag Coefficient', value: spec.drag_coefficient }] : []),
+    ...(spec.turning_circle ? [{ label: 'Turning Circle', value: spec.turning_circle, unit: 'm' }] : []),
   ];
 
   const safetySpecs = [
-    {
-      label: t('ncapRating'),
-      value: model.ncapStars ? `${model.ncapStars} / 5` : null,
-    },
+    { label: t('ncapRating'), value: model.ncapStars ? `${model.ncapStars} / 5` : null },
     { label: t('euHomologated'), value: model.euHomologated },
-    {
-      label: t('euTariff'),
-      value: model.euTariffPct ? `${model.euTariffPct}%` : null,
-    },
+    { label: t('euTariff'), value: model.euTariffPct ? `${model.euTariffPct}%` : null },
     { label: t('serviceInEurope'), value: model.serviceEurope },
     {
       label: t('warranty'),
@@ -318,116 +275,41 @@ export default async function ModelDetailPage({
             ? `${model.warrantyYears} ${t('years')}`
             : null,
     },
-    ...(spec.airbags_count
-      ? [{ label: 'Airbags', value: spec.airbags_count }]
-      : []),
-    ...(spec.torsional_stiffness
-      ? [{ label: 'Torsional Stiffness', value: spec.torsional_stiffness, unit: 'Nm/deg' }]
-      : []),
-    ...(spec.adas_standard && Array.isArray(spec.adas_standard)
-      ? [{ label: 'ADAS (Standard)', value: spec.adas_standard.join(', ') }]
-      : []),
+    ...(spec.airbags_count ? [{ label: 'Airbags', value: spec.airbags_count }] : []),
+    ...(spec.torsional_stiffness ? [{ label: 'Torsional Stiffness', value: spec.torsional_stiffness, unit: 'Nm/deg' }] : []),
+    ...(spec.adas_standard && Array.isArray(spec.adas_standard) ? [{ label: 'ADAS (Standard)', value: spec.adas_standard.join(', ') }] : []),
   ];
 
   const technologySpecs = [
-    ...(spec.infotainment_screen
-      ? [{ label: 'Infotainment Screen', value: spec.infotainment_screen }]
-      : []),
-    ...(spec.os
-      ? [{ label: 'Operating System', value: spec.os }]
-      : []),
-    ...(spec.ota !== undefined
-      ? [{ label: 'OTA Updates', value: spec.ota as boolean }]
-      : []),
-    ...(spec.carplay !== undefined
-      ? [{ label: 'Apple CarPlay', value: spec.carplay as boolean }]
-      : []),
-    ...(spec.android_auto !== undefined
-      ? [{ label: 'Android Auto', value: spec.android_auto as boolean }]
-      : []),
-    ...(spec.audio
-      ? [{ label: 'Audio System', value: spec.audio }]
-      : []),
-    ...(spec.nfc_key !== undefined
-      ? [{ label: 'NFC Key', value: spec.nfc_key as boolean }]
-      : []),
-    ...(spec.digital_key !== undefined
-      ? [{ label: 'Digital Key', value: spec.digital_key as boolean }]
-      : []),
-    ...(spec.panoramic_roof !== undefined
-      ? [{ label: 'Panoramic Roof', value: spec.panoramic_roof as boolean }]
-      : []),
-    ...(spec.autonomous_level
-      ? [{ label: 'Autonomous Level', value: `L${spec.autonomous_level}` }]
-      : []),
+    ...(spec.infotainment_screen ? [{ label: 'Infotainment Screen', value: spec.infotainment_screen }] : []),
+    ...(spec.os ? [{ label: 'Operating System', value: spec.os }] : []),
+    ...(spec.ota !== undefined ? [{ label: 'OTA Updates', value: spec.ota as boolean }] : []),
+    ...(spec.carplay !== undefined ? [{ label: 'Apple CarPlay', value: spec.carplay as boolean }] : []),
+    ...(spec.android_auto !== undefined ? [{ label: 'Android Auto', value: spec.android_auto as boolean }] : []),
+    ...(spec.audio ? [{ label: 'Audio System', value: spec.audio }] : []),
+    ...(spec.nfc_key !== undefined ? [{ label: 'NFC Key', value: spec.nfc_key as boolean }] : []),
+    ...(spec.digital_key !== undefined ? [{ label: 'Digital Key', value: spec.digital_key as boolean }] : []),
+    ...(spec.panoramic_roof !== undefined ? [{ label: 'Panoramic Roof', value: spec.panoramic_roof as boolean }] : []),
+    ...(spec.autonomous_level ? [{ label: 'Autonomous Level', value: `L${spec.autonomous_level}` }] : []),
   ];
 
   const comfortSpecs = [
-    ...(spec.climate_zones
-      ? [{ label: 'Climate Zones', value: spec.climate_zones }]
-      : []),
-    ...(spec.heated_seats !== undefined
-      ? [{ label: 'Heated Seats', value: spec.heated_seats as boolean }]
-      : []),
-    ...(spec.ventilated_seats !== undefined
-      ? [{ label: 'Ventilated Seats', value: spec.ventilated_seats as boolean }]
-      : []),
-    ...(spec.massage_seats !== undefined
-      ? [{ label: 'Massage Seats', value: spec.massage_seats as boolean }]
-      : []),
-    ...(spec.heated_steering !== undefined
-      ? [{ label: 'Heated Steering Wheel', value: spec.heated_steering as boolean }]
-      : []),
+    ...(spec.climate_zones ? [{ label: 'Climate Zones', value: spec.climate_zones }] : []),
+    ...(spec.heated_seats !== undefined ? [{ label: 'Heated Seats', value: spec.heated_seats as boolean }] : []),
+    ...(spec.ventilated_seats !== undefined ? [{ label: 'Ventilated Seats', value: spec.ventilated_seats as boolean }] : []),
+    ...(spec.massage_seats !== undefined ? [{ label: 'Massage Seats', value: spec.massage_seats as boolean }] : []),
+    ...(spec.heated_steering !== undefined ? [{ label: 'Heated Steering Wheel', value: spec.heated_steering as boolean }] : []),
   ];
 
   const specCategories = [
-    {
-      id: 'performance',
-      title: t('performanceSpecs'),
-      icon: <Gauge className="h-4 w-4" />,
-      specs: performanceSpecs,
-    },
-    {
-      id: 'battery',
-      title: t('batteryCharging'),
-      icon: <Battery className="h-4 w-4" />,
-      specs: batterySpecs,
-    },
-    {
-      id: 'dimensions',
-      title: t('dimensions'),
-      icon: <Ruler className="h-4 w-4" />,
-      specs: dimensionSpecs,
-    },
-    {
-      id: 'safety',
-      title: t('safetyCompliance'),
-      icon: <Shield className="h-4 w-4" />,
-      specs: safetySpecs,
-    },
-    ...(technologySpecs.length > 0
-      ? [
-          {
-            id: 'technology',
-            title: 'Technology',
-            icon: <Cpu className="h-4 w-4" />,
-            specs: technologySpecs,
-          },
-        ]
-      : []),
-    ...(comfortSpecs.length > 0
-      ? [
-          {
-            id: 'comfort',
-            title: 'Comfort',
-            icon: <Sofa className="h-4 w-4" />,
-            specs: comfortSpecs,
-          },
-        ]
-      : []),
+    { id: 'performance', title: t('performanceSpecs'), icon: <Gauge className="h-4 w-4" />, specs: performanceSpecs },
+    { id: 'battery', title: t('batteryCharging'), icon: <Battery className="h-4 w-4" />, specs: batterySpecs },
+    { id: 'dimensions', title: t('dimensions'), icon: <Ruler className="h-4 w-4" />, specs: dimensionSpecs },
+    { id: 'safety', title: t('safetyCompliance'), icon: <Shield className="h-4 w-4" />, specs: safetySpecs },
+    ...(technologySpecs.length > 0 ? [{ id: 'technology', title: 'Technology', icon: <Cpu className="h-4 w-4" />, specs: technologySpecs }] : []),
+    ...(comfortSpecs.length > 0 ? [{ id: 'comfort', title: 'Comfort', icon: <Sofa className="h-4 w-4" />, specs: comfortSpecs }] : []),
   ];
 
-  // Hero quick spec pills
   const quickSpecs = [
     model.rangeWltpKm ? `${model.rangeWltpKm} km range` : null,
     model.powerHp ? `${model.powerHp} hp` : null,
@@ -436,30 +318,46 @@ export default async function ModelDetailPage({
   ].filter(Boolean) as string[];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <JsonLd data={jsonLd} />
 
-      {/* ─── Breadcrumbs ──────────────────────────────────────────────────── */}
-      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-        <Breadcrumbs items={breadcrumbItems} />
-      </div>
+      {/* ─── HERO — Full-width with background image fade ──────────────── */}
+      <section className="relative w-full overflow-hidden bg-slate-950">
+        {/* Background image with fade */}
+        {heroImage && (
+          <div className="absolute inset-0">
+            <img
+              src={heroImage.url}
+              alt=""
+              className="w-full h-full object-cover opacity-30"
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40" />
+          </div>
+        )}
 
-      {/* ─── Hero Banner ──────────────────────────────────────────────────── */}
-      <section className="mt-4 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 w-full">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
-          <div className="flex flex-col gap-4">
-            {/* Brand name */}
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-              {model.brand.name}
-            </p>
+        {/* Breadcrumbs over hero */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8 [&_nav]:text-slate-500 [&_a]:text-slate-400 [&_a:hover]:text-white [&_nav_span>.font-medium]:text-slate-300">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
 
-            {/* Model name + Year */}
-            <div className="flex flex-wrap items-end gap-4">
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-10 lg:px-8 lg:pb-16">
+          <div className="flex flex-col gap-3 max-w-2xl">
+            {/* Brand */}
+            <div className="flex items-center gap-3">
+              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-slate-500">
+                {model.brand.name}
+              </p>
+            </div>
+
+            {/* Model + Year */}
+            <div className="flex flex-wrap items-end gap-3">
+              <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
                 {model.name}
               </h1>
               {model.year && (
-                <span className="mb-1 inline-flex items-center rounded-lg bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/80 backdrop-blur-sm sm:mb-2">
+                <span className="mb-0.5 inline-flex items-center rounded-md bg-white/8 px-2.5 py-1 text-xs font-bold text-white/70 ring-1 ring-white/10 sm:mb-1">
                   {model.year}
                 </span>
               )}
@@ -467,51 +365,52 @@ export default async function ModelDetailPage({
 
             {/* Price */}
             {model.priceEurFrom && (
-              <p className="text-2xl font-bold text-[#E63946] sm:text-3xl">
+              <p className="text-xl font-bold text-[#E63946] sm:text-2xl">
                 {'\u20AC'}{model.priceEurFrom.toLocaleString()}
                 {model.priceEurTo && model.priceEurTo !== model.priceEurFrom && (
-                  <span className="text-lg font-normal text-[#E63946]/60 sm:text-xl">
+                  <span className="text-base font-normal text-[#E63946]/50 sm:text-lg">
                     {' '}&mdash; {'\u20AC'}{model.priceEurTo.toLocaleString()}
                   </span>
                 )}
               </p>
             )}
 
-            {/* Quick spec pills */}
+            {/* Quick spec pills — compact */}
             {quickSpecs.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
+              <div className="flex flex-wrap gap-1.5 mt-1">
                 {quickSpecs.map((pill) => (
                   <span
                     key={pill}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm"
+                    className="inline-flex items-center gap-1 rounded-md bg-white/5 px-2.5 py-1.5 text-xs font-medium text-white/80 ring-1 ring-white/10"
                   >
-                    <Zap className="h-3.5 w-3.5 text-[#E63946]" />
+                    <Zap className="h-3 w-3 text-[#E63946]" />
                     {pill}
                   </span>
                 ))}
               </div>
             )}
 
-            {/* Badges row */}
-            <div className="flex flex-wrap items-center gap-2 mt-2">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-1.5 mt-1">
               {model.propulsion && (
-                <Badge className="bg-[#E63946]/20 text-[#E63946] border-[#E63946]/30 hover:bg-[#E63946]/30">
+                <Badge className="bg-[#E63946]/20 text-[#E63946] border-[#E63946]/30 hover:bg-[#E63946]/30 text-[10px] px-2 py-0.5">
                   {model.propulsion}
                 </Badge>
               )}
               {model.segment && (
-                <Badge variant="outline" className="capitalize border-white/20 text-white/70">
+                <Badge variant="outline" className="capitalize border-white/15 text-white/60 text-[10px] px-2 py-0.5">
                   {model.segment}
                 </Badge>
               )}
               {model.euHomologated && (
-                <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30">
-                  <Check className="h-3 w-3 mr-1" />
+                <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30 text-[10px] px-2 py-0.5">
+                  <Check className="h-2.5 w-2.5 mr-0.5" />
                   EU Homologated
                 </Badge>
               )}
               {model.isFeatured && (
-                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30">
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30 text-[10px] px-2 py-0.5">
+                  <Sparkles className="h-2.5 w-2.5 mr-0.5" />
                   Featured
                 </Badge>
               )}
@@ -521,31 +420,38 @@ export default async function ModelDetailPage({
       </section>
 
       {/* ─── Main Content + Sidebar ───────────────────────────────────────── */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px]">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_380px]">
           {/* ─── Main Column ───────────────────────────────────────────── */}
-          <div className="space-y-10">
-            {/* Product Gallery */}
+          <div className="space-y-0">
+
+            {/* Gallery — White section */}
             {sortedImages.length > 0 && (
-              <ProductGallery
-                images={sortedImages.map((img) => ({
-                  url: img.url,
-                  thumbUrl: img.thumbUrl,
-                  altEn: img.altEn,
-                  altRo: img.altRo,
-                  type: img.type,
-                }))}
-                locale={locale}
-              />
+              <section className="pb-6">
+                <ProductGallery
+                  images={sortedImages.map((img) => ({
+                    url: img.url,
+                    thumbUrl: img.thumbUrl,
+                    altEn: img.altEn,
+                    altRo: img.altRo,
+                    type: img.type,
+                  }))}
+                  locale={locale}
+                />
+              </section>
             )}
 
-            {/* Variants */}
+            {/* Variants — Light gray section */}
             {model.variants.length > 0 && (
-              <section>
-                <h2 className="text-xl font-bold text-slate-900 mb-4">{t('variants')}</h2>
+              <section className="bg-slate-50 -mx-4 px-4 py-6 sm:-mx-6 sm:px-6 lg:rounded-xl lg:mx-0">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                    <SectionIcon type="variants" />
+                  </div>
+                  <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('variants')}</h2>
+                </div>
                 {model.variants.length <= 4 ? (
-                  /* Card layout for few variants */
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-3 sm:grid-cols-2">
                     {model.variants.map((variant) => {
                       const isFeatured =
                         variant.powerHp === model.powerHp &&
@@ -553,21 +459,21 @@ export default async function ModelDetailPage({
                       return (
                         <div
                           key={variant.id}
-                          className={`relative rounded-2xl border p-5 transition-shadow hover:shadow-md ${
+                          className={`relative rounded-xl border p-4 transition-shadow hover:shadow-sm ${
                             isFeatured
-                              ? 'border-[#E63946]/30 bg-[#E63946]/5 shadow-sm'
+                              ? 'border-[#E63946]/30 bg-white shadow-sm ring-1 ring-[#E63946]/10'
                               : 'border-slate-200 bg-white'
                           }`}
                         >
                           {isFeatured && (
-                            <span className="absolute -top-2.5 left-4 rounded-full bg-[#E63946] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                            <span className="absolute -top-2 left-3 rounded bg-[#E63946] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
                               Featured
                             </span>
                           )}
-                          <h3 className="font-semibold text-slate-900 mb-3">
+                          <h3 className="font-bold text-sm text-slate-900 mb-2">
                             {variant.name}
                           </h3>
-                          <div className="space-y-2 text-sm">
+                          <div className="space-y-1.5 text-xs">
                             {variant.priceEur && (
                               <div className="flex justify-between">
                                 <span className="text-slate-500">Price</span>
@@ -579,33 +485,25 @@ export default async function ModelDetailPage({
                             {variant.batteryKwh && (
                               <div className="flex justify-between">
                                 <span className="text-slate-500">Battery</span>
-                                <span className="font-medium text-slate-900">
-                                  {variant.batteryKwh} kWh
-                                </span>
+                                <span className="font-semibold text-slate-900">{variant.batteryKwh} kWh</span>
                               </div>
                             )}
                             {variant.rangeWltpKm && (
                               <div className="flex justify-between">
                                 <span className="text-slate-500">Range</span>
-                                <span className="font-medium text-slate-900">
-                                  {variant.rangeWltpKm} km
-                                </span>
+                                <span className="font-semibold text-slate-900">{variant.rangeWltpKm} km</span>
                               </div>
                             )}
                             {variant.powerHp && (
                               <div className="flex justify-between">
                                 <span className="text-slate-500">Power</span>
-                                <span className="font-medium text-slate-900">
-                                  {variant.powerHp} hp
-                                </span>
+                                <span className="font-semibold text-slate-900">{variant.powerHp} hp</span>
                               </div>
                             )}
                             {variant.driveType && (
                               <div className="flex justify-between">
                                 <span className="text-slate-500">Drive</span>
-                                <span className="font-medium text-slate-900">
-                                  {variant.driveType}
-                                </span>
+                                <span className="font-semibold text-slate-900">{variant.driveType}</span>
                               </div>
                             )}
                           </div>
@@ -614,17 +512,16 @@ export default async function ModelDetailPage({
                     })}
                   </div>
                 ) : (
-                  /* Table layout for many variants */
-                  <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+                  <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
                     <Table>
                       <TableHeader>
                         <TableRow className="bg-slate-50">
-                          <TableHead className="font-semibold">{t('variantName')}</TableHead>
-                          <TableHead className="text-right font-semibold">{t('priceEur')}</TableHead>
-                          <TableHead className="text-right font-semibold">{t('batteryCapacity')}</TableHead>
-                          <TableHead className="text-right font-semibold">{t('wltpRange')}</TableHead>
-                          <TableHead className="text-right font-semibold">{t('powerOutput')}</TableHead>
-                          <TableHead className="text-center font-semibold">{t('driveType')}</TableHead>
+                          <TableHead className="font-bold text-xs">{t('variantName')}</TableHead>
+                          <TableHead className="text-right font-bold text-xs">{t('priceEur')}</TableHead>
+                          <TableHead className="text-right font-bold text-xs">{t('batteryCapacity')}</TableHead>
+                          <TableHead className="text-right font-bold text-xs">{t('wltpRange')}</TableHead>
+                          <TableHead className="text-right font-bold text-xs">{t('powerOutput')}</TableHead>
+                          <TableHead className="text-center font-bold text-xs">{t('driveType')}</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -633,41 +530,20 @@ export default async function ModelDetailPage({
                             variant.powerHp === model.powerHp &&
                             variant.batteryKwh === model.batteryKwh;
                           return (
-                            <TableRow
-                              key={variant.id}
-                              className={isFeatured ? 'bg-[#E63946]/5' : ''}
-                            >
-                              <TableCell className="font-medium">
+                            <TableRow key={variant.id} className={`text-xs ${isFeatured ? 'bg-[#E63946]/5' : ''}`}>
+                              <TableCell className="font-semibold">
                                 {variant.name}
                                 {isFeatured && (
-                                  <span className="ml-2 inline-flex rounded-full bg-[#E63946] px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">
+                                  <span className="ml-1.5 inline-flex rounded bg-[#E63946] px-1.5 py-0.5 text-[8px] font-bold uppercase text-white">
                                     Featured
                                   </span>
                                 )}
                               </TableCell>
-                              <TableCell className="text-right">
-                                {variant.priceEur
-                                  ? `\u20AC${variant.priceEur.toLocaleString()}`
-                                  : '\u2014'}
-                              </TableCell>
-                              <TableCell className="text-right">
-                                {variant.batteryKwh
-                                  ? `${variant.batteryKwh} kWh`
-                                  : '\u2014'}
-                              </TableCell>
-                              <TableCell className="text-right">
-                                {variant.rangeWltpKm
-                                  ? `${variant.rangeWltpKm} km`
-                                  : '\u2014'}
-                              </TableCell>
-                              <TableCell className="text-right">
-                                {variant.powerHp
-                                  ? `${variant.powerHp} hp`
-                                  : '\u2014'}
-                              </TableCell>
-                              <TableCell className="text-center">
-                                {variant.driveType || '\u2014'}
-                              </TableCell>
+                              <TableCell className="text-right">{variant.priceEur ? `\u20AC${variant.priceEur.toLocaleString()}` : '\u2014'}</TableCell>
+                              <TableCell className="text-right">{variant.batteryKwh ? `${variant.batteryKwh} kWh` : '\u2014'}</TableCell>
+                              <TableCell className="text-right">{variant.rangeWltpKm ? `${variant.rangeWltpKm} km` : '\u2014'}</TableCell>
+                              <TableCell className="text-right">{variant.powerHp ? `${variant.powerHp} hp` : '\u2014'}</TableCell>
+                              <TableCell className="text-center">{variant.driveType || '\u2014'}</TableCell>
                             </TableRow>
                           );
                         })}
@@ -678,33 +554,41 @@ export default async function ModelDetailPage({
               </section>
             )}
 
-            {/* Description + Highlights */}
+            {/* Description + Highlights — White section */}
             {(description || (highlights && highlights.length > 0)) && (
-              <section className="space-y-6">
+              <section className="py-6">
                 {description && (
-                  <div>
-                    <h2 className="text-xl font-bold text-slate-900 mb-3">{t('about')}</h2>
-                    <div className="prose prose-slate max-w-none">
-                      <p className="text-slate-600 leading-relaxed whitespace-pre-line">
-                        {description}
-                      </p>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                        <SectionIcon type="about" />
+                      </div>
+                      <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('about')}</h2>
                     </div>
+                    <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+                      {description}
+                    </p>
                   </div>
                 )}
 
                 {highlights && highlights.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-bold text-slate-900 mb-3">{t('highlights')}</h2>
-                    <ul className="grid gap-2 sm:grid-cols-2">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
+                        <Sparkles className="h-4 w-4" />
+                      </div>
+                      <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('highlights')}</h2>
+                    </div>
+                    <ul className="grid gap-1.5 sm:grid-cols-2">
                       {highlights.map((item, i) => (
                         <li
                           key={i}
-                          className="flex items-start gap-2.5 rounded-xl bg-white border border-slate-100 p-3"
+                          className="flex items-start gap-2 rounded-lg bg-slate-50 border border-slate-100 px-3 py-2"
                         >
-                          <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-50">
-                            <Check className="h-3 w-3 text-emerald-600" />
+                          <div className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100">
+                            <Check className="h-2.5 w-2.5 text-emerald-600" />
                           </div>
-                          <span className="text-sm text-slate-700">{item}</span>
+                          <span className="text-xs text-slate-700 leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -713,19 +597,29 @@ export default async function ModelDetailPage({
               </section>
             )}
 
-            {/* Specs Accordion */}
-            <section>
-              <h2 className="text-xl font-bold text-slate-900 mb-4">
-                {t('performanceSpecs').replace(/specs?/i, '').trim() || 'Specifications'}
-              </h2>
+            {/* Specifications — Dark section */}
+            <section className="bg-slate-950 -mx-4 px-4 py-6 sm:-mx-6 sm:px-6 lg:rounded-xl lg:mx-0">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-7 h-7 rounded-lg bg-[#E63946] text-white flex items-center justify-center">
+                  <SectionIcon type="specs" />
+                </div>
+                <h2 className="text-sm font-bold text-white uppercase tracking-wide">
+                  {t('performanceSpecs').replace(/specs?/i, '').trim() || 'Specifications'}
+                </h2>
+              </div>
               <SpecsAccordion categories={specCategories} />
             </section>
 
-            {/* Video */}
+            {/* Video — White section */}
             {model.videoUrl && (
-              <section>
-                <h2 className="text-xl font-bold text-slate-900 mb-4">{t('video')}</h2>
-                <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-100 shadow-sm">
+              <section className="py-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                    <SectionIcon type="video" />
+                  </div>
+                  <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('video')}</h2>
+                </div>
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 ring-1 ring-slate-200">
                   <iframe
                     src={model.videoUrl}
                     title={`${fullName} video`}
@@ -737,19 +631,21 @@ export default async function ModelDetailPage({
               </section>
             )}
 
-            {/* Available Markets grid */}
+            {/* Available Markets — Light gray section */}
             {model.markets && model.markets.length > 0 && (
-              <section>
-                <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <Globe className="h-5 w-5 text-slate-400" />
-                  {t('availableMarkets')}
-                </h2>
-                <div className="flex flex-wrap gap-2">
+              <section className="bg-slate-50 -mx-4 px-4 py-6 sm:-mx-6 sm:px-6 lg:rounded-xl lg:mx-0">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                    <SectionIcon type="markets" />
+                  </div>
+                  <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">{t('availableMarkets')}</h2>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {model.markets.map((market) => (
                     <Badge
                       key={market}
                       variant="outline"
-                      className="rounded-lg border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700"
+                      className="rounded-md border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700"
                     >
                       {market}
                     </Badge>
@@ -761,7 +657,7 @@ export default async function ModelDetailPage({
 
           {/* ─── Sidebar ───────────────────────────────────────────────── */}
           <div className="lg:relative">
-            <div className="lg:sticky lg:top-6">
+            <div className="lg:sticky lg:top-4">
               <MarketSidebar
                 brandName={model.brand.name}
                 modelName={model.name}

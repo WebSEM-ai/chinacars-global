@@ -16,8 +16,8 @@ export function ProductGallery({ images, locale }: { images: GalleryImage[]; loc
 
   if (images.length === 0) {
     return (
-      <div className="aspect-[16/9] bg-slate-100 rounded-2xl flex items-center justify-center">
-        <ImageOff className="h-16 w-16 text-slate-300" />
+      <div className="aspect-[16/9] bg-slate-100 rounded-xl flex items-center justify-center">
+        <ImageOff className="h-12 w-12 text-slate-300" />
       </div>
     );
   }
@@ -29,9 +29,9 @@ export function ProductGallery({ images, locale }: { images: GalleryImage[]; loc
   function next() { setIdx(idx === images.length - 1 ? 0 : idx + 1); }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {/* Main image */}
-      <div className="relative aspect-[16/9] bg-slate-100 rounded-2xl overflow-hidden group">
+      <div className="relative aspect-[16/9] bg-slate-100 rounded-xl overflow-hidden group ring-1 ring-slate-200">
         <img
           src={current.url}
           alt={alt}
@@ -39,46 +39,43 @@ export function ProductGallery({ images, locale }: { images: GalleryImage[]; loc
           loading="eager"
         />
 
-        {/* Nav arrows */}
         {images.length > 1 && (
           <>
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-black/50 backdrop-blur-sm text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-black/50 backdrop-blur-sm text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </>
         )}
 
-        {/* Image type badge */}
         {current.type && (
-          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-sm text-white text-xs font-medium capitalize">
+          <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/50 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider">
             {current.type}
           </span>
         )}
 
-        {/* Counter */}
-        <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-sm text-white text-xs font-medium">
-          {idx + 1} / {images.length}
+        <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-black/50 backdrop-blur-sm text-white text-[10px] font-bold tabular-nums">
+          {idx + 1}/{images.length}
         </span>
       </div>
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
           {images.map((img, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className={`relative w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
-                i === idx ? 'border-[#E63946] shadow-md' : 'border-transparent opacity-60 hover:opacity-100'
+              className={`relative w-16 h-11 rounded-lg overflow-hidden flex-shrink-0 ring-2 transition-all ${
+                i === idx ? 'ring-[#E63946] shadow-sm' : 'ring-transparent opacity-50 hover:opacity-90'
               }`}
             >
               <img src={img.thumbUrl || img.url} alt="" className="w-full h-full object-cover" loading="lazy" />

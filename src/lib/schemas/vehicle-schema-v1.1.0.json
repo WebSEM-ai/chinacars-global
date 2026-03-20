@@ -1,0 +1,2115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://chinacar.app/schemas/vehicle-schema-v1.1.0.json",
+  "title": "Universal Vehicle Schema v1.1.0",
+  "description": "Production-quality vehicle data schema supporting BEV, PHEV, HEV, and ICE powertrains. Evolution of v1.0.0 BEV-only schema into a universal foundation for all vehicle data import.",
+  "type": "object",
+  "required": ["meta", "identity", "variants", "dimensions", "safety", "markets", "media", "content"],
+  "additionalProperties": false,
+
+  "properties": {
+
+    "meta": {
+      "type": "object",
+      "description": "Metadata about the vehicle record itself, including identifiers, schema version, and audit timestamps.",
+      "required": ["vehicle_id", "schema_version", "powertrain_type", "status", "created_at", "updated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "vehicle_id": {
+          "type": "string",
+          "description": "Globally unique identifier for this vehicle record. Use UUID v4 format.",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+          "examples": ["a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"]
+        },
+        "schema_version": {
+          "type": "string",
+          "description": "Semantic version of this schema definition.",
+          "const": "1.1.0"
+        },
+        "powertrain_type": {
+          "type": "string",
+          "description": "Primary powertrain classification of the vehicle.",
+          "enum": ["BEV", "PHEV", "HEV", "ICE"],
+          "examples": ["BEV"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Publication status of this vehicle record.",
+          "enum": ["draft", "review", "published", "archived", "discontinued"],
+          "default": "draft"
+        },
+        "data_source": {
+          "type": "string",
+          "description": "Origin of the vehicle data (e.g. OEM press release, dealer API, manual entry).",
+          "examples": ["oem_press_release", "dealer_api", "manual_entry", "ev-database.org"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of record creation.",
+          "examples": ["2026-01-15T10:30:00Z"]
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of last record update.",
+          "examples": ["2026-03-20T14:00:00Z"]
+        },
+        "language_origin": {
+          "type": "string",
+          "description": "ISO 639-1 language code of the original data source language.",
+          "pattern": "^[a-z]{2}$",
+          "examples": ["zh", "en", "de", "fr"]
+        }
+      }
+    },
+
+    "identity": {
+      "type": "object",
+      "description": "Core identity fields that uniquely describe the vehicle make, model, and physical configuration.",
+      "required": ["brand", "model_name", "slug", "body_type", "segment", "year"],
+      "additionalProperties": false,
+      "properties": {
+        "brand": {
+          "type": "string",
+          "description": "Vehicle manufacturer or brand name.",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["BYD", "NIO", "Xpeng", "Zeekr", "Li Auto"]
+        },
+        "model_name": {
+          "type": "string",
+          "description": "Official model name as marketed by the brand.",
+          "minLength": 1,
+          "maxLength": 200,
+          "examples": ["Seal", "ET5 Touring", "G6", "001"]
+        },
+        "slug": {
+          "type": "string",
+          "description": "URL-safe slug for the vehicle, lowercase with hyphens.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "minLength": 2,
+          "maxLength": 150,
+          "examples": ["byd-seal", "nio-et5-touring"]
+        },
+        "brand_slug": {
+          "type": "string",
+          "description": "URL-safe slug for the brand only.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "examples": ["byd", "nio", "xpeng"]
+        },
+        "model_slug": {
+          "type": "string",
+          "description": "URL-safe slug for the model only (without brand prefix).",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "examples": ["seal", "et5-touring"]
+        },
+        "body_type": {
+          "type": "string",
+          "description": "Physical body style of the vehicle.",
+          "enum": ["sedan", "suv", "crossover", "hatchback", "wagon", "coupe", "convertible", "pickup", "van", "mpv", "roadster", "shooting_brake"],
+          "examples": ["sedan"]
+        },
+        "segment": {
+          "type": "string",
+          "description": "European vehicle segment classification letter (A through F, plus S for sport and J for SUV sub-segments).",
+          "enum": ["A", "B", "C", "D", "E", "F", "S", "J-B", "J-C", "J-D", "J-E", "M"],
+          "examples": ["D"]
+        },
+        "segment_common": {
+          "type": "string",
+          "description": "Human-friendly common segment name used alongside the European letter classification.",
+          "enum": [
+            "city_car", "supermini", "compact", "mid_size", "executive", "luxury",
+            "subcompact_suv", "compact_suv", "mid_size_suv", "full_size_suv",
+            "sports_car", "minivan", "pickup_truck"
+          ],
+          "examples": ["mid_size"]
+        },
+        "year": {
+          "type": "integer",
+          "description": "Model year of the vehicle.",
+          "minimum": 2000,
+          "maximum": 2035,
+          "examples": [2026]
+        },
+        "generation": {
+          "type": "string",
+          "description": "Internal generation or facelift identifier (e.g. 'Gen 1', 'Gen 2 Facelift').",
+          "maxLength": 50,
+          "examples": ["Gen 1", "Gen 2 Facelift"]
+        },
+        "platform": {
+          "type": "string",
+          "description": "Vehicle platform or architecture name.",
+          "maxLength": 100,
+          "examples": ["e-Platform 3.0", "NT 2.0", "SEA"]
+        },
+        "manufacture_country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code where the vehicle is primarily manufactured.",
+          "pattern": "^[A-Z]{2}$",
+          "examples": ["CN", "DE", "US"]
+        },
+        "manufacture_city": {
+          "type": "string",
+          "description": "City where the primary manufacturing plant is located.",
+          "examples": ["Shenzhen", "Hefei", "Guangzhou"]
+        },
+        "seats": {
+          "type": "integer",
+          "description": "Number of passenger seats including driver.",
+          "minimum": 1,
+          "maximum": 9,
+          "examples": [5]
+        },
+        "doors": {
+          "type": "integer",
+          "description": "Number of doors (excluding tailgate/trunk unless it is a hatchback-style opening).",
+          "minimum": 2,
+          "maximum": 6,
+          "examples": [4]
+        }
+      }
+    },
+
+    "variants": {
+      "type": "array",
+      "description": "Array of available variants/trims for this vehicle. Each variant may differ in battery size, motor power, drivetrain, and range.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["variant_id", "name", "drivetrain"],
+        "additionalProperties": false,
+        "properties": {
+          "variant_id": {
+            "type": "string",
+            "description": "Unique identifier for this variant within the vehicle record.",
+            "pattern": "^[a-z0-9_-]+$",
+            "examples": ["seal-awd-performance"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Marketing name of this variant/trim level.",
+            "minLength": 1,
+            "maxLength": 200,
+            "examples": ["AWD Performance", "Long Range RWD", "Standard Range"]
+          },
+          "drivetrain": {
+            "type": "string",
+            "description": "Drivetrain layout of this variant.",
+            "enum": ["FWD", "RWD", "AWD"],
+            "examples": ["AWD"]
+          },
+          "battery_kwh": {
+            "type": "number",
+            "description": "Usable battery capacity in kWh for this specific variant (BEV/PHEV). Null for pure ICE.",
+            "minimum": 0,
+            "maximum": 300,
+            "examples": [82.5]
+          },
+          "motor_power_kw": {
+            "type": "number",
+            "description": "Total system power output in kW (combined electric + ICE for hybrids).",
+            "minimum": 0,
+            "maximum": 1500,
+            "examples": [390]
+          },
+          "motor_power_hp": {
+            "type": "number",
+            "description": "Total system power output in horsepower.",
+            "minimum": 0,
+            "maximum": 2100,
+            "examples": [530]
+          },
+          "torque_nm": {
+            "type": "number",
+            "description": "Maximum combined torque in Newton-metres.",
+            "minimum": 0,
+            "maximum": 15000,
+            "examples": [670]
+          },
+          "range_wltp_km": {
+            "type": "number",
+            "description": "WLTP-rated total electric range in kilometres (BEV/PHEV).",
+            "minimum": 0,
+            "maximum": 1500,
+            "examples": [570]
+          },
+          "range_cltc_km": {
+            "type": "number",
+            "description": "CLTC-rated total electric range in kilometres (Chinese standard).",
+            "minimum": 0,
+            "maximum": 1500,
+            "examples": [650]
+          },
+          "range_epa_miles": {
+            "type": "number",
+            "description": "EPA-rated electric range in miles (US standard).",
+            "minimum": 0,
+            "maximum": 1000,
+            "examples": [340]
+          },
+          "acceleration_0_100_s": {
+            "type": "number",
+            "description": "0-100 km/h acceleration time in seconds.",
+            "minimum": 0,
+            "maximum": 30,
+            "examples": [3.8]
+          },
+          "top_speed_kmh": {
+            "type": "integer",
+            "description": "Electronically limited or achieved top speed in km/h.",
+            "minimum": 50,
+            "maximum": 450,
+            "examples": [200]
+          },
+          "range_efficiency": {
+            "type": "object",
+            "description": "Energy efficiency metrics for this specific variant. Placed per-variant as it varies significantly between trims.",
+            "additionalProperties": false,
+            "properties": {
+              "wltp_kwh_per_100km": {
+                "type": "number",
+                "description": "WLTP energy consumption in kWh per 100 km (BEV/PHEV electric mode).",
+                "minimum": 0,
+                "maximum": 50,
+                "examples": [16.3]
+              },
+              "cltc_kwh_per_100km": {
+                "type": "number",
+                "description": "CLTC energy consumption in kWh per 100 km.",
+                "minimum": 0,
+                "maximum": 50,
+                "examples": [14.1]
+              },
+              "epa_kwh_per_100mi": {
+                "type": "number",
+                "description": "EPA energy consumption in kWh per 100 miles.",
+                "minimum": 0,
+                "maximum": 80,
+                "examples": [28.0]
+              },
+              "real_world_estimate_kwh_per_100km": {
+                "type": "number",
+                "description": "Estimated real-world energy consumption based on aggregated user data.",
+                "minimum": 0,
+                "maximum": 60,
+                "examples": [18.5]
+              }
+            }
+          },
+          "is_base": {
+            "type": "boolean",
+            "description": "Whether this is the base (entry-level) variant.",
+            "default": false
+          },
+          "is_featured": {
+            "type": "boolean",
+            "description": "Whether this variant should be featured/highlighted in listings.",
+            "default": false
+          }
+        }
+      }
+    },
+
+    "battery": {
+      "type": "object",
+      "description": "Battery pack specifications. Required for BEV and PHEV powertrains.",
+      "additionalProperties": false,
+      "properties": {
+        "chemistry": {
+          "type": "string",
+          "description": "Battery cell chemistry type.",
+          "enum": ["LFP", "NMC", "NCA", "LMFP", "NMC811", "NMC622", "NMC532", "LTO", "sodium_ion", "solid_state", "other"],
+          "examples": ["LFP"]
+        },
+        "brand_name": {
+          "type": "string",
+          "description": "Battery cell manufacturer name.",
+          "examples": ["BYD Blade", "CATL Qilin", "Samsung SDI", "LG Energy Solution", "CALB"]
+        },
+        "capacity_gross_kwh": {
+          "type": "number",
+          "description": "Total gross (nameplate) battery capacity in kWh.",
+          "minimum": 0,
+          "maximum": 300,
+          "examples": [82.56]
+        },
+        "capacity_usable_kwh": {
+          "type": "number",
+          "description": "Usable battery capacity in kWh (net of buffer).",
+          "minimum": 0,
+          "maximum": 300,
+          "examples": [77.8]
+        },
+        "cell_to_body": {
+          "type": "boolean",
+          "description": "Whether the battery uses cell-to-body (CTB) or cell-to-chassis integration.",
+          "default": false
+        },
+        "thermal_management": {
+          "type": "string",
+          "description": "Type of battery thermal management system.",
+          "enum": ["liquid_cooling", "air_cooling", "heat_pump_integrated", "phase_change", "none"],
+          "examples": ["liquid_cooling"]
+        },
+        "warranty_years": {
+          "type": "integer",
+          "description": "Battery warranty duration in years.",
+          "minimum": 0,
+          "maximum": 20,
+          "examples": [8]
+        },
+        "warranty_km": {
+          "type": "integer",
+          "description": "Battery warranty distance limit in kilometres.",
+          "minimum": 0,
+          "maximum": 1000000,
+          "examples": [200000]
+        },
+        "warranty_soh_percent": {
+          "type": "number",
+          "description": "Guaranteed minimum State of Health percentage at end of battery warranty.",
+          "minimum": 50,
+          "maximum": 100,
+          "examples": [70]
+        },
+        "voltage_v": {
+          "type": "number",
+          "description": "Nominal battery pack voltage in volts.",
+          "minimum": 100,
+          "maximum": 1200,
+          "examples": [400, 800]
+        },
+        "weight_kg": {
+          "type": "number",
+          "description": "Battery pack weight in kilograms.",
+          "minimum": 50,
+          "maximum": 1200,
+          "examples": [560]
+        }
+      }
+    },
+
+    "ice_engine": {
+      "type": "object",
+      "description": "Internal combustion engine specifications. Required for PHEV, HEV, and ICE powertrains.",
+      "additionalProperties": false,
+      "properties": {
+        "displacement_cc": {
+          "type": "integer",
+          "description": "Engine displacement in cubic centimetres.",
+          "minimum": 500,
+          "maximum": 10000,
+          "examples": [1498, 1998]
+        },
+        "cylinders": {
+          "type": "integer",
+          "description": "Number of engine cylinders.",
+          "minimum": 1,
+          "maximum": 16,
+          "examples": [4]
+        },
+        "configuration": {
+          "type": "string",
+          "description": "Engine cylinder layout/configuration.",
+          "enum": ["inline", "v_type", "flat", "rotary", "w_type"],
+          "examples": ["inline"]
+        },
+        "fuel_type": {
+          "type": "string",
+          "description": "Fuel type the ICE engine uses.",
+          "enum": ["petrol", "diesel", "petrol_e10", "diesel_b7", "lpg", "cng", "e85", "hydrogen"],
+          "examples": ["petrol"]
+        },
+        "max_power_kw": {
+          "type": "number",
+          "description": "Maximum ICE engine power output in kW.",
+          "minimum": 20,
+          "maximum": 800,
+          "examples": [110]
+        },
+        "max_power_hp": {
+          "type": "number",
+          "description": "Maximum ICE engine power output in horsepower.",
+          "minimum": 27,
+          "maximum": 1100,
+          "examples": [150]
+        },
+        "max_torque_nm": {
+          "type": "number",
+          "description": "Maximum ICE engine torque in Newton-metres.",
+          "minimum": 50,
+          "maximum": 2500,
+          "examples": [250]
+        },
+        "transmission": {
+          "type": "object",
+          "description": "Transmission/gearbox specifications.",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Transmission type.",
+              "enum": ["manual", "automatic_torque_converter", "dct", "cvt", "amt", "single_speed", "multi_speed_ev"],
+              "examples": ["dct"]
+            },
+            "gears": {
+              "type": "integer",
+              "description": "Number of gear ratios.",
+              "minimum": 1,
+              "maximum": 12,
+              "examples": [7]
+            }
+          }
+        },
+        "combined_consumption_l_100km": {
+          "type": "number",
+          "description": "Combined WLTP fuel consumption in litres per 100 km.",
+          "minimum": 0,
+          "maximum": 30,
+          "examples": [6.5]
+        },
+        "co2_g_km": {
+          "type": "integer",
+          "description": "Official WLTP CO2 emissions in grams per kilometre.",
+          "minimum": 0,
+          "maximum": 500,
+          "examples": [148]
+        },
+        "emission_standard": {
+          "type": "string",
+          "description": "Emission standard compliance.",
+          "enum": ["euro6", "euro6d", "euro6e", "euro7", "china6b", "us_tier3_bin125", "other"],
+          "examples": ["euro6d"]
+        }
+      }
+    },
+
+    "motor": {
+      "type": "object",
+      "description": "Electric motor specifications. Applicable to BEV, PHEV, and HEV powertrains.",
+      "additionalProperties": false,
+      "properties": {
+        "configuration": {
+          "type": "string",
+          "description": "Electric motor layout configuration.",
+          "enum": ["single_front", "single_rear", "dual_motor", "tri_motor", "quad_motor", "in_wheel"],
+          "examples": ["dual_motor"]
+        },
+        "front_motor": {
+          "type": "object",
+          "description": "Front electric motor details (if present).",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Motor technology type.",
+              "enum": ["permanent_magnet", "induction", "switched_reluctance", "wound_rotor"],
+              "examples": ["induction"]
+            },
+            "power_kw": {
+              "type": "number",
+              "description": "Peak power output of the front motor in kW.",
+              "minimum": 0,
+              "maximum": 500,
+              "examples": [160]
+            },
+            "torque_nm": {
+              "type": "number",
+              "description": "Peak torque of the front motor in Nm.",
+              "minimum": 0,
+              "maximum": 5000,
+              "examples": [310]
+            }
+          }
+        },
+        "rear_motor": {
+          "type": "object",
+          "description": "Rear electric motor details (if present).",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Motor technology type.",
+              "enum": ["permanent_magnet", "induction", "switched_reluctance", "wound_rotor"],
+              "examples": ["permanent_magnet"]
+            },
+            "power_kw": {
+              "type": "number",
+              "description": "Peak power output of the rear motor in kW.",
+              "minimum": 0,
+              "maximum": 500,
+              "examples": [230]
+            },
+            "torque_nm": {
+              "type": "number",
+              "description": "Peak torque of the rear motor in Nm.",
+              "minimum": 0,
+              "maximum": 5000,
+              "examples": [360]
+            }
+          }
+        },
+        "total_system_power_kw": {
+          "type": "number",
+          "description": "Combined system power of all electric motors in kW.",
+          "minimum": 0,
+          "maximum": 1500,
+          "examples": [390]
+        },
+        "total_system_torque_nm": {
+          "type": "number",
+          "description": "Combined system torque of all electric motors in Nm.",
+          "minimum": 0,
+          "maximum": 15000,
+          "examples": [670]
+        },
+        "top_speed_kmh": {
+          "type": "integer",
+          "description": "Electronically limited top speed in km/h.",
+          "minimum": 50,
+          "maximum": 450,
+          "examples": [200]
+        },
+        "drivetrain_base": {
+          "type": "string",
+          "description": "Default drivetrain configuration from the electric motor layout.",
+          "enum": ["FWD", "RWD", "AWD"],
+          "examples": ["AWD"]
+        },
+        "torque_vectoring": {
+          "type": "boolean",
+          "description": "Whether the vehicle supports electronic torque vectoring between axles or wheels.",
+          "default": false
+        }
+      }
+    },
+
+    "charging": {
+      "type": "object",
+      "description": "Charging capabilities and specifications. Required for BEV and PHEV powertrains.",
+      "additionalProperties": false,
+      "properties": {
+        "dc_max_kw": {
+          "type": "number",
+          "description": "Maximum DC fast charging power in kW.",
+          "minimum": 0,
+          "maximum": 1000,
+          "examples": [150, 250, 350]
+        },
+        "dc_charge_times": {
+          "type": "object",
+          "description": "DC fast charging time benchmarks.",
+          "additionalProperties": false,
+          "properties": {
+            "ten_to_eighty_min": {
+              "type": "number",
+              "description": "Time to charge from 10% to 80% SOC in minutes via DC fast charging.",
+              "minimum": 1,
+              "maximum": 240,
+              "examples": [26]
+            },
+            "five_to_eighty_min": {
+              "type": "number",
+              "description": "Time to charge from 5% to 80% SOC in minutes via DC fast charging.",
+              "minimum": 1,
+              "maximum": 240,
+              "examples": [30]
+            },
+            "zero_to_hundred_min": {
+              "type": "number",
+              "description": "Time to charge from 0% to 100% SOC in minutes via DC fast charging.",
+              "minimum": 5,
+              "maximum": 480,
+              "examples": [65]
+            }
+          }
+        },
+        "ac_max_kw": {
+          "type": "number",
+          "description": "Maximum on-board AC charging power in kW.",
+          "minimum": 0,
+          "maximum": 44,
+          "examples": [11, 22]
+        },
+        "ac_phase": {
+          "type": "string",
+          "description": "AC charging phase configuration.",
+          "enum": ["single_phase", "three_phase"],
+          "examples": ["three_phase"]
+        },
+        "ac_charge_time_zero_to_hundred_hours": {
+          "type": "number",
+          "description": "Time to fully charge (0-100%) via AC in hours.",
+          "minimum": 0.5,
+          "maximum": 48,
+          "examples": [7.5]
+        },
+        "connectors": {
+          "type": "array",
+          "description": "Available charging connector types.",
+          "items": {
+            "type": "string",
+            "enum": ["CCS2", "CCS1", "CHAdeMO", "GB/T", "Tesla_NACS", "Type2", "Type1", "J1772", "GB/T_AC"],
+            "examples": ["CCS2"]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "v2l": {
+          "type": "object",
+          "description": "Vehicle-to-Load (V2L) capability for powering external devices.",
+          "additionalProperties": false,
+          "properties": {
+            "supported": {
+              "type": "boolean",
+              "description": "Whether V2L is supported."
+            },
+            "max_output_kw": {
+              "type": "number",
+              "description": "Maximum V2L output power in kW.",
+              "minimum": 0,
+              "maximum": 20,
+              "examples": [3.6]
+            },
+            "outlet_type": {
+              "type": "string",
+              "description": "Type of V2L power outlet.",
+              "examples": ["Schuko 230V", "NEMA 5-15"]
+            }
+          }
+        },
+        "v2g": {
+          "type": "object",
+          "description": "Vehicle-to-Grid (V2G) bidirectional charging capability.",
+          "additionalProperties": false,
+          "properties": {
+            "supported": {
+              "type": "boolean",
+              "description": "Whether V2G is supported."
+            },
+            "max_output_kw": {
+              "type": "number",
+              "description": "Maximum V2G discharge power in kW.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [11]
+            }
+          }
+        },
+        "v2h": {
+          "type": "object",
+          "description": "Vehicle-to-Home (V2H) capability.",
+          "additionalProperties": false,
+          "properties": {
+            "supported": {
+              "type": "boolean",
+              "description": "Whether V2H is supported."
+            },
+            "max_output_kw": {
+              "type": "number",
+              "description": "Maximum V2H discharge power in kW.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [6]
+            }
+          }
+        },
+        "plug_and_charge": {
+          "type": "boolean",
+          "description": "Whether ISO 15118 Plug & Charge automatic authentication is supported.",
+          "default": false
+        },
+        "battery_preconditioning": {
+          "type": "boolean",
+          "description": "Whether the vehicle supports automatic battery preconditioning when navigating to a DC charger.",
+          "default": false
+        }
+      }
+    },
+
+    "dimensions": {
+      "type": "object",
+      "description": "Physical dimensions, weight, and capacity measurements of the vehicle.",
+      "required": ["length_mm", "width_mm", "height_mm", "wheelbase_mm"],
+      "additionalProperties": false,
+      "properties": {
+        "length_mm": {
+          "type": "integer",
+          "description": "Overall vehicle length in millimetres.",
+          "minimum": 2000,
+          "maximum": 7000,
+          "examples": [4800]
+        },
+        "width_mm": {
+          "type": "integer",
+          "description": "Overall vehicle width excluding mirrors in millimetres.",
+          "minimum": 1200,
+          "maximum": 2500,
+          "examples": [1875]
+        },
+        "width_with_mirrors_mm": {
+          "type": "integer",
+          "description": "Overall vehicle width including side mirrors in millimetres.",
+          "minimum": 1400,
+          "maximum": 2800,
+          "examples": [2100]
+        },
+        "height_mm": {
+          "type": "integer",
+          "description": "Overall vehicle height in millimetres.",
+          "minimum": 1000,
+          "maximum": 2500,
+          "examples": [1460]
+        },
+        "wheelbase_mm": {
+          "type": "integer",
+          "description": "Distance between front and rear axle centres in millimetres.",
+          "minimum": 1500,
+          "maximum": 4500,
+          "examples": [2920]
+        },
+        "front_track_mm": {
+          "type": "integer",
+          "description": "Front axle track width in millimetres.",
+          "minimum": 1000,
+          "maximum": 2200
+        },
+        "rear_track_mm": {
+          "type": "integer",
+          "description": "Rear axle track width in millimetres.",
+          "minimum": 1000,
+          "maximum": 2200
+        },
+        "ground_clearance_mm": {
+          "type": "integer",
+          "description": "Minimum ground clearance in millimetres.",
+          "minimum": 50,
+          "maximum": 400,
+          "examples": [150]
+        },
+        "drag_coefficient_cd": {
+          "type": "number",
+          "description": "Aerodynamic drag coefficient (Cd).",
+          "minimum": 0.15,
+          "maximum": 0.6,
+          "examples": [0.219]
+        },
+        "trunk_volume_l": {
+          "type": "integer",
+          "description": "Trunk/boot cargo volume in litres (seats up).",
+          "minimum": 0,
+          "maximum": 3000,
+          "examples": [400]
+        },
+        "trunk_max_volume_l": {
+          "type": "integer",
+          "description": "Maximum cargo volume in litres with rear seats folded.",
+          "minimum": 0,
+          "maximum": 5000,
+          "examples": [1200]
+        },
+        "frunk_volume_l": {
+          "type": "integer",
+          "description": "Front trunk (frunk) volume in litres. 0 if no frunk.",
+          "minimum": 0,
+          "maximum": 500,
+          "examples": [50]
+        },
+        "kerb_weight_kg": {
+          "type": "integer",
+          "description": "Vehicle kerb weight (unladen) in kilograms.",
+          "minimum": 800,
+          "maximum": 4000,
+          "examples": [2150]
+        },
+        "gross_weight_kg": {
+          "type": "integer",
+          "description": "Gross vehicle weight rating (GVWR) in kilograms.",
+          "minimum": 1000,
+          "maximum": 5000,
+          "examples": [2660]
+        },
+        "payload_kg": {
+          "type": "integer",
+          "description": "Maximum payload capacity in kilograms.",
+          "minimum": 100,
+          "maximum": 2000,
+          "examples": [510]
+        },
+        "towing_capacity_braked_kg": {
+          "type": "integer",
+          "description": "Maximum braked towing capacity in kilograms. 0 if not rated for towing.",
+          "minimum": 0,
+          "maximum": 5000,
+          "examples": [1500]
+        },
+        "towing_capacity_unbraked_kg": {
+          "type": "integer",
+          "description": "Maximum unbraked towing capacity in kilograms.",
+          "minimum": 0,
+          "maximum": 1000,
+          "examples": [750]
+        },
+        "roof_load_kg": {
+          "type": "integer",
+          "description": "Maximum static roof load in kilograms.",
+          "minimum": 0,
+          "maximum": 200,
+          "examples": [75]
+        },
+        "turning_circle_m": {
+          "type": "number",
+          "description": "Kerb-to-kerb turning circle diameter in metres.",
+          "minimum": 5,
+          "maximum": 15,
+          "examples": [11.2]
+        },
+        "wading_depth_mm": {
+          "type": "integer",
+          "description": "Maximum wading depth in millimetres.",
+          "minimum": 0,
+          "maximum": 1000,
+          "examples": [500]
+        }
+      }
+    },
+
+    "safety": {
+      "type": "object",
+      "description": "Safety ratings, certifications, airbag configuration, and driver assistance systems.",
+      "additionalProperties": false,
+      "properties": {
+        "euro_ncap": {
+          "type": "object",
+          "description": "Euro NCAP crash test results.",
+          "additionalProperties": false,
+          "properties": {
+            "year_tested": {
+              "type": "integer",
+              "description": "Year the Euro NCAP test was conducted.",
+              "minimum": 2010,
+              "maximum": 2035,
+              "examples": [2025]
+            },
+            "overall_stars": {
+              "type": "integer",
+              "description": "Overall Euro NCAP star rating.",
+              "minimum": 0,
+              "maximum": 5,
+              "examples": [5]
+            },
+            "adult_occupant_percent": {
+              "type": "number",
+              "description": "Adult occupant protection score as percentage.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [97]
+            },
+            "child_occupant_percent": {
+              "type": "number",
+              "description": "Child occupant protection score as percentage.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [89]
+            },
+            "vulnerable_road_users_percent": {
+              "type": "number",
+              "description": "Vulnerable road users (pedestrian/cyclist) protection score as percentage.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [80]
+            },
+            "safety_assist_percent": {
+              "type": "number",
+              "description": "Safety assist systems score as percentage.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [94]
+            }
+          }
+        },
+        "nhtsa": {
+          "type": "object",
+          "description": "NHTSA (US) safety rating.",
+          "additionalProperties": false,
+          "properties": {
+            "overall_stars": {
+              "type": "integer",
+              "description": "Overall NHTSA star rating.",
+              "minimum": 0,
+              "maximum": 5,
+              "examples": [5]
+            },
+            "frontal_crash_stars": {
+              "type": "integer",
+              "description": "Frontal crash test star rating.",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "side_crash_stars": {
+              "type": "integer",
+              "description": "Side crash test star rating.",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "rollover_stars": {
+              "type": "integer",
+              "description": "Rollover resistance star rating.",
+              "minimum": 0,
+              "maximum": 5
+            }
+          }
+        },
+        "cncap_stars": {
+          "type": "integer",
+          "description": "C-NCAP (China) overall star rating.",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "airbags": {
+          "type": "object",
+          "description": "Airbag configuration details.",
+          "additionalProperties": false,
+          "properties": {
+            "total_count": {
+              "type": "integer",
+              "description": "Total number of airbags.",
+              "minimum": 0,
+              "maximum": 20,
+              "examples": [7]
+            },
+            "front_driver": { "type": "boolean", "description": "Driver front airbag present." },
+            "front_passenger": { "type": "boolean", "description": "Passenger front airbag present." },
+            "side_front": { "type": "boolean", "description": "Front side airbags present." },
+            "side_rear": { "type": "boolean", "description": "Rear side airbags present." },
+            "curtain": { "type": "boolean", "description": "Curtain airbags present." },
+            "knee_driver": { "type": "boolean", "description": "Driver knee airbag present." },
+            "knee_passenger": { "type": "boolean", "description": "Passenger knee airbag present." },
+            "center": { "type": "boolean", "description": "Center (between front seats) airbag present." },
+            "far_side": { "type": "boolean", "description": "Far-side airbag present." },
+            "rear_seatbelt": { "type": "boolean", "description": "Rear seatbelt pretensioner airbag present." }
+          }
+        },
+        "adas_standard": {
+          "type": "array",
+          "description": "Advanced Driver Assistance Systems included as standard equipment.",
+          "items": {
+            "type": "string",
+            "examples": ["AEB", "LKA", "BSM", "ACC", "traffic_sign_recognition", "rear_cross_traffic_alert", "driver_monitoring", "surround_view_camera", "auto_parking"]
+          },
+          "uniqueItems": true
+        },
+        "adas_optional": {
+          "type": "array",
+          "description": "Advanced Driver Assistance Systems available as optional extras or paid upgrades.",
+          "items": {
+            "type": "string",
+            "examples": ["highway_pilot", "city_pilot", "auto_lane_change", "traffic_jam_pilot"]
+          },
+          "uniqueItems": true
+        },
+        "torsional_stiffness_nm_deg": {
+          "type": "integer",
+          "description": "Body torsional stiffness in Nm/degree (if published by OEM).",
+          "minimum": 10000,
+          "maximum": 100000,
+          "examples": [40500]
+        },
+        "isofix_points": {
+          "type": "integer",
+          "description": "Number of ISOFIX child seat anchor points.",
+          "minimum": 0,
+          "maximum": 6,
+          "examples": [2]
+        }
+      }
+    },
+
+    "technology": {
+      "type": "object",
+      "description": "Infotainment, connectivity, and technology features.",
+      "additionalProperties": false,
+      "properties": {
+        "instrument_cluster": {
+          "type": "object",
+          "description": "Digital instrument cluster / driver display.",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Type of instrument cluster.",
+              "enum": ["lcd", "oled", "mini_led", "hud_only", "none"],
+              "examples": ["lcd"]
+            },
+            "size_inches": {
+              "type": "number",
+              "description": "Screen diagonal in inches.",
+              "minimum": 3,
+              "maximum": 20,
+              "examples": [10.25]
+            }
+          }
+        },
+        "central_screen": {
+          "type": "object",
+          "description": "Main central infotainment display.",
+          "additionalProperties": false,
+          "properties": {
+            "size_inches": {
+              "type": "number",
+              "description": "Screen diagonal in inches.",
+              "minimum": 5,
+              "maximum": 25,
+              "examples": [15.6]
+            },
+            "resolution": {
+              "type": "string",
+              "description": "Screen resolution (width x height).",
+              "pattern": "^[0-9]+x[0-9]+$",
+              "examples": ["2560x1600"]
+            },
+            "orientation": {
+              "type": "string",
+              "description": "Screen mounting orientation.",
+              "enum": ["landscape", "portrait", "rotating"],
+              "examples": ["landscape"]
+            },
+            "touchscreen": {
+              "type": "boolean",
+              "description": "Whether the screen is a touchscreen.",
+              "default": true
+            }
+          }
+        },
+        "passenger_screen": {
+          "type": "object",
+          "description": "Dedicated front passenger entertainment screen (if present).",
+          "additionalProperties": false,
+          "properties": {
+            "size_inches": {
+              "type": "number",
+              "description": "Screen diagonal in inches.",
+              "minimum": 5,
+              "maximum": 20
+            },
+            "type": {
+              "type": "string",
+              "enum": ["lcd", "oled", "mini_led"],
+              "description": "Display technology type."
+            }
+          }
+        },
+        "rear_entertainment_screens": {
+          "type": "integer",
+          "description": "Number of rear passenger entertainment screens.",
+          "minimum": 0,
+          "maximum": 4,
+          "default": 0
+        },
+        "hud": {
+          "type": "object",
+          "description": "Head-up display specifications.",
+          "additionalProperties": false,
+          "properties": {
+            "available": {
+              "type": "boolean",
+              "description": "Whether a HUD is available."
+            },
+            "type": {
+              "type": "string",
+              "description": "HUD technology type.",
+              "enum": ["windshield_projected", "combiner", "ar_hud"],
+              "examples": ["ar_hud"]
+            },
+            "size_inches": {
+              "type": "number",
+              "description": "Virtual image diagonal equivalent in inches.",
+              "minimum": 5,
+              "maximum": 100,
+              "examples": [50]
+            }
+          }
+        },
+        "os": {
+          "type": "string",
+          "description": "Infotainment operating system name.",
+          "examples": ["DiLink", "Banyan", "Xmart OS", "Android Automotive", "QNX"]
+        },
+        "ota_updates": {
+          "type": "boolean",
+          "description": "Whether the vehicle supports over-the-air software updates.",
+          "default": false
+        },
+        "apple_carplay": {
+          "type": "string",
+          "description": "Apple CarPlay support level.",
+          "enum": ["none", "wired", "wireless"],
+          "default": "none"
+        },
+        "android_auto": {
+          "type": "string",
+          "description": "Android Auto support level.",
+          "enum": ["none", "wired", "wireless"],
+          "default": "none"
+        },
+        "wireless_phone_charging": {
+          "type": "boolean",
+          "description": "Whether Qi wireless phone charging pad is available.",
+          "default": false
+        },
+        "wireless_charging_wattage": {
+          "type": "number",
+          "description": "Maximum Qi wireless charging power in watts.",
+          "minimum": 5,
+          "maximum": 50,
+          "examples": [15, 50]
+        },
+        "audio": {
+          "type": "object",
+          "description": "Audio system specifications.",
+          "additionalProperties": false,
+          "properties": {
+            "brand": {
+              "type": "string",
+              "description": "Audio system brand name (if premium).",
+              "examples": ["Dynaudio", "Devialet", "Harman Kardon", "Bose", "Burmester"]
+            },
+            "speakers": {
+              "type": "integer",
+              "description": "Number of speakers/channels.",
+              "minimum": 2,
+              "maximum": 30,
+              "examples": [18]
+            },
+            "power_watts": {
+              "type": "integer",
+              "description": "Total audio system power output in watts.",
+              "minimum": 50,
+              "maximum": 3000,
+              "examples": [1020]
+            }
+          }
+        },
+        "keys": {
+          "type": "object",
+          "description": "Vehicle key/entry methods.",
+          "additionalProperties": false,
+          "properties": {
+            "key_card": { "type": "boolean", "description": "NFC key card support." },
+            "phone_key": { "type": "boolean", "description": "Smartphone digital key (BLE/UWB)." },
+            "key_fob": { "type": "boolean", "description": "Traditional key fob included." },
+            "face_recognition": { "type": "boolean", "description": "Facial recognition entry/start." },
+            "uwb": { "type": "boolean", "description": "Ultra-Wideband precise digital key." }
+          }
+        },
+        "exterior_lighting": {
+          "type": "object",
+          "description": "Exterior lighting technology.",
+          "additionalProperties": false,
+          "properties": {
+            "headlight_type": {
+              "type": "string",
+              "description": "Headlight technology.",
+              "enum": ["halogen", "led", "matrix_led", "laser", "digital_led", "micro_led"],
+              "examples": ["matrix_led"]
+            },
+            "adaptive_high_beam": {
+              "type": "boolean",
+              "description": "Whether adaptive/glare-free high beam assist is available."
+            },
+            "light_bar": {
+              "type": "boolean",
+              "description": "Whether a continuous light bar (front or rear) is present."
+            }
+          }
+        },
+        "roof": {
+          "type": "object",
+          "description": "Roof type and features.",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Roof type.",
+              "enum": ["solid", "glass_fixed", "glass_panoramic", "sunroof_tilt", "sunroof_sliding", "retractable_soft", "retractable_hard"],
+              "examples": ["glass_panoramic"]
+            },
+            "electrochromic": {
+              "type": "boolean",
+              "description": "Whether the glass roof has electrochromic (smart glass) tinting.",
+              "default": false
+            }
+          }
+        },
+        "autonomous_level": {
+          "type": "string",
+          "description": "Highest SAE autonomous driving level supported (hardware-capable or software-enabled).",
+          "enum": ["L0", "L1", "L2", "L2+", "L3", "L4", "L5"],
+          "examples": ["L2+"]
+        },
+        "connectivity": {
+          "type": "object",
+          "description": "Connectivity features.",
+          "additionalProperties": false,
+          "properties": {
+            "sim_type": {
+              "type": "string",
+              "description": "SIM card type for cellular connectivity.",
+              "enum": ["embedded_esim", "nano_sim", "dual_sim", "none"],
+              "examples": ["embedded_esim"]
+            },
+            "cellular": {
+              "type": "string",
+              "description": "Cellular network generation.",
+              "enum": ["3G", "4G_LTE", "5G"],
+              "examples": ["5G"]
+            },
+            "wifi_hotspot": {
+              "type": "boolean",
+              "description": "Whether built-in Wi-Fi hotspot is available."
+            },
+            "bluetooth_version": {
+              "type": "string",
+              "description": "Bluetooth version.",
+              "examples": ["5.3"]
+            },
+            "usb_ports": {
+              "type": "integer",
+              "description": "Total number of USB ports (all types).",
+              "minimum": 0,
+              "maximum": 10,
+              "examples": [4]
+            },
+            "usb_c_ports": {
+              "type": "integer",
+              "description": "Number of USB-C ports.",
+              "minimum": 0,
+              "maximum": 8,
+              "examples": [3]
+            }
+          }
+        }
+      }
+    },
+
+    "comfort": {
+      "type": "object",
+      "description": "Comfort and convenience features.",
+      "additionalProperties": false,
+      "properties": {
+        "climate": {
+          "type": "object",
+          "description": "Climate control system.",
+          "additionalProperties": false,
+          "properties": {
+            "zones": {
+              "type": "integer",
+              "description": "Number of independent climate zones.",
+              "minimum": 1,
+              "maximum": 4,
+              "examples": [2]
+            },
+            "heat_pump": {
+              "type": "boolean",
+              "description": "Whether a heat pump is used for cabin heating (improves efficiency in cold weather)."
+            },
+            "pre_conditioning": {
+              "type": "boolean",
+              "description": "Whether remote/scheduled cabin pre-conditioning is supported."
+            },
+            "pm25_filter": {
+              "type": "boolean",
+              "description": "Whether a PM2.5 particulate filter is fitted."
+            },
+            "fragrance_system": {
+              "type": "boolean",
+              "description": "Whether a built-in fragrance/aroma diffuser is available."
+            }
+          }
+        },
+        "heated_front_seats": { "type": "boolean", "description": "Whether front seats are heated." },
+        "heated_rear_seats": { "type": "boolean", "description": "Whether rear seats are heated." },
+        "ventilated_front_seats": { "type": "boolean", "description": "Whether front seats have active ventilation/cooling." },
+        "ventilated_rear_seats": { "type": "boolean", "description": "Whether rear seats have active ventilation/cooling." },
+        "massage_front_seats": { "type": "boolean", "description": "Whether front seats have massage function." },
+        "massage_rear_seats": { "type": "boolean", "description": "Whether rear seats have massage function." },
+        "heated_steering_wheel": { "type": "boolean", "description": "Whether the steering wheel is heated." },
+        "power_front_seats": {
+          "type": "string",
+          "description": "Power adjustment capability for front seats.",
+          "enum": ["none", "driver_only", "both"],
+          "examples": ["both"]
+        },
+        "seat_adjustment_ways_driver": {
+          "type": "integer",
+          "description": "Number of power adjustment directions for the driver seat.",
+          "minimum": 4,
+          "maximum": 20,
+          "examples": [12]
+        },
+        "seat_memory_positions": {
+          "type": "integer",
+          "description": "Number of memorised seat/mirror positions.",
+          "minimum": 0,
+          "maximum": 5,
+          "examples": [3]
+        },
+        "rear_seat_recline": {
+          "type": "boolean",
+          "description": "Whether the rear seats can recline."
+        },
+        "privacy_glass": {
+          "type": "boolean",
+          "description": "Whether factory privacy (tinted) glass is fitted on rear windows."
+        },
+        "acoustic_glass": {
+          "type": "string",
+          "description": "Where acoustic (laminated) glass is fitted.",
+          "enum": ["none", "front", "front_and_rear", "all_around"],
+          "examples": ["front"]
+        },
+        "power_tailgate": {
+          "type": "boolean",
+          "description": "Whether an electrically operated tailgate is fitted."
+        },
+        "soft_close_doors": {
+          "type": "boolean",
+          "description": "Whether soft-close door mechanisms are fitted."
+        }
+      }
+    },
+
+    "suspension": {
+      "type": "object",
+      "description": "Suspension system specifications.",
+      "additionalProperties": false,
+      "properties": {
+        "front_type": {
+          "type": "string",
+          "description": "Front suspension design type.",
+          "enum": ["macpherson_strut", "double_wishbone", "multi_link", "air_spring", "torsion_beam", "leaf_spring"],
+          "examples": ["macpherson_strut"]
+        },
+        "rear_type": {
+          "type": "string",
+          "description": "Rear suspension design type.",
+          "enum": ["multi_link", "double_wishbone", "trailing_arm", "air_spring", "torsion_beam", "leaf_spring", "semi_independent"],
+          "examples": ["multi_link"]
+        },
+        "adaptive_damping": {
+          "type": "boolean",
+          "description": "Whether electronically adjustable (adaptive) dampers are fitted.",
+          "default": false
+        },
+        "air_suspension": {
+          "type": "boolean",
+          "description": "Whether air suspension (ride height adjustable) is fitted.",
+          "default": false
+        },
+        "ride_height_adjustable_mm": {
+          "type": "integer",
+          "description": "Total ride height adjustment range in millimetres (if air suspension).",
+          "minimum": 0,
+          "maximum": 150,
+          "examples": [60]
+        },
+        "rear_wheel_steering": {
+          "type": "object",
+          "description": "Rear-wheel steering (4-wheel steering) details.",
+          "additionalProperties": false,
+          "properties": {
+            "available": {
+              "type": "boolean",
+              "description": "Whether rear-wheel steering is available."
+            },
+            "max_angle_degrees": {
+              "type": "number",
+              "description": "Maximum rear wheel steering angle in degrees.",
+              "minimum": 0,
+              "maximum": 15,
+              "examples": [5.0]
+            }
+          }
+        }
+      }
+    },
+
+    "wheels": {
+      "type": "object",
+      "description": "Wheel and tyre specifications.",
+      "additionalProperties": false,
+      "properties": {
+        "standard_size_inches": {
+          "type": "integer",
+          "description": "Standard (base) wheel rim diameter in inches.",
+          "minimum": 14,
+          "maximum": 24,
+          "examples": [19]
+        },
+        "optional_sizes_inches": {
+          "type": "array",
+          "description": "Available optional wheel rim diameters in inches.",
+          "items": {
+            "type": "integer",
+            "minimum": 14,
+            "maximum": 24
+          },
+          "examples": [[20, 21]]
+        },
+        "tire_size_standard": {
+          "type": "string",
+          "description": "Standard tyre size designation (width/aspect ratio R diameter).",
+          "pattern": "^[0-9]{3}/[0-9]{2}R[0-9]{2}$",
+          "examples": ["235/45R19"]
+        },
+        "tire_sizes_optional": {
+          "type": "array",
+          "description": "Optional tyre size designations.",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9]{3}/[0-9]{2}R[0-9]{2}$"
+          },
+          "examples": [["245/40R20", "255/35R21"]]
+        },
+        "wheel_material": {
+          "type": "string",
+          "description": "Wheel construction material.",
+          "enum": ["alloy", "forged_alloy", "steel", "carbon_fiber"],
+          "default": "alloy"
+        },
+        "spare_wheel": {
+          "type": "string",
+          "description": "Spare wheel provision.",
+          "enum": ["full_size", "space_saver", "repair_kit", "run_flat", "none"],
+          "examples": ["repair_kit"]
+        }
+      }
+    },
+
+    "colors": {
+      "type": "array",
+      "description": "Available exterior color options.",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Marketing name of the color.",
+            "examples": ["Aurora Green", "Crystal White Tri-coat"]
+          },
+          "hex": {
+            "type": "string",
+            "description": "Approximate hex colour code for UI rendering.",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "examples": ["#2D5A27"]
+          },
+          "type": {
+            "type": "string",
+            "description": "Paint finish type.",
+            "enum": ["solid", "metallic", "pearlescent", "matte", "tri_coat", "special_edition"],
+            "examples": ["metallic"]
+          },
+          "surcharge_eur": {
+            "type": "number",
+            "description": "Additional cost for this color option in EUR. 0 for standard/included colors.",
+            "minimum": 0,
+            "maximum": 10000,
+            "examples": [850]
+          },
+          "is_standard": {
+            "type": "boolean",
+            "description": "Whether this is the no-cost standard color.",
+            "default": false
+          }
+        }
+      }
+    },
+
+    "warranty": {
+      "type": "object",
+      "description": "Warranty coverage details for the vehicle, battery, and paint.",
+      "additionalProperties": false,
+      "properties": {
+        "vehicle_years": {
+          "type": "integer",
+          "description": "General vehicle warranty duration in years.",
+          "minimum": 1,
+          "maximum": 10,
+          "examples": [6]
+        },
+        "vehicle_km": {
+          "type": "integer",
+          "description": "General vehicle warranty distance limit in kilometres.",
+          "minimum": 10000,
+          "maximum": 500000,
+          "examples": [150000]
+        },
+        "battery_years": {
+          "type": "integer",
+          "description": "High-voltage battery warranty duration in years.",
+          "minimum": 1,
+          "maximum": 20,
+          "examples": [8]
+        },
+        "battery_km": {
+          "type": "integer",
+          "description": "High-voltage battery warranty distance limit in kilometres.",
+          "minimum": 10000,
+          "maximum": 1000000,
+          "examples": [200000]
+        },
+        "battery_soh_percent": {
+          "type": "number",
+          "description": "Minimum guaranteed State of Health (SOH) at end of battery warranty period.",
+          "minimum": 50,
+          "maximum": 100,
+          "examples": [70]
+        },
+        "paint_years": {
+          "type": "integer",
+          "description": "Paint/anti-corrosion warranty duration in years.",
+          "minimum": 1,
+          "maximum": 15,
+          "examples": [6]
+        },
+        "roadside_assistance_years": {
+          "type": "integer",
+          "description": "Complimentary roadside assistance duration in years.",
+          "minimum": 0,
+          "maximum": 10,
+          "examples": [6]
+        },
+        "transferable": {
+          "type": "boolean",
+          "description": "Whether the warranty is transferable to subsequent owners.",
+          "default": false
+        }
+      }
+    },
+
+    "markets": {
+      "type": "object",
+      "description": "Market availability, pricing, regulatory approvals, incentives, and service network.",
+      "additionalProperties": false,
+      "properties": {
+        "available_in": {
+          "type": "array",
+          "description": "ISO 3166-1 alpha-2 country codes where the vehicle is officially sold.",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "uniqueItems": true,
+          "examples": [["CN", "DE", "FR", "NL", "NO", "SE"]]
+        },
+        "eu_type_approval": {
+          "type": "object",
+          "description": "EU Whole Vehicle Type Approval (WVTA) details.",
+          "additionalProperties": false,
+          "properties": {
+            "approved": {
+              "type": "boolean",
+              "description": "Whether EU type approval has been granted."
+            },
+            "approval_number": {
+              "type": "string",
+              "description": "EU type approval number.",
+              "examples": ["e9*2018/858*0001*00"]
+            },
+            "approval_date": {
+              "type": "string",
+              "format": "date",
+              "description": "Date of type approval in ISO 8601 format.",
+              "examples": ["2025-06-15"]
+            }
+          }
+        },
+        "pricing": {
+          "type": "array",
+          "description": "Pricing by market and variant.",
+          "items": {
+            "type": "object",
+            "required": ["country", "currency", "base_price"],
+            "additionalProperties": false,
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 country code.",
+                "pattern": "^[A-Z]{2}$",
+                "examples": ["DE"]
+              },
+              "currency": {
+                "type": "string",
+                "description": "ISO 4217 currency code.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": ["EUR"]
+              },
+              "base_price": {
+                "type": "number",
+                "description": "Base MSRP including applicable taxes (e.g. VAT) in the local currency.",
+                "minimum": 0,
+                "examples": [44990]
+              },
+              "variant_id": {
+                "type": "string",
+                "description": "Reference to the variant this price applies to. If omitted, applies to the base variant.",
+                "examples": ["seal-awd-performance"]
+              },
+              "price_includes_vat": {
+                "type": "boolean",
+                "description": "Whether the base_price includes VAT/sales tax.",
+                "default": true
+              },
+              "effective_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date from which this price is effective.",
+                "examples": ["2026-01-01"]
+              }
+            }
+          }
+        },
+        "incentives": {
+          "type": "array",
+          "description": "Government or regional purchase incentives applicable to this vehicle.",
+          "items": {
+            "type": "object",
+            "required": ["country", "name", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 country code where the incentive applies.",
+                "pattern": "^[A-Z]{2}$",
+                "examples": ["DE"]
+              },
+              "region": {
+                "type": "string",
+                "description": "Sub-national region or state if the incentive is regional.",
+                "examples": ["Bavaria", "Ile-de-France"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Official name of the incentive programme.",
+                "examples": ["Umweltbonus", "Bonus ecologique"]
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of incentive.",
+                "enum": ["purchase_subsidy", "tax_credit", "tax_exemption", "registration_exemption", "toll_exemption", "parking_benefit", "company_car_tax_reduction", "scrappage_bonus"],
+                "examples": ["purchase_subsidy"]
+              },
+              "amount": {
+                "type": "number",
+                "description": "Monetary value of the incentive in local currency (0 for non-monetary benefits).",
+                "minimum": 0,
+                "examples": [4500]
+              },
+              "currency": {
+                "type": "string",
+                "description": "ISO 4217 currency code for the incentive amount.",
+                "pattern": "^[A-Z]{3}$",
+                "examples": ["EUR"]
+              },
+              "valid_until": {
+                "type": "string",
+                "format": "date",
+                "description": "Expiry date of the incentive programme.",
+                "examples": ["2026-12-31"]
+              },
+              "conditions": {
+                "type": "string",
+                "description": "Brief description of eligibility conditions.",
+                "examples": ["Max MSRP EUR 65,000. Private buyers only."]
+              }
+            }
+          }
+        },
+        "import_tariff": {
+          "type": "object",
+          "description": "Import tariff information for markets where the vehicle is imported.",
+          "additionalProperties": false,
+          "properties": {
+            "eu_tariff_percent": {
+              "type": "number",
+              "description": "Current EU import tariff rate as percentage.",
+              "minimum": 0,
+              "maximum": 100,
+              "examples": [27.4]
+            },
+            "us_tariff_percent": {
+              "type": "number",
+              "description": "Current US import tariff rate as percentage.",
+              "minimum": 0,
+              "maximum": 200,
+              "examples": [27.5]
+            },
+            "notes": {
+              "type": "string",
+              "description": "Additional context about tariff status or pending changes.",
+              "examples": ["EU provisional countervailing duty effective 2024-07-04. Under review."]
+            }
+          }
+        },
+        "service_network": {
+          "type": "array",
+          "description": "Service and after-sales network presence by country.",
+          "items": {
+            "type": "object",
+            "required": ["country"],
+            "additionalProperties": false,
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "ISO 3166-1 alpha-2 country code.",
+                "pattern": "^[A-Z]{2}$",
+                "examples": ["DE"]
+              },
+              "dealer_count": {
+                "type": "integer",
+                "description": "Number of authorised dealers/showrooms.",
+                "minimum": 0,
+                "examples": [45]
+              },
+              "service_center_count": {
+                "type": "integer",
+                "description": "Number of authorised service centres (may overlap with dealers).",
+                "minimum": 0,
+                "examples": [60]
+              },
+              "mobile_service": {
+                "type": "boolean",
+                "description": "Whether mobile/at-home service is available in this market."
+              },
+              "service_partner": {
+                "type": "string",
+                "description": "Name of third-party service partner (if applicable).",
+                "examples": ["ATU", "Hedin Automotive"]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "media": {
+      "type": "object",
+      "description": "Media assets including images, videos, and brochures.",
+      "additionalProperties": false,
+      "properties": {
+        "hero_image": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the primary hero/marketing image.",
+          "examples": ["https://cdn.chinacar.app/vehicles/byd-seal/hero.webp"]
+        },
+        "images": {
+          "type": "array",
+          "description": "Collection of vehicle images with multilingual alt text.",
+          "items": {
+            "type": "object",
+            "required": ["url", "alt"],
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Absolute URL to the image file.",
+                "examples": ["https://cdn.chinacar.app/vehicles/byd-seal/exterior-front.webp"]
+              },
+              "alt": {
+                "type": "object",
+                "description": "Multilingual alt text object. Keys are ISO 639-1 language codes, values are the localised alt text strings.",
+                "additionalProperties": {
+                  "type": "string",
+                  "description": "Alt text in the specified language.",
+                  "minLength": 5,
+                  "maxLength": 300
+                },
+                "examples": [{ "en": "BYD Seal exterior front three-quarter view in Aurora Green", "de": "BYD Seal Aussenansicht vorne dreiviertel in Aurora Gruen", "zh": "BYD Seal exterior front view" }]
+              },
+              "category": {
+                "type": "string",
+                "description": "Image category for filtering and display.",
+                "enum": ["exterior", "interior", "detail", "trunk", "engine_bay", "charging", "colour_swatch", "lifestyle", "press"],
+                "examples": ["exterior"]
+              },
+              "width_px": {
+                "type": "integer",
+                "description": "Image width in pixels.",
+                "minimum": 100,
+                "maximum": 10000
+              },
+              "height_px": {
+                "type": "integer",
+                "description": "Image height in pixels.",
+                "minimum": 100,
+                "maximum": 10000
+              },
+              "sort_order": {
+                "type": "integer",
+                "description": "Display sort order (lower = shown first).",
+                "minimum": 0,
+                "default": 0
+              }
+            }
+          }
+        },
+        "video_urls": {
+          "type": "array",
+          "description": "URLs to promotional or review videos.",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "brochure_urls": {
+          "type": "array",
+          "description": "URLs to downloadable PDF brochures by locale.",
+          "items": {
+            "type": "object",
+            "required": ["url", "language"],
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the brochure PDF."
+              },
+              "language": {
+                "type": "string",
+                "description": "ISO 639-1 language code of this brochure.",
+                "pattern": "^[a-z]{2}$",
+                "examples": ["en", "de", "zh"]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "content": {
+      "type": "object",
+      "description": "Multilingual marketing content and SEO metadata. Keyed by ISO 639-1 language code.",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Localised content for a specific language.",
+        "additionalProperties": false,
+        "properties": {
+          "tagline": {
+            "type": "string",
+            "description": "Short marketing tagline (max 80 characters).",
+            "maxLength": 80,
+            "examples": ["Born to electrify."]
+          },
+          "description_short": {
+            "type": "string",
+            "description": "Short description for listing cards (max 200 characters).",
+            "maxLength": 200,
+            "examples": ["The BYD Seal is a sleek electric sedan built on the e-Platform 3.0, offering up to 570 km WLTP range."]
+          },
+          "description_long": {
+            "type": "string",
+            "description": "Full marketing description (HTML allowed).",
+            "maxLength": 10000
+          },
+          "key_selling_points": {
+            "type": "array",
+            "description": "Ordered list of key selling points for marketing materials.",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "maxItems": 10,
+            "examples": [["Blade Battery with CTB integration", "0-100 km/h in 3.8 seconds", "Cd 0.219 class-leading aerodynamics"]]
+          },
+          "seo": {
+            "type": "object",
+            "description": "SEO metadata for this language.",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "SEO page title (max 70 characters).",
+                "maxLength": 70,
+                "examples": ["BYD Seal 2026 - Price, Range, Specs | ChinaCar"]
+              },
+              "meta_description": {
+                "type": "string",
+                "description": "SEO meta description (max 160 characters).",
+                "maxLength": 160,
+                "examples": ["Discover the 2026 BYD Seal: up to 570 km range, Blade Battery, from EUR 44,990. Full specs, pricing and availability in Europe."]
+              },
+              "keywords": {
+                "type": "array",
+                "description": "Target SEO keywords.",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxItems": 15,
+                "examples": [["BYD Seal", "BYD Seal price", "BYD Seal range", "Chinese electric car"]]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "comparisons": {
+      "type": "object",
+      "description": "Competitive comparison references and industry recognition.",
+      "additionalProperties": false,
+      "properties": {
+        "competitor_models": {
+          "type": "array",
+          "description": "List of direct competitor vehicle references for comparison features.",
+          "items": {
+            "type": "object",
+            "required": ["brand", "model"],
+            "additionalProperties": false,
+            "properties": {
+              "brand": {
+                "type": "string",
+                "description": "Competitor brand name.",
+                "examples": ["Tesla"]
+              },
+              "model": {
+                "type": "string",
+                "description": "Competitor model name.",
+                "examples": ["Model 3"]
+              },
+              "vehicle_id": {
+                "type": "string",
+                "description": "Optional reference to the competitor's vehicle_id if it exists in our database."
+              }
+            }
+          }
+        },
+        "awards": {
+          "type": "array",
+          "description": "Industry awards and recognitions received.",
+          "items": {
+            "type": "object",
+            "required": ["name", "year"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the award.",
+                "examples": ["European Car of the Year 2026", "Golden Steering Wheel 2025"]
+              },
+              "year": {
+                "type": "integer",
+                "description": "Year the award was received.",
+                "minimum": 2010,
+                "maximum": 2035
+              },
+              "organization": {
+                "type": "string",
+                "description": "Awarding organization or publication.",
+                "examples": ["Car of the Year jury", "Auto Bild"]
+              },
+              "category": {
+                "type": "string",
+                "description": "Award category (if applicable).",
+                "examples": ["Best Electric Car", "Design of the Year"]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "changelog": {
+      "type": "array",
+      "description": "Audit trail of significant data changes to this vehicle record.",
+      "items": {
+        "type": "object",
+        "required": ["date", "field", "new_value", "updated_by"],
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp of when the change was made.",
+            "examples": ["2026-03-20T14:30:00Z"]
+          },
+          "field": {
+            "type": "string",
+            "description": "JSON path of the changed field (dot notation).",
+            "examples": ["markets.pricing[0].base_price", "variants[1].range_wltp_km"]
+          },
+          "old_value": {
+            "description": "Previous value before the change. Null for newly added fields.",
+            "examples": [44990, null]
+          },
+          "new_value": {
+            "description": "New value after the change.",
+            "examples": [42990]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Explanation for the change.",
+            "maxLength": 500,
+            "examples": ["OEM price reduction effective 2026-03-01"]
+          },
+          "updated_by": {
+            "type": "string",
+            "description": "Identifier of the person or system that made the change.",
+            "examples": ["admin@chinacar.app", "import_pipeline_v2"]
+          }
+        }
+      }
+    }
+  },
+
+  "if": {
+    "properties": {
+      "meta": {
+        "properties": {
+          "powertrain_type": { "enum": ["BEV", "PHEV"] }
+        }
+      }
+    }
+  },
+  "then": {
+    "required": ["meta", "identity", "variants", "battery", "charging", "dimensions", "safety", "markets", "media", "content"]
+  },
+
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "meta": {
+            "properties": {
+              "powertrain_type": { "enum": ["PHEV", "HEV", "ICE"] }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["meta", "identity", "variants", "ice_engine", "dimensions", "safety", "markets", "media", "content"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "meta": {
+            "properties": {
+              "powertrain_type": { "enum": ["BEV", "PHEV", "HEV"] }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["meta", "identity", "variants", "motor", "dimensions", "safety", "markets", "media", "content"]
+      }
+    }
+  ]
+}

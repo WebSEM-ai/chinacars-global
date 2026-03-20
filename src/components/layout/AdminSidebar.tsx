@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Car, LayoutDashboard, Tags, FileSpreadsheet, LogOut } from 'lucide-react';
+import { Car, LayoutDashboard, Tags, FileSpreadsheet, FileJson, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/admin/brands', label: 'Brands', icon: Tags },
   { href: '/admin/models', label: 'Models', icon: Car },
   { href: '/admin/import', label: 'Import', icon: FileSpreadsheet },
+  { href: '/admin/import-json', label: 'JSON Import', icon: FileJson },
 ];
 
 export function AdminSidebar() {

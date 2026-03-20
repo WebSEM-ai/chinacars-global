@@ -77,6 +77,7 @@ export const models = pgTable('models', {
   highlightsRo: jsonb('highlights_ro'),
   videoUrl: text('video_url'),
   markets: text('markets').array(),
+  fullSpec: jsonb('full_spec'),
   isPublished: boolean('is_published').default(false),
   isFeatured: boolean('is_featured').default(false),
   sortOrder: integer('sort_order').default(0),

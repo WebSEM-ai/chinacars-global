@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import Image from 'next/image';
 import { useRouter } from '@/i18n/navigation';
 import { Search, Zap, Car, ArrowDown } from 'lucide-react';
 
@@ -79,16 +78,15 @@ export function HeroSlider({
         <div className="flex h-full">
           {slides.map((slide, i) => (
             <div key={i} className="relative flex-[0_0_100%] min-w-0 h-full">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={slide.src}
                 alt={slide.alt}
-                fill
-                className={`object-cover transition-transform duration-[7000ms] ease-out ${
+                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[7000ms] ease-out ${
                   activeIndex === i ? 'scale-105' : 'scale-100'
                 }`}
-                sizes="100vw"
-                priority={i === 0}
-                quality={90}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
               />
             </div>
           ))}

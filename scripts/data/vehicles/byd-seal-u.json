@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "PHEV", "status": "published" },
+  "identity": {
+    "brand": "BYD", "brand_slug": "byd",
+    "model_name": "Seal U DM-i", "model_slug": "seal-u",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Comfort", "is_base_variant": true, "battery_capacity_kwh": "18.3", "range_wltp_km": 80, "motor_power_kw": 160, "motor_power_hp": 218, "drivetrain": "FWD" },
+    { "variant_name": "Design AWD", "is_base_variant": false, "battery_capacity_kwh": "18.3", "range_wltp_km": 70, "motor_power_kw": 238, "motor_power_hp": 324, "drivetrain": "AWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "18.3" },
+  "motor": { "max_power_kw": 238, "max_power_hp": 324, "max_torque_nm": 550, "top_speed_kmh": 185, "acceleration_0_100_sec": 5.9, "drivetrain_base": "FWD" },
+  "ice_engine": { "displacement_cc": 1498, "fuel_type": "petrol", "combined_consumption_l100km": 1.4 },
+  "charging": { "dc_max_kw": "18", "ac_max_kw": "7", "dc_charging_time_10_80_min": 35 },
+  "dimensions": { "length_mm": 4785, "width_mm": 1890, "height_mm": 1668, "wheelbase_mm": 2765, "trunk_volume_liters": 425 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE"],
+    "pricing": [{ "currency": "EUR", "price_base": 39900, "price_top": 46900 }]
+  },
+  "warranty": { "vehicle_years": 6, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/byd/seal-u-press.jpg",
+    "images": [{ "url": "/images/byd/seal-u-press.jpg", "type": "exterior_3q_front", "alt": { "en": "BYD Seal U DM-i exterior front three-quarter view", "ro": "BYD Seal U DM-i vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "BYD Seal U DM-i is a plug-in hybrid SUV combining electric driving with a 1.5L petrol engine for unlimited range confidence.",
+        "description_long": "The BYD Seal U DM-i is a mid-size plug-in hybrid SUV featuring BYD's DM-i super-hybrid technology. It pairs an efficient 1.5-litre petrol engine with electric motors for a combined system output of up to 324 hp in the AWD variant. The 18.3 kWh Blade Battery enables up to 80 km of pure electric driving (WLTP), while combined fuel consumption is as low as 1.4 L/100km. The spacious interior seats five comfortably with a 425-litre boot. BYD's DiPilot ADAS suite and 5-star Euro NCAP rating ensure top-tier safety. Ideal for buyers wanting EV benefits without range anxiety.",
+        "key_selling_points": ["Up to 80 km electric range (WLTP)", "DM-i super-hybrid technology", "1.4 L/100km combined consumption", "5-star Euro NCAP", "6-year / 150,000 km warranty"]
+      },
+      "ro": {
+        "description_short": "BYD Seal U DM-i este un SUV plug-in hybrid ce combină condusul electric cu un motor pe benzină de 1,5L pentru autonomie nelimitată.",
+        "description_long": "BYD Seal U DM-i este un SUV plug-in hybrid de dimensiuni medii cu tehnologia super-hybrid DM-i de la BYD. Combină un motor eficient pe benzină de 1,5 litri cu motoare electrice pentru o putere combinată de până la 324 CP în varianta AWD. Bateria Blade de 18,3 kWh permite până la 80 km de condus pur electric (WLTP), iar consumul combinat este de doar 1,4 L/100km. Interiorul spațios găzduiește confortabil 5 pasageri cu un portbagaj de 425 litri. Suita ADAS DiPilot și ratingul de 5 stele Euro NCAP asigură siguranță de top.",
+        "key_selling_points": ["Până la 80 km autonomie electrică (WLTP)", "Tehnologie super-hybrid DM-i", "1,4 L/100km consum combinat", "5 stele Euro NCAP", "Garanție 6 ani / 150.000 km"]
+      }
+    }
+  }
+}

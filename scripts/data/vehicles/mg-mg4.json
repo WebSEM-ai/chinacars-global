@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "MG", "brand_slug": "mg",
+    "model_name": "MG4 Electric", "model_slug": "mg4",
+    "body_type": "hatchback", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Standard", "is_base_variant": true, "battery_capacity_kwh": "51", "range_wltp_km": 350, "motor_power_kw": 125, "motor_power_hp": 170, "drivetrain": "RWD" },
+    { "variant_name": "Long Range", "is_base_variant": false, "battery_capacity_kwh": "64", "range_wltp_km": 450, "motor_power_kw": 150, "motor_power_hp": 204, "drivetrain": "RWD" },
+    { "variant_name": "XPOWER", "is_base_variant": false, "battery_capacity_kwh": "64", "range_wltp_km": 385, "motor_power_kw": 320, "motor_power_hp": 435, "drivetrain": "AWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "64" },
+  "motor": { "max_power_kw": 150, "max_power_hp": 204, "max_torque_nm": 250, "top_speed_kmh": 160, "acceleration_0_100_sec": 7.9, "drivetrain_base": "RWD" },
+  "charging": { "dc_max_kw": "135", "ac_max_kw": "11", "dc_charging_time_10_80_min": 26 },
+  "dimensions": { "length_mm": 4287, "width_mm": 1836, "height_mm": 1504, "wheelbase_mm": 2705, "trunk_volume_liters": 363 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE","AT","IT","ES"],
+    "pricing": [{ "currency": "EUR", "price_base": 28990, "price_top": 39990 }]
+  },
+  "warranty": { "vehicle_years": 7, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/mg/mg4-press.jpg",
+    "images": [{ "url": "/images/mg/mg4-press.jpg", "type": "exterior_3q_front", "alt": { "en": "MG4 Electric exterior front three-quarter view", "ro": "MG4 Electric vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "MG4 Electric is a value-packed electric hatchback with rear-wheel drive, up to 450 km range, and a sporty XPOWER variant.",
+        "description_long": "The MG4 Electric has taken Europe by storm as one of the most affordable and fun-to-drive electric hatchbacks. Built on SAIC's MSP (Modular Scalable Platform), it features a rare rear-wheel-drive layout in its class, giving it playful handling characteristics. Available in Standard (51 kWh, 350 km) and Long Range (64 kWh, 450 km) variants, plus the wild 435 hp XPOWER AWD hot hatch. With 135 kW DC fast charging, a 7-year warranty, and 5-star Euro NCAP safety, the MG4 delivers exceptional value. The low, wide stance and sharp design language make it one of the best-looking EVs in its price bracket.",
+        "key_selling_points": ["From €28,990 — exceptional value", "Up to 450 km WLTP range", "Rear-wheel drive fun-to-drive dynamics", "435 hp XPOWER AWD hot hatch variant", "7-year / 150,000 km warranty"]
+      },
+      "ro": {
+        "description_short": "MG4 Electric este un hatchback electric cu raport calitate-preț excelent, tracțiune spate, autonomie de până la 450 km și variantă sportivă XPOWER.",
+        "description_long": "MG4 Electric a cucerit Europa ca unul dintre cele mai accesibile și plăcute de condus hatchback-uri electrice. Construit pe platforma MSP (Modular Scalable Platform) de la SAIC, dispune de o tracțiune spate rară în clasa sa, oferind caracteristici de manevrabilitate jucăușe. Disponibil în variantele Standard (51 kWh, 350 km) și Long Range (64 kWh, 450 km), plus hot hatch-ul AWD de 435 CP XPOWER. Cu încărcare rapidă DC de 135 kW, garanție de 7 ani și 5 stele Euro NCAP, MG4 oferă o valoare excepțională.",
+        "key_selling_points": ["De la 28.990 € — valoare excepțională", "Până la 450 km autonomie WLTP", "Dinamică plăcută cu tracțiune spate", "Variantă hot hatch XPOWER 435 CP AWD", "Garanție 7 ani / 150.000 km"]
+      }
+    }
+  }
+}

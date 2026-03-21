@@ -1,0 +1,40 @@
+{
+  "meta": { "powertrain_type": "HEV", "status": "published" },
+  "identity": {
+    "brand": "MG", "brand_slug": "mg",
+    "model_name": "MG3 Hybrid+", "model_slug": "mg3-hybrid",
+    "body_type": "hatchback", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Excite", "is_base_variant": true, "motor_power_kw": 145, "motor_power_hp": 197, "drivetrain": "FWD" },
+    { "variant_name": "Trophy", "is_base_variant": false, "motor_power_kw": 145, "motor_power_hp": 197, "drivetrain": "FWD" }
+  ],
+  "motor": { "max_power_kw": 145, "max_power_hp": 197, "max_torque_nm": 250, "top_speed_kmh": 170, "acceleration_0_100_sec": 8.0, "drivetrain_base": "FWD" },
+  "ice_engine": { "displacement_cc": 1490, "fuel_type": "petrol", "combined_consumption_l100km": 4.4 },
+  "dimensions": { "length_mm": 4113, "width_mm": 1797, "height_mm": 1502, "wheelbase_mm": 2570, "trunk_volume_liters": 293 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","BE","AT","IT","ES"],
+    "pricing": [{ "currency": "EUR", "price_base": 19990, "price_top": 22990 }]
+  },
+  "warranty": { "vehicle_years": 7, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/mg/mg3-hybrid-press.jpg",
+    "images": [{ "url": "/images/mg/mg3-hybrid-press.jpg", "type": "exterior_3q_front", "alt": { "en": "MG3 Hybrid+ exterior front three-quarter view", "ro": "MG3 Hybrid+ vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "MG3 Hybrid+ is Europe's most affordable full-hybrid, combining a 1.5L engine with electric assistance for 197 hp and just 4.4 L/100km.",
+        "description_long": "The MG3 Hybrid+ brings self-charging hybrid technology to the supermini segment at an unbeatable price. Pairing a 1.5-litre Atkinson-cycle petrol engine with a 100 kW electric motor and a small lithium battery, the system delivers a combined 197 hp — making it one of the most powerful cars in its class. Combined fuel consumption of just 4.4 L/100km keeps running costs low. The MG3 features a modern design with LED lighting, a 10.25-inch touchscreen with Apple CarPlay and Android Auto, and MG Pilot safety features including adaptive cruise control. With 5-star Euro NCAP safety and a 7-year warranty, it's a compelling entry point into electrified motoring.",
+        "key_selling_points": ["From €19,990 — most affordable hybrid", "197 hp — powerful for its class", "4.4 L/100km fuel economy", "7-year / 150,000 km warranty", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "MG3 Hybrid+ este cel mai accesibil full-hybrid din Europa, combinând un motor de 1,5L cu asistență electrică pentru 197 CP și doar 4,4 L/100km.",
+        "description_long": "MG3 Hybrid+ aduce tehnologia hybrid cu autoîncărcare în segmentul supermini la un preț imbatabil. Combinând un motor pe benzină de 1,5 litri cu ciclu Atkinson cu un motor electric de 100 kW și o baterie mică de litiu, sistemul livrează 197 CP combinați — făcând-o una dintre cele mai puternice mașini din clasă. Consumul combinat de doar 4,4 L/100km menține costurile de rulare scăzute. MG3 dispune de un design modern cu iluminare LED, ecran tactil de 10,25 inch cu Apple CarPlay și Android Auto, și funcții de siguranță MG Pilot. Cu 5 stele Euro NCAP și garanție de 7 ani, este un punct de intrare convingător în motorizarea electrificată.",
+        "key_selling_points": ["De la 19.990 € — cel mai accesibil hybrid", "197 CP — puternic pentru clasa sa", "4,4 L/100km economie de combustibil", "Garanție 7 ani / 150.000 km", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

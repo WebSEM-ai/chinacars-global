@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "BYD", "brand_slug": "byd",
+    "model_name": "Seal", "model_slug": "seal",
+    "body_type": "sedan", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Comfort", "is_base_variant": true, "battery_capacity_kwh": "61.4", "range_wltp_km": 460, "motor_power_kw": 150, "motor_power_hp": 204, "drivetrain": "RWD" },
+    { "variant_name": "Design", "is_base_variant": false, "battery_capacity_kwh": "82.5", "range_wltp_km": 570, "motor_power_kw": 230, "motor_power_hp": 313, "drivetrain": "RWD" },
+    { "variant_name": "Excellence AWD", "is_base_variant": false, "battery_capacity_kwh": "82.5", "range_wltp_km": 520, "motor_power_kw": 390, "motor_power_hp": 530, "drivetrain": "AWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "82.5" },
+  "motor": { "max_power_kw": 390, "max_power_hp": 530, "max_torque_nm": 670, "top_speed_kmh": 180, "acceleration_0_100_sec": 3.8, "drivetrain_base": "RWD" },
+  "charging": { "dc_max_kw": "150", "ac_max_kw": "11", "dc_charging_time_10_80_min": 26 },
+  "dimensions": { "length_mm": 4800, "width_mm": 1875, "height_mm": 1460, "wheelbase_mm": 2920, "trunk_volume_liters": 400 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE","AT","DK"],
+    "pricing": [{ "currency": "EUR", "price_base": 44900, "price_top": 55900 }]
+  },
+  "warranty": { "vehicle_years": 6, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/byd/seal-press.jpg",
+    "images": [{ "url": "/images/byd/seal-press.jpg", "type": "exterior_3q_front", "alt": { "en": "BYD Seal exterior front three-quarter view", "ro": "BYD Seal vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "BYD Seal is a sleek electric sedan with up to 570 km range, 530 hp AWD performance, and Cell-to-Body battery integration.",
+        "description_long": "The BYD Seal is a premium electric sedan designed to compete with the Tesla Model 3. Built on BYD's e-Platform 3.0 with Cell-to-Body (CTB) technology, the battery pack forms a structural element of the chassis, improving rigidity and lowering the center of gravity. Available in RWD and AWD configurations, the top-spec Excellence delivers 530 hp and 0-100 km/h in 3.8 seconds. The 82.5 kWh battery provides up to 570 km WLTP range, while 150 kW DC fast charging gets you from 10-80% in just 26 minutes. Five-star Euro NCAP rated with advanced ADAS features.",
+        "key_selling_points": ["Up to 570 km WLTP range", "530 hp AWD performance variant", "Cell-to-Body battery technology", "150 kW DC fast charging", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "BYD Seal este un sedan electric elegant cu autonomie de până la 570 km, performanță AWD de 530 CP și integrare baterie Cell-to-Body.",
+        "description_long": "BYD Seal este un sedan electric premium conceput să concureze cu Tesla Model 3. Construit pe platforma e-Platform 3.0 cu tehnologie Cell-to-Body (CTB), pachetul de baterii devine un element structural al șasiului, îmbunătățind rigiditatea și coborând centrul de greutate. Disponibil în configurații RWD și AWD, varianta top Excellence oferă 530 CP și 0-100 km/h în 3,8 secunde. Bateria de 82,5 kWh oferă până la 570 km autonomie WLTP, iar încărcarea rapidă DC de 150 kW ajunge de la 10-80% în doar 26 de minute.",
+        "key_selling_points": ["Până la 570 km autonomie WLTP", "Variantă AWD de 530 CP", "Tehnologie Cell-to-Body", "Încărcare rapidă DC 150 kW", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

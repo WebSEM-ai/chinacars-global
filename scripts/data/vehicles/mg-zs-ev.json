@@ -1,0 +1,41 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "MG", "brand_slug": "mg",
+    "model_name": "ZS EV", "model_slug": "zs-ev",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Standard Range", "is_base_variant": true, "battery_capacity_kwh": "51", "range_wltp_km": 320, "motor_power_kw": 115, "motor_power_hp": 156, "drivetrain": "FWD" },
+    { "variant_name": "Long Range", "is_base_variant": false, "battery_capacity_kwh": "72.6", "range_wltp_km": 440, "motor_power_kw": 156, "motor_power_hp": 212, "drivetrain": "FWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "72.6" },
+  "motor": { "max_power_kw": 156, "max_power_hp": 212, "max_torque_nm": 280, "top_speed_kmh": 175, "acceleration_0_100_sec": 8.6, "drivetrain_base": "FWD" },
+  "charging": { "dc_max_kw": "92", "ac_max_kw": "11", "dc_charging_time_10_80_min": 36 },
+  "dimensions": { "length_mm": 4323, "width_mm": 1809, "height_mm": 1649, "wheelbase_mm": 2581, "trunk_volume_liters": 470 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE","AT","IT","ES"],
+    "pricing": [{ "currency": "EUR", "price_base": 30990, "price_top": 36990 }]
+  },
+  "warranty": { "vehicle_years": 7, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/mg/zs-ev-press.jpg",
+    "images": [{ "url": "/images/mg/zs-ev-press.jpg", "type": "exterior_3q_front", "alt": { "en": "MG ZS EV exterior front three-quarter view", "ro": "MG ZS EV vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "MG ZS EV is an affordable electric compact SUV with up to 440 km range, a practical 470L boot, and 7-year warranty.",
+        "description_long": "The MG ZS EV is one of Europe's most popular affordable electric SUVs. Now in its second generation, it offers a modern design, spacious cabin, and up to 440 km WLTP range with the 72.6 kWh Long Range battery. The compact SUV body provides a practical 470-litre boot and elevated driving position. With 212 hp and front-wheel drive, it handles daily commutes and longer trips with ease. DC fast charging at up to 92 kW keeps charging stops short, while MG's industry-leading 7-year warranty provides peace of mind. Five-star Euro NCAP safety and comprehensive ADAS features complete the package.",
+        "key_selling_points": ["Up to 440 km WLTP range", "470L boot — class-leading practicality", "From €30,990", "7-year / 150,000 km warranty", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "MG ZS EV este un SUV compact electric accesibil cu autonomie de până la 440 km, portbagaj practic de 470L și garanție de 7 ani.",
+        "description_long": "MG ZS EV este unul dintre cele mai populare SUV-uri electrice accesibile din Europa. Acum la a doua generație, oferă un design modern, un habitaclu spațios și până la 440 km autonomie WLTP cu bateria Long Range de 72,6 kWh. Caroseria de SUV compact oferă un portbagaj practic de 470 litri și o poziție de condus elevată. Cu 212 CP și tracțiune față, gestionează cu ușurință naveta zilnică și călătoriile mai lungi. Încărcarea rapidă DC de până la 92 kW menține opriri scurte la încărcare, iar garanția de 7 ani oferă liniște.",
+        "key_selling_points": ["Până la 440 km autonomie WLTP", "Portbagaj 470L — practicitate de top", "De la 30.990 €", "Garanție 7 ani / 150.000 km", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "Leapmotor", "brand_slug": "leapmotor",
+    "model_name": "T03", "model_slug": "t03",
+    "body_type": "hatchback", "year_introduced": 2024,
+    "number_of_seats": 4
+  },
+  "variants": [
+    { "variant_name": "Standard", "is_base_variant": true, "battery_capacity_kwh": "37.3", "range_wltp_km": 265, "motor_power_kw": 70, "motor_power_hp": 95, "drivetrain": "FWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "37.3" },
+  "motor": { "max_power_kw": 70, "max_power_hp": 95, "max_torque_nm": 158, "top_speed_kmh": 130, "acceleration_0_100_sec": 12.7, "drivetrain_base": "FWD" },
+  "charging": { "dc_max_kw": "48", "ac_max_kw": "6.6", "dc_charging_time_10_80_min": 36 },
+  "dimensions": { "length_mm": 3620, "width_mm": 1652, "height_mm": 1577, "wheelbase_mm": 2400, "trunk_volume_liters": 210 },
+  "safety": { "euro_ncap": { "stars": 3 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","FR","IT","BE","NL"],
+    "pricing": [{ "currency": "EUR", "price_base": 18900, "price_top": 20900 }]
+  },
+  "warranty": { "vehicle_years": 5, "vehicle_km": 100000 },
+  "media": {
+    "hero_image_url": "/images/leapmotor/t03-press.jpg",
+    "images": [{ "url": "/images/leapmotor/t03-press.jpg", "type": "exterior_3q_front", "alt": { "en": "Leapmotor T03 exterior front three-quarter view", "ro": "Leapmotor T03 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "Leapmotor T03 is one of Europe's most affordable electric city cars, offering 265 km range at under €19,000.",
+        "description_long": "The Leapmotor T03 is a compact electric city car distributed in Europe through a joint venture with Stellantis. Despite its tiny footprint, it packs a 37.3 kWh battery good for 265 km of WLTP range — enough for urban and suburban use. The 95 hp electric motor provides zippy city driving, while DC fast charging at 48 kW keeps stops short. Inside, the T03 surprises with a 10.1-inch touchscreen, wireless Apple CarPlay, cruise control, and even a panoramic glass roof in higher trims. With a starting price under €19,000, it represents one of the most accessible entry points into EV ownership in Europe. Distributed by Stellantis ensures a wide European service network.",
+        "key_selling_points": ["From €18,900 — ultra-affordable EV", "265 km WLTP range", "Compact city car footprint", "Distributed by Stellantis", "Full smart features despite price"]
+      },
+      "ro": {
+        "description_short": "Leapmotor T03 este una dintre cele mai accesibile mașini electrice de oraș din Europa, oferind 265 km autonomie la sub 19.000 €.",
+        "description_long": "Leapmotor T03 este o mașină electrică compactă de oraș distribuită în Europa printr-un joint venture cu Stellantis. În ciuda amprentei mici, dispune de o baterie de 37,3 kWh bună pentru 265 km autonomie WLTP — suficient pentru utilizare urbană și suburbană. Motorul electric de 95 CP oferă condus agil în oraș, iar încărcarea rapidă DC de 48 kW menține opriri scurte. Interior, T03 surprinde cu un ecran tactil de 10,1 inch, Apple CarPlay wireless, tempomat și chiar trapa panoramică. Cu un preț de pornire sub 19.000 €, reprezintă unul dintre cele mai accesibile puncte de intrare în lumea EV din Europa. Distribuția Stellantis asigură o rețea largă de service.",
+        "key_selling_points": ["De la 18.900 € — EV ultra-accesibil", "265 km autonomie WLTP", "Amprenta compactă de mașină de oraș", "Distribuit de Stellantis", "Dotări smart complete la prețul dat"]
+      }
+    }
+  }
+}

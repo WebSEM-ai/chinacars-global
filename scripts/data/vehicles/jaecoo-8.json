@@ -1,0 +1,40 @@
+{
+  "meta": { "powertrain_type": "ICE", "status": "published" },
+  "identity": {
+    "brand": "Jaecoo", "brand_slug": "jaecoo",
+    "model_name": "Jaecoo 8", "model_slug": "jaecoo-8",
+    "body_type": "suv", "year_introduced": 2025,
+    "number_of_seats": 7
+  },
+  "variants": [
+    { "variant_name": "1.6T 2WD", "is_base_variant": true, "motor_power_kw": 145, "motor_power_hp": 197, "drivetrain": "FWD" },
+    { "variant_name": "1.6T AWD", "is_base_variant": false, "motor_power_kw": 145, "motor_power_hp": 197, "drivetrain": "AWD" }
+  ],
+  "motor": { "max_power_kw": 145, "max_power_hp": 197, "max_torque_nm": 290, "top_speed_kmh": 190, "acceleration_0_100_sec": 9.5, "drivetrain_base": "FWD" },
+  "ice_engine": { "displacement_cc": 1598, "fuel_type": "petrol", "combined_consumption_l100km": 7.8 },
+  "dimensions": { "length_mm": 4820, "width_mm": 1930, "height_mm": 1750, "wheelbase_mm": 2820, "trunk_volume_liters": 560 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","IT","ES","PL","GR"],
+    "pricing": [{ "currency": "EUR", "price_base": 38900, "price_top": 45900 }]
+  },
+  "warranty": { "vehicle_years": 5, "vehicle_km": 100000 },
+  "media": {
+    "hero_image_url": "/images/jaecoo/jaecoo-8-press.jpg",
+    "images": [{ "url": "/images/jaecoo/jaecoo-8-press.jpg", "type": "exterior_3q_front", "alt": { "en": "Jaecoo 8 exterior front three-quarter view", "ro": "Jaecoo 8 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "Jaecoo 8 is a 7-seat mid-size SUV with rugged styling, 1.6T engine, and available AWD for family adventures.",
+        "description_long": "The Jaecoo 8 is a seven-seat mid-size SUV that extends the Jaecoo lineup into the family segment. Powered by a 1.6-litre turbocharged engine producing 197 hp and 290 Nm, it's available in both FWD and AWD configurations. The bold, squared-off design language carries over from the Jaecoo 7, with a more imposing road presence thanks to its larger footprint. The three-row interior seats seven and offers a generous 560-litre boot with the third row folded. Premium features include dual screens, a panoramic sunroof, and Chery's latest safety technology earning a 5-star Euro NCAP rating.",
+        "key_selling_points": ["7-seat family SUV", "197 hp 1.6T engine with AWD option", "560L boot capacity", "Premium interior with dual screens", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "Jaecoo 8 este un SUV de dimensiuni medii cu 7 locuri, design robust, motor 1.6T și AWD opțional pentru aventuri în familie.",
+        "description_long": "Jaecoo 8 este un SUV de dimensiuni medii cu șapte locuri care extinde gama Jaecoo în segmentul familial. Echipat cu un motor turbo de 1,6 litri ce produce 197 CP și 290 Nm, este disponibil atât în configurație FWD cât și AWD. Designul îndrăzneț se continuă de la Jaecoo 7, cu o prezență rutieră mai impunătoare datorită dimensiunilor mai mari. Interiorul cu trei rânduri găzduiește 7 pasageri și oferă un portbagaj generos de 560 litri cu rândul trei pliat. Dotările premium includ ecrane duale, trapa panoramică și cea mai recentă tehnologie de siguranță Chery.",
+        "key_selling_points": ["SUV familial cu 7 locuri", "Motor 1.6T de 197 CP cu AWD opțional", "Capacitate portbagaj 560L", "Interior premium cu ecrane duale", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

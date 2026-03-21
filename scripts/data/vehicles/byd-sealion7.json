@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "BYD", "brand_slug": "byd",
+    "model_name": "Sealion 7", "model_slug": "sealion-7",
+    "body_type": "suv", "year_introduced": 2025,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Comfort", "is_base_variant": true, "battery_capacity_kwh": "71.8", "range_wltp_km": 456, "motor_power_kw": 230, "motor_power_hp": 313, "drivetrain": "RWD" },
+    { "variant_name": "Design AWD", "is_base_variant": false, "battery_capacity_kwh": "91.3", "range_wltp_km": 502, "motor_power_kw": 390, "motor_power_hp": 530, "drivetrain": "AWD" },
+    { "variant_name": "Excellence AWD", "is_base_variant": false, "battery_capacity_kwh": "91.3", "range_wltp_km": 502, "motor_power_kw": 390, "motor_power_hp": 530, "drivetrain": "AWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "91.3" },
+  "motor": { "max_power_kw": 390, "max_power_hp": 530, "max_torque_nm": 690, "top_speed_kmh": 215, "acceleration_0_100_sec": 4.5, "drivetrain_base": "RWD" },
+  "charging": { "dc_max_kw": "150", "ac_max_kw": "11", "dc_charging_time_10_80_min": 24 },
+  "dimensions": { "length_mm": 4830, "width_mm": 1925, "height_mm": 1620, "wheelbase_mm": 2930, "trunk_volume_liters": 520 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE","AT"],
+    "pricing": [{ "currency": "EUR", "price_base": 47990, "price_top": 56990 }]
+  },
+  "warranty": { "vehicle_years": 6, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/byd/sealion7-press.jpg",
+    "images": [{ "url": "/images/byd/sealion7-press.jpg", "type": "exterior_3q_front", "alt": { "en": "BYD Sealion 7 exterior front three-quarter view", "ro": "BYD Sealion 7 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "BYD Sealion 7 is a premium electric SUV with up to 502 km range, 530 hp AWD performance, and a spacious 520L boot.",
+        "description_long": "The BYD Sealion 7 is BYD's flagship electric SUV for Europe, positioned as a direct competitor to the Tesla Model Y and BMW iX3. Built on the advanced e-Platform 3.0 with Cell-to-Body technology, it offers exceptional structural rigidity and a low center of gravity for dynamic handling. The top AWD variant delivers 530 hp and 690 Nm of torque, sprinting to 100 km/h in 4.5 seconds. The 91.3 kWh battery provides up to 502 km of WLTP range, with 150 kW DC charging restoring 10-80% in just 24 minutes. Inside, a premium cabin features a 15.6-inch rotating display, heated/ventilated seats, and BYD's DiPilot driver assistance suite.",
+        "key_selling_points": ["Up to 502 km WLTP range", "530 hp dual-motor AWD available", "150 kW fast charging (24 min 10-80%)", "520L boot — class-leading", "5-star Euro NCAP safety"]
+      },
+      "ro": {
+        "description_short": "BYD Sealion 7 este un SUV electric premium cu autonomie de până la 502 km, performanță AWD de 530 CP și portbagaj spațios de 520L.",
+        "description_long": "BYD Sealion 7 este SUV-ul electric de vârf al BYD pentru Europa, poziționat ca un concurent direct al Tesla Model Y și BMW iX3. Construit pe platforma avansată e-Platform 3.0 cu tehnologie Cell-to-Body, oferă rigiditate structurală excepțională și un centru de greutate coborât. Varianta top AWD livrează 530 CP și 690 Nm de cuplu, accelerând la 100 km/h în 4,5 secunde. Bateria de 91,3 kWh oferă până la 502 km autonomie WLTP, iar încărcarea DC de 150 kW restaurează 10-80% în doar 24 de minute. Interiorul premium dispune de un display rotativ de 15,6 inch și scaune încălzite/ventilate.",
+        "key_selling_points": ["Până la 502 km autonomie WLTP", "530 CP AWD dual-motor", "Încărcare rapidă 150 kW (24 min 10-80%)", "Portbagaj 520L — lider în clasă", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

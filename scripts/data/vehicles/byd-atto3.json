@@ -1,0 +1,41 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "BYD", "brand_slug": "byd",
+    "model_name": "Atto 3", "model_slug": "atto-3",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Comfort", "is_base_variant": true, "battery_capacity_kwh": "49.9", "range_wltp_km": 321, "motor_power_kw": 150, "motor_power_hp": 204, "drivetrain": "FWD" },
+    { "variant_name": "Design", "is_base_variant": false, "battery_capacity_kwh": "60.5", "range_wltp_km": 420, "motor_power_kw": 150, "motor_power_hp": 204, "drivetrain": "FWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "60.5" },
+  "motor": { "max_power_kw": 150, "max_power_hp": 204, "max_torque_nm": 310, "top_speed_kmh": 160, "acceleration_0_100_sec": 7.3, "drivetrain_base": "FWD" },
+  "charging": { "dc_max_kw": "88", "ac_max_kw": "7", "dc_charging_time_10_80_min": 29 },
+  "dimensions": { "length_mm": 4455, "width_mm": 1875, "height_mm": 1615, "wheelbase_mm": 2720, "trunk_volume_liters": 440 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE","AT","DK"],
+    "pricing": [{ "currency": "EUR", "price_base": 37900, "price_top": 42900 }]
+  },
+  "warranty": { "vehicle_years": 6, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/byd/atto3-press.jpg",
+    "images": [{ "url": "/images/byd/atto3-press.jpg", "type": "exterior_3q_front", "alt": { "en": "BYD Atto 3 exterior front three-quarter view", "ro": "BYD Atto 3 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "BYD Atto 3 is a compact electric SUV combining Blade Battery safety with a distinctive design and up to 420 km WLTP range.",
+        "description_long": "The BYD Atto 3 is a versatile compact electric SUV built on BYD's e-Platform 3.0. It features the ultra-safe Blade Battery (LFP chemistry), a spacious interior with rotating central display, and a driver-focused cockpit. With 204 hp, front-wheel drive, and up to 420 km of WLTP range in the long-range variant, it delivers practical daily driving with the peace of mind of a 6-year warranty. Euro NCAP awarded it 5 stars, and BYD's Vehicle-to-Load (V2L) capability adds extra utility for outdoor adventures.",
+        "key_selling_points": ["5-star Euro NCAP safety", "Up to 420 km WLTP range", "Blade Battery (LFP) technology", "V2L capability", "6-year / 150,000 km warranty"]
+      },
+      "ro": {
+        "description_short": "BYD Atto 3 este un SUV electric compact ce combină siguranța bateriei Blade cu un design distinctiv și autonomie de până la 420 km WLTP.",
+        "description_long": "BYD Atto 3 este un SUV electric compact versatil construit pe platforma e-Platform 3.0. Dispune de bateria ultra-sigură Blade (chimie LFP), un interior spațios cu display central rotativ și un cockpit orientat spre șofer. Cu 204 CP, tracțiune față și până la 420 km autonomie WLTP în varianta long-range, oferă condus practic zilnic cu liniștea unei garanții de 6 ani. Euro NCAP i-a acordat 5 stele, iar capacitatea Vehicle-to-Load (V2L) adaugă utilitate suplimentară.",
+        "key_selling_points": ["5 stele Euro NCAP", "Până la 420 km autonomie WLTP", "Tehnologie Blade Battery (LFP)", "Capacitate V2L", "Garanție 6 ani / 150.000 km"]
+      }
+    }
+  }
+}

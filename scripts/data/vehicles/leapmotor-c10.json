@@ -1,0 +1,40 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "Leapmotor", "brand_slug": "leapmotor",
+    "model_name": "C10", "model_slug": "c10",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Standard", "is_base_variant": true, "battery_capacity_kwh": "69.9", "range_wltp_km": 420, "motor_power_kw": 170, "motor_power_hp": 231, "drivetrain": "RWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "69.9" },
+  "motor": { "max_power_kw": 170, "max_power_hp": 231, "max_torque_nm": 320, "top_speed_kmh": 170, "acceleration_0_100_sec": 7.5, "drivetrain_base": "RWD" },
+  "charging": { "dc_max_kw": "84.4", "ac_max_kw": "11", "dc_charging_time_10_80_min": 30 },
+  "dimensions": { "length_mm": 4739, "width_mm": 1900, "height_mm": 1680, "wheelbase_mm": 2825, "trunk_volume_liters": 435 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","FR","IT","BE","NL"],
+    "pricing": [{ "currency": "EUR", "price_base": 36400, "price_top": 39900 }]
+  },
+  "warranty": { "vehicle_years": 5, "vehicle_km": 100000 },
+  "media": {
+    "hero_image_url": "/images/leapmotor/c10-press.jpg",
+    "images": [{ "url": "/images/leapmotor/c10-press.jpg", "type": "exterior_3q_front", "alt": { "en": "Leapmotor C10 exterior front three-quarter view", "ro": "Leapmotor C10 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "Leapmotor C10 is a mid-size electric SUV with 420 km range, 231 hp, and Stellantis-backed European distribution.",
+        "description_long": "The Leapmotor C10 is a mid-size electric SUV built on Leapmotor's LEAP 3.0 architecture and distributed across Europe through the Stellantis joint venture. It features a 69.9 kWh battery delivering 420 km of WLTP range, paired with a 231 hp rear-mounted electric motor for smooth, torquey driving. The spacious interior features a floating 14.6-inch central display, a 10.25-inch digital instrument cluster, and a flat floor for maximum passenger comfort. Cell-to-Chassis (CTC) technology integrates the battery structurally for improved rigidity and safety — earning a 5-star Euro NCAP rating. With competitive pricing and Stellantis service infrastructure, the C10 offers a strong proposition against established electric SUVs.",
+        "key_selling_points": ["420 km WLTP range", "231 hp rear-wheel drive", "Cell-to-Chassis battery technology", "Stellantis European distribution", "5-star Euro NCAP safety"]
+      },
+      "ro": {
+        "description_short": "Leapmotor C10 este un SUV electric de dimensiuni medii cu 420 km autonomie, 231 CP și distribuție europeană prin Stellantis.",
+        "description_long": "Leapmotor C10 este un SUV electric de dimensiuni medii construit pe arhitectura LEAP 3.0 și distribuit în Europa prin joint venture-ul Stellantis. Dispune de o baterie de 69,9 kWh ce oferă 420 km autonomie WLTP, cuplată cu un motor electric de 231 CP montat spate pentru un condus lin. Interiorul spațios prezintă un display central flotant de 14,6 inch, un cockpit digital de 10,25 inch și un podea plată pentru confort maxim. Tehnologia Cell-to-Chassis (CTC) integrează bateria structural pentru rigiditate și siguranță îmbunătățită — obținând 5 stele Euro NCAP. Cu prețuri competitive și infrastructura de service Stellantis, C10 oferă o propunere puternică.",
+        "key_selling_points": ["420 km autonomie WLTP", "231 CP tracțiune spate", "Tehnologie Cell-to-Chassis", "Distribuție europeană Stellantis", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "PHEV", "status": "published" },
+  "identity": {
+    "brand": "MG", "brand_slug": "mg",
+    "model_name": "HS Plug-in Hybrid", "model_slug": "hs-phev",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Excite", "is_base_variant": true, "battery_capacity_kwh": "24.7", "range_wltp_km": 100, "motor_power_kw": 225, "motor_power_hp": 306, "drivetrain": "FWD" },
+    { "variant_name": "Trophy", "is_base_variant": false, "battery_capacity_kwh": "24.7", "range_wltp_km": 100, "motor_power_kw": 225, "motor_power_hp": 306, "drivetrain": "FWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "24.7" },
+  "motor": { "max_power_kw": 225, "max_power_hp": 306, "max_torque_nm": 480, "top_speed_kmh": 195, "acceleration_0_100_sec": 6.8, "drivetrain_base": "FWD" },
+  "ice_engine": { "displacement_cc": 1490, "fuel_type": "petrol", "combined_consumption_l100km": 1.1 },
+  "charging": { "dc_max_kw": null, "ac_max_kw": "7.4", "dc_charging_time_10_80_min": null },
+  "dimensions": { "length_mm": 4670, "width_mm": 1890, "height_mm": 1664, "wheelbase_mm": 2750, "trunk_volume_liters": 441 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","BE","AT","IT","ES"],
+    "pricing": [{ "currency": "EUR", "price_base": 33990, "price_top": 37990 }]
+  },
+  "warranty": { "vehicle_years": 7, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/mg/hs-phev-press.jpg",
+    "images": [{ "url": "/images/mg/hs-phev-press.jpg", "type": "exterior_3q_front", "alt": { "en": "MG HS Plug-in Hybrid exterior front three-quarter view", "ro": "MG HS Plug-in Hybrid vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "MG HS PHEV is a spacious plug-in hybrid SUV with 100 km electric range, 306 hp combined output, and a 7-year warranty.",
+        "description_long": "The new MG HS Plug-in Hybrid combines a 1.5-litre turbocharged petrol engine with an electric motor for a combined 306 hp and 480 Nm. The generous 24.7 kWh battery enables up to 100 km of pure electric driving (WLTP), making most daily commutes entirely emissions-free. Combined fuel consumption drops to just 1.1 L/100km. The HS offers a premium interior with a 12.3-inch infotainment screen, panoramic sunroof, and MG Pilot advanced driver assistance. With a 441-litre boot, 5-star Euro NCAP safety, and MG's 7-year warranty, it's one of the best-value PHEVs on the market.",
+        "key_selling_points": ["100 km pure electric range (WLTP)", "306 hp combined performance", "1.1 L/100km combined consumption", "7-year / 150,000 km warranty", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "MG HS PHEV este un SUV plug-in hybrid spațios cu 100 km autonomie electrică, 306 CP putere combinată și garanție de 7 ani.",
+        "description_long": "Noul MG HS Plug-in Hybrid combină un motor pe benzină turbo de 1,5 litri cu un motor electric pentru 306 CP și 480 Nm combinați. Bateria generoasă de 24,7 kWh permite până la 100 km de condus pur electric (WLTP), făcând majoritatea navetelor zilnice complet fără emisii. Consumul combinat scade la doar 1,1 L/100km. HS oferă un interior premium cu ecran infotainment de 12,3 inch, trapa panoramică și MG Pilot pentru asistență avansată la condus. Cu portbagaj de 441 litri, 5 stele Euro NCAP și garanția de 7 ani MG, este unul dintre cele mai bune PHEV-uri ca raport calitate-preț.",
+        "key_selling_points": ["100 km autonomie electrică pură (WLTP)", "306 CP performanță combinată", "1,1 L/100km consum combinat", "Garanție 7 ani / 150.000 km", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

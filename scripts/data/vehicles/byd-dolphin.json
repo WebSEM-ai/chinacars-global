@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "BYD", "brand_slug": "byd",
+    "model_name": "Dolphin", "model_slug": "dolphin",
+    "body_type": "hatchback", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Active", "is_base_variant": true, "battery_capacity_kwh": "44.9", "range_wltp_km": 340, "motor_power_kw": 70, "motor_power_hp": 95, "drivetrain": "FWD" },
+    { "variant_name": "Comfort", "is_base_variant": false, "battery_capacity_kwh": "44.9", "range_wltp_km": 340, "motor_power_kw": 70, "motor_power_hp": 95, "drivetrain": "FWD" },
+    { "variant_name": "Design", "is_base_variant": false, "battery_capacity_kwh": "60.4", "range_wltp_km": 427, "motor_power_kw": 150, "motor_power_hp": 204, "drivetrain": "FWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "60.4" },
+  "motor": { "max_power_kw": 150, "max_power_hp": 204, "max_torque_nm": 310, "top_speed_kmh": 160, "acceleration_0_100_sec": 7.0, "drivetrain_base": "FWD" },
+  "charging": { "dc_max_kw": "88", "ac_max_kw": "7", "dc_charging_time_10_80_min": 29 },
+  "dimensions": { "length_mm": 4290, "width_mm": 1770, "height_mm": 1570, "wheelbase_mm": 2700, "trunk_volume_liters": 345 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","NL","FR","SE","NO","BE","AT","DK"],
+    "pricing": [{ "currency": "EUR", "price_base": 29990, "price_top": 35990 }]
+  },
+  "warranty": { "vehicle_years": 6, "vehicle_km": 150000 },
+  "media": {
+    "hero_image_url": "/images/byd/dolphin-press.jpg",
+    "images": [{ "url": "/images/byd/dolphin-press.jpg", "type": "exterior_3q_front", "alt": { "en": "BYD Dolphin exterior front three-quarter view", "ro": "BYD Dolphin vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "BYD Dolphin is an affordable electric hatchback with up to 427 km range, playful design, and Blade Battery safety.",
+        "description_long": "The BYD Dolphin is a compact electric hatchback that makes EV ownership accessible. Built on BYD's e-Platform 3.0, it features the ultra-safe LFP Blade Battery in two capacity options: 44.9 kWh (340 km range) and 60.4 kWh (427 km range). The top variant delivers 204 hp with a 0-100 km/h time of 7.0 seconds. Its youthful, marine-inspired design stands out in the segment, while the interior offers a 12.8-inch rotating display, V2L capability, and a surprisingly roomy cabin. With 5-star Euro NCAP safety and BYD's 6-year warranty, the Dolphin is one of Europe's most compelling affordable EVs.",
+        "key_selling_points": ["From €29,990 — affordable EV entry", "Up to 427 km WLTP range", "Blade Battery (LFP) safety", "V2L vehicle-to-load capability", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "BYD Dolphin este un hatchback electric accesibil cu autonomie de până la 427 km, design jucăuș și siguranța bateriei Blade.",
+        "description_long": "BYD Dolphin este un hatchback electric compact care face accesibilă posesia unui EV. Construit pe platforma e-Platform 3.0, dispune de bateria ultra-sigură Blade LFP în două opțiuni: 44,9 kWh (340 km autonomie) și 60,4 kWh (427 km autonomie). Varianta top oferă 204 CP cu un timp 0-100 km/h de 7,0 secunde. Designul tineresc, inspirat din lumea marină, se remarcă în segment, iar interiorul oferă un display rotativ de 12,8 inch, capacitate V2L și un habitaclu surprinzător de spațios. Cu 5 stele Euro NCAP și garanția de 6 ani BYD, Dolphin este unul dintre cele mai convingătoare EV-uri accesibile din Europa.",
+        "key_selling_points": ["De la 29.990 € — acces accesibil la EV", "Până la 427 km autonomie WLTP", "Siguranța bateriei Blade (LFP)", "Capacitate V2L", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

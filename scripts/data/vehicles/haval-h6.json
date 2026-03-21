@@ -1,0 +1,42 @@
+{
+  "meta": { "powertrain_type": "PHEV", "status": "published" },
+  "identity": {
+    "brand": "Great Wall", "brand_slug": "great-wall",
+    "model_name": "Haval H6 PHEV", "model_slug": "haval-h6",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "PHEV", "is_base_variant": true, "battery_capacity_kwh": "18.3", "range_wltp_km": 75, "motor_power_kw": 179, "motor_power_hp": 243, "drivetrain": "FWD" },
+    { "variant_name": "PHEV AWD", "is_base_variant": false, "battery_capacity_kwh": "18.3", "range_wltp_km": 68, "motor_power_kw": 240, "motor_power_hp": 326, "drivetrain": "AWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "18.3" },
+  "motor": { "max_power_kw": 240, "max_power_hp": 326, "max_torque_nm": 530, "top_speed_kmh": 180, "acceleration_0_100_sec": 7.0, "drivetrain_base": "FWD" },
+  "ice_engine": { "displacement_cc": 1498, "fuel_type": "petrol", "combined_consumption_l100km": 1.5 },
+  "charging": { "dc_max_kw": null, "ac_max_kw": "6.6", "dc_charging_time_10_80_min": null },
+  "dimensions": { "length_mm": 4683, "width_mm": 1886, "height_mm": 1730, "wheelbase_mm": 2738, "trunk_volume_liters": 400 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","DE","SE","NO","IL"],
+    "pricing": [{ "currency": "EUR", "price_base": 37900, "price_top": 44900 }]
+  },
+  "warranty": { "vehicle_years": 5, "vehicle_km": 100000 },
+  "media": {
+    "hero_image_url": "/images/great-wall/haval-h6-press.jpg",
+    "images": [{ "url": "/images/great-wall/haval-h6-press.jpg", "type": "exterior_3q_front", "alt": { "en": "Haval H6 PHEV exterior front three-quarter view", "ro": "Haval H6 PHEV vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "Haval H6 PHEV is Great Wall Motor's flagship plug-in hybrid SUV for Europe, offering 326 hp AWD and up to 75 km electric range.",
+        "description_long": "The Haval H6 PHEV is the European flagship of GWM's most popular SUV brand. This plug-in hybrid pairs a 1.5-litre turbocharged petrol engine with electric motors for a combined output of up to 326 hp and 530 Nm in the AWD variant. The 18.3 kWh battery enables up to 75 km of pure electric driving (WLTP), while combined consumption is just 1.5 L/100km. The H6 features a premium interior with a 12.3-inch instrument cluster, a 14.6-inch infotainment screen, and Coffee Intelligence driver assistance technology. As the world's best-selling SUV nameplate (over 4 million sold globally), the H6 brings proven reliability to the European market with competitive pricing and a 5-star Euro NCAP safety rating.",
+        "key_selling_points": ["Up to 75 km electric range (WLTP)", "326 hp AWD performance", "World's best-selling SUV nameplate", "Premium Coffee Intelligence tech", "5-star Euro NCAP safety"]
+      },
+      "ro": {
+        "description_short": "Haval H6 PHEV este SUV-ul plug-in hybrid de vârf al Great Wall Motor pentru Europa, oferind 326 CP AWD și până la 75 km autonomie electrică.",
+        "description_long": "Haval H6 PHEV este vârful de lance european al celui mai popular brand SUV al GWM. Acest plug-in hybrid combină un motor pe benzină turbo de 1,5 litri cu motoare electrice pentru o putere combinată de până la 326 CP și 530 Nm în varianta AWD. Bateria de 18,3 kWh permite până la 75 km de condus pur electric (WLTP), iar consumul combinat este de doar 1,5 L/100km. H6 dispune de un interior premium cu cockpit digital de 12,3 inch, ecran infotainment de 14,6 inch și tehnologie Coffee Intelligence de asistență la condus. Ca cel mai bine vândut SUV din lume (peste 4 milioane vândute global), H6 aduce fiabilitate dovedită pe piața europeană.",
+        "key_selling_points": ["Până la 75 km autonomie electrică (WLTP)", "326 CP performanță AWD", "Cel mai vândut SUV din lume", "Tehnologie premium Coffee Intelligence", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

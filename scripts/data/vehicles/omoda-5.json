@@ -1,0 +1,40 @@
+{
+  "meta": { "powertrain_type": "ICE", "status": "published" },
+  "identity": {
+    "brand": "Omoda", "brand_slug": "omoda",
+    "model_name": "Omoda 5", "model_slug": "omoda-5",
+    "body_type": "suv", "year_introduced": 2024,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "1.5T CVT", "is_base_variant": true, "motor_power_kw": 115, "motor_power_hp": 156, "drivetrain": "FWD" },
+    { "variant_name": "1.5T CVT Luxury", "is_base_variant": false, "motor_power_kw": 115, "motor_power_hp": 156, "drivetrain": "FWD" }
+  ],
+  "motor": { "max_power_kw": 115, "max_power_hp": 156, "max_torque_nm": 230, "top_speed_kmh": 185, "acceleration_0_100_sec": 9.0, "drivetrain_base": "FWD" },
+  "ice_engine": { "displacement_cc": 1498, "fuel_type": "petrol", "combined_consumption_l100km": 6.9 },
+  "dimensions": { "length_mm": 4400, "width_mm": 1830, "height_mm": 1588, "wheelbase_mm": 2630, "trunk_volume_liters": 360 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","IT","ES","PL","GR","TR"],
+    "pricing": [{ "currency": "EUR", "price_base": 24900, "price_top": 28900 }]
+  },
+  "warranty": { "vehicle_years": 5, "vehicle_km": 100000 },
+  "media": {
+    "hero_image_url": "/images/omoda/omoda-5-press.jpg",
+    "images": [{ "url": "/images/omoda/omoda-5-press.jpg", "type": "exterior_3q_front", "alt": { "en": "Omoda 5 exterior front three-quarter view", "ro": "Omoda 5 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "Omoda 5 is a stylish compact SUV from Chery with a 1.5T engine, striking coupe-SUV design, and strong value proposition.",
+        "description_long": "The Omoda 5 is Chery's youth-oriented compact SUV, standing out with its coupe-inspired roofline and bold front-end design. Under the hood, a 1.5-litre turbocharged engine produces 156 hp and 230 Nm, paired with a CVT gearbox and front-wheel drive. The interior features a 10.25-inch digital cockpit, a 10.25-inch infotainment screen with wireless Apple CarPlay and Android Auto, and surprisingly premium materials for its price point. At under €25,000, the Omoda 5 offers compelling value with features typically found in cars costing significantly more, including a 360-degree camera system, Level 2 ADAS, and a panoramic sunroof. Five-star Euro NCAP safety completes the package.",
+        "key_selling_points": ["From €24,900 — strong value", "Distinctive coupe-SUV design", "156 hp 1.5T engine", "5-star Euro NCAP safety", "5-year / 100,000 km warranty"]
+      },
+      "ro": {
+        "description_short": "Omoda 5 este un SUV compact stilat de la Chery cu motor 1.5T, design coupe-SUV izbitor și raport calitate-preț excelent.",
+        "description_long": "Omoda 5 este SUV-ul compact orientat spre tineri de la Chery, remarcându-se prin linia de acoperiș inspirată de coupe și designul frontal îndrăzneț. Sub capotă, un motor turbo de 1,5 litri produce 156 CP și 230 Nm, cuplat cu o cutie CVT și tracțiune față. Interiorul prezintă un cockpit digital de 10,25 inch, un ecran infotainment de 10,25 inch cu Apple CarPlay și Android Auto wireless, și materiale surprinzător de premium pentru prețul său. La sub 25.000 €, Omoda 5 oferă valoare convingătoare cu dotări găsite de obicei în mașini mult mai scumpe, inclusiv cameră 360°, ADAS nivel 2 și trapa panoramică.",
+        "key_selling_points": ["De la 24.900 € — valoare excelentă", "Design distinctiv coupe-SUV", "Motor 1.5T de 156 CP", "5 stele Euro NCAP", "Garanție 5 ani / 100.000 km"]
+      }
+    }
+  }
+}

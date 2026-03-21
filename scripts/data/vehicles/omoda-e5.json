@@ -1,0 +1,40 @@
+{
+  "meta": { "powertrain_type": "BEV", "status": "published" },
+  "identity": {
+    "brand": "Omoda", "brand_slug": "omoda",
+    "model_name": "Omoda E5", "model_slug": "omoda-e5",
+    "body_type": "suv", "year_introduced": 2025,
+    "number_of_seats": 5
+  },
+  "variants": [
+    { "variant_name": "Standard", "is_base_variant": true, "battery_capacity_kwh": "61.1", "range_wltp_km": 430, "motor_power_kw": 150, "motor_power_hp": 204, "drivetrain": "FWD" }
+  ],
+  "battery": { "capacity_kwh_usable": "61.1" },
+  "motor": { "max_power_kw": 150, "max_power_hp": 204, "max_torque_nm": 340, "top_speed_kmh": 170, "acceleration_0_100_sec": 7.6, "drivetrain_base": "FWD" },
+  "charging": { "dc_max_kw": "80", "ac_max_kw": "11", "dc_charging_time_10_80_min": 28 },
+  "dimensions": { "length_mm": 4424, "width_mm": 1830, "height_mm": 1588, "wheelbase_mm": 2630, "trunk_volume_liters": 380 },
+  "safety": { "euro_ncap": { "stars": 5 } },
+  "markets": {
+    "eu_type_approval": true, "available_in": ["RO","IT","ES","PL","GR"],
+    "pricing": [{ "currency": "EUR", "price_base": 33900, "price_top": 37900 }]
+  },
+  "warranty": { "vehicle_years": 5, "vehicle_km": 100000 },
+  "media": {
+    "hero_image_url": "/images/omoda/omoda-e5-press.jpg",
+    "images": [{ "url": "/images/omoda/omoda-e5-press.jpg", "type": "exterior_3q_front", "alt": { "en": "Omoda E5 exterior front three-quarter view", "ro": "Omoda E5 vedere exterioară trei sferturi față" } }]
+  },
+  "content": {
+    "translations": {
+      "en": {
+        "description_short": "Omoda E5 is the all-electric version of the Omoda 5, offering 430 km WLTP range, 204 hp, and a stylish coupe-SUV design.",
+        "description_long": "The Omoda E5 brings fully electric power to Chery's popular compact SUV. Based on the same platform as the Omoda 5 but with a dedicated EV architecture, it features a 61.1 kWh battery delivering up to 430 km of WLTP range. The 204 hp electric motor drives the front wheels with 340 Nm of instant torque, reaching 100 km/h in 7.6 seconds. DC fast charging at up to 80 kW takes just 28 minutes from 10-80%. The E5 retains the coupe-SUV styling of its ICE sibling while adding EV-specific design elements. Inside, dual 10.25-inch screens, a premium sound system, and Level 2 ADAS features create an impressive tech package.",
+        "key_selling_points": ["430 km WLTP range", "204 hp electric motor", "28-minute 10-80% DC fast charge", "Stylish coupe-SUV design", "5-star Euro NCAP"]
+      },
+      "ro": {
+        "description_short": "Omoda E5 este versiunea complet electrică a Omoda 5, oferind 430 km autonomie WLTP, 204 CP și design coupe-SUV stilat.",
+        "description_long": "Omoda E5 aduce propulsia complet electrică în SUV-ul compact popular de la Chery. Bazat pe aceeași platformă ca Omoda 5 dar cu o arhitectură EV dedicată, dispune de o baterie de 61,1 kWh ce oferă până la 430 km autonomie WLTP. Motorul electric de 204 CP acționează roțile din față cu 340 Nm de cuplu instantaneu, atingând 100 km/h în 7,6 secunde. Încărcarea rapidă DC de până la 80 kW durează doar 28 de minute de la 10-80%. E5 păstrează stilul coupe-SUV al fratelui său ICE adăugând elemente de design specifice EV. Interior, ecranele duale de 10,25 inch și ADAS nivel 2 creează un pachet tehnologic impresionant.",
+        "key_selling_points": ["430 km autonomie WLTP", "Motor electric de 204 CP", "Încărcare rapidă DC 28 min 10-80%", "Design coupe-SUV stilat", "5 stele Euro NCAP"]
+      }
+    }
+  }
+}

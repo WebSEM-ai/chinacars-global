@@ -12,11 +12,15 @@ export const dynamic = 'force-dynamic';
 
 interface SearchParams {
   q?: string;
+  brand?: string;
   propulsion?: string;
   segment?: string;
   priceMin?: string;
   priceMax?: string;
   rangeMin?: string;
+  powerMin?: string;
+  seatsMin?: string;
+  ncapMin?: string;
   euHomologated?: string;
   sort?: string;
   page?: string;
@@ -92,6 +96,36 @@ export default async function SearchPage({
     }
   }
 
+  if (sp.brand && sp.brand !== 'all') {
+    const brandRecord = await db.query.brands.findFirst({
+      where: eq(brands.slug, sp.brand),
+    });
+    if (brandRecord) {
+      conditions.push(eq(models.brandId, brandRecord.id));
+    }
+  }
+
+  if (sp.powerMin) {
+    const powerMin = parseInt(sp.powerMin, 10);
+    if (!isNaN(powerMin)) {
+      conditions.push(gte(models.powerHp, powerMin));
+    }
+  }
+
+  if (sp.seatsMin) {
+    const seatsMin = parseInt(sp.seatsMin, 10);
+    if (!isNaN(seatsMin)) {
+      conditions.push(gte(models.seats, seatsMin));
+    }
+  }
+
+  if (sp.ncapMin) {
+    const ncapMin = parseInt(sp.ncapMin, 10);
+    if (!isNaN(ncapMin)) {
+      conditions.push(gte(models.ncapStars, ncapMin));
+    }
+  }
+
   if (sp.euHomologated === 'true') {
     conditions.push(eq(models.euHomologated, true));
   }
@@ -140,14 +174,24 @@ export default async function SearchPage({
     { label: t('title') },
   ];
 
+  // Get all brands for filter dropdown
+  const allBrands = await db.query.brands.findMany({
+    where: eq(brands.isPublished, true),
+    orderBy: [asc(brands.name)],
+  });
+
   // Check if any filters are active
   const hasActiveFilters = !!(
     sp.q ||
+    (sp.brand && sp.brand !== 'all') ||
     (sp.propulsion && sp.propulsion !== 'all') ||
     (sp.segment && sp.segment !== 'all') ||
     sp.priceMin ||
     sp.priceMax ||
     sp.rangeMin ||
+    sp.powerMin ||
+    sp.seatsMin ||
+    sp.ncapMin ||
     sp.euHomologated
   );
 
@@ -175,7 +219,9 @@ export default async function SearchPage({
         {/* Filter Sidebar */}
         <div className="lg:sticky lg:top-4 lg:self-start">
           <div className="rounded-lg border bg-card p-5">
-            <FilterSidebar />
+            <FilterSidebar
+              brands={allBrands.map((b) => ({ slug: b.slug, name: b.name }))}
+            />
           </div>
         </div>
 
@@ -237,11 +283,15 @@ export default async function SearchPage({
                 (pageNum) => {
                   const params = new URLSearchParams();
                   if (sp.q) params.set('q', sp.q);
+                  if (sp.brand) params.set('brand', sp.brand);
                   if (sp.propulsion) params.set('propulsion', sp.propulsion);
                   if (sp.segment) params.set('segment', sp.segment);
                   if (sp.priceMin) params.set('priceMin', sp.priceMin);
                   if (sp.priceMax) params.set('priceMax', sp.priceMax);
                   if (sp.rangeMin) params.set('rangeMin', sp.rangeMin);
+                  if (sp.powerMin) params.set('powerMin', sp.powerMin);
+                  if (sp.seatsMin) params.set('seatsMin', sp.seatsMin);
+                  if (sp.ncapMin) params.set('ncapMin', sp.ncapMin);
                   if (sp.euHomologated) params.set('euHomologated', sp.euHomologated);
                   if (sp.sort) params.set('sort', sp.sort);
                   params.set('page', pageNum.toString());

@@ -5,6 +5,7 @@ import { brands, models } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { ModelCard } from '@/components/catalog/ModelCard';
 import { BrandCard } from '@/components/catalog/BrandCard';
+import { BrandCarousel } from '@/components/catalog/BrandCarousel';
 import { HeroSlider } from '@/components/catalog/HeroSlider';
 import {
   Car,
@@ -109,6 +110,24 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* ─── Brand Logo Carousel ──────────────────────────────────── */}
+      {publishedBrands.length > 0 && (
+        <section className="py-12 sm:py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p className="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-8">
+              {t('brandsTitle')}
+            </p>
+            <BrandCarousel
+              brands={publishedBrands.map((b) => ({
+                slug: b.slug,
+                name: b.name,
+                logoUrl: b.logoUrl,
+              }))}
+            />
+          </div>
+        </section>
+      )}
 
       {/* ─── Featured Models ─────────────────────────────────────── */}
       {featuredModels.length > 0 && (

@@ -1,4 +1,5 @@
-import { TrendingUp, TrendingDown, Globe, Factory, BarChart3, DollarSign, Target, Users, MapPin, Award } from 'lucide-react';
+import { Award, MapPin, Shield, Zap, Battery, Gauge, Wallet, Box, Target } from 'lucide-react';
+import type { ScoreBreakdown } from '@/lib/compute-score';
 
 interface MarketSidebarProps {
   brandName: string;
@@ -8,32 +9,107 @@ interface MarketSidebarProps {
   markets: string[] | null;
   year: number | null;
   cutoutImageUrl: string | null;
+  score: ScoreBreakdown | null;
+  rank: number | null;      // position among all models (1-based)
+  totalModels: number;
 }
 
-export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, markets, year, cutoutImageUrl }: MarketSidebarProps) {
-  const marketData = {
-    globalRank: brandName === 'BYD' ? '#1' : brandName === 'Geely' ? '#3' : '#8',
-    marketShare: brandName === 'BYD' ? '18.4%' : brandName === 'NIO' ? '2.1%' : '4.7%',
-    marketShareTrend: 'up' as const,
-    ytdSales: brandName === 'BYD' ? '2,410,000' : brandName === 'NIO' ? '180,500' : '560,000',
-    ytdGrowth: brandName === 'BYD' ? '+23%' : brandName === 'NIO' ? '+38%' : '+15%',
-    euSales: brandName === 'BYD' ? '142,000' : brandName === 'NIO' ? '18,200' : '45,000',
-    topMarkets: ['China', 'Germany', 'UK', 'Norway', 'Australia'],
-    stockTicker: brandName === 'BYD' ? 'SZ:002594' : brandName === 'NIO' ? 'NYSE:NIO' : null,
-    stockPrice: brandName === 'BYD' ? '¥302.50' : brandName === 'NIO' ? '$7.82' : null,
-    stockChange: brandName === 'BYD' ? '+2.4%' : brandName === 'NIO' ? '-1.2%' : null,
-    factories: brandName === 'BYD' ? 12 : brandName === 'NIO' ? 3 : 5,
-    countries: brandName === 'BYD' ? 78 : brandName === 'NIO' ? 12 : 35,
-    competitorPrice: priceEurFrom ? Math.round(priceEurFrom * 1.15) : null,
-  };
+function ScoreRing({ value, size = 80 }: { value: number; size?: number }) {
+  const radius = (size - 8) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (value / 100) * circumference;
 
-  const isUp = marketData.marketShareTrend === 'up';
-
-  const rankNumber = marketData.globalRank.replace('#', '');
+  // Color based on score
+  const color =
+    value >= 80 ? '#10b981' :  // emerald
+    value >= 60 ? '#E63946' :  // brand red
+    value >= 40 ? '#f59e0b' :  // amber
+    '#ef4444';                  // red
 
   return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        {/* Background circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={4}
+          className="text-white/10"
+        />
+        {/* Score arc */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={4}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ transition: 'stroke-dashoffset 1s ease' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-2xl font-black text-white leading-none">{value}</span>
+        <span className="text-[8px] font-light uppercase tracking-wider text-slate-500 mt-0.5">/100</span>
+      </div>
+    </div>
+  );
+}
+
+function CategoryBar({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string;
+  value: number;
+  icon: React.ElementType;
+}) {
+  const color =
+    value >= 80 ? 'bg-emerald-500' :
+    value >= 60 ? 'bg-[#E63946]' :
+    value >= 40 ? 'bg-amber-500' :
+    'bg-red-500';
+
+  return (
+    <div className="flex items-center gap-2">
+      <Icon className="h-3 w-3 text-slate-500 flex-shrink-0" />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between mb-0.5">
+          <span className="text-[10px] font-light text-slate-400 truncate">{label}</span>
+          <span className="text-[10px] font-bold text-white ml-1">{value}</span>
+        </div>
+        <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full ${color}`}
+            style={{ width: `${value}%`, transition: 'width 1s ease' }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function MarketSidebar({
+  brandName,
+  modelName,
+  priceEurFrom,
+  ncapStars,
+  markets,
+  year,
+  cutoutImageUrl,
+  score,
+  rank,
+  totalModels,
+}: MarketSidebarProps) {
+  return (
     <div className="space-y-3">
-      {/* Car Cutout + Ranking Badge */}
+      {/* Car Cutout + Score Ring */}
       {cutoutImageUrl && (
         <div className="relative bg-gradient-to-b from-slate-50 to-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="relative px-4 pt-4 pb-2">
@@ -43,11 +119,6 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
               className="w-full h-auto object-contain max-h-[200px]"
               loading="eager"
             />
-            {/* Ranking circle badge */}
-            <div className="absolute top-3 right-3 w-14 h-14 rounded-full bg-slate-900 border-2 border-[#E63946] flex flex-col items-center justify-center shadow-lg">
-              <span className="text-[9px] font-light uppercase tracking-wider text-slate-400 leading-none">Rank</span>
-              <span className="text-lg font-black text-white leading-none">{rankNumber}</span>
-            </div>
           </div>
           <div className="px-4 pb-3 text-center">
             <p className="text-[10px] font-light uppercase tracking-widest text-slate-400">{brandName}</p>
@@ -56,63 +127,54 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
         </div>
       )}
 
-      {/* Market Intelligence — Dark card */}
-      <div className="bg-slate-900 rounded-xl p-4 text-white">
-        <div className="flex items-center gap-2 mb-3">
-          <BarChart3 className="h-3.5 w-3.5 text-[#E63946]" />
-          <h3 className="text-[10px] font-light uppercase tracking-widest text-slate-500">Market Intelligence</h3>
+      {/* Score Card — Dark */}
+      {score && (
+        <div className="bg-slate-900 rounded-xl p-4 text-white">
+          <div className="flex items-center gap-2 mb-4">
+            <Target className="h-3.5 w-3.5 text-[#E63946]" />
+            <h3 className="text-[10px] font-light uppercase tracking-widest text-slate-500">
+              ChinaCars Score
+            </h3>
+          </div>
+
+          {/* Overall score ring + rank */}
+          <div className="flex items-center gap-4 mb-5">
+            <ScoreRing value={score.overall} />
+            <div className="flex-1">
+              <p className="text-xs font-light text-slate-500 mb-1">
+                {score.overall >= 80 ? 'Excellent' :
+                 score.overall >= 65 ? 'Very Good' :
+                 score.overall >= 50 ? 'Good' :
+                 'Average'}
+              </p>
+              {rank != null && totalModels > 0 && (
+                <p className="text-xs font-light text-slate-400">
+                  Ranked <span className="font-black text-white">#{rank}</span>
+                  <span className="text-slate-600"> of {totalModels}</span>
+                </p>
+              )}
+              {priceEurFrom && (
+                <p className="text-lg font-black text-[#E63946] mt-1">
+                  €{priceEurFrom.toLocaleString()}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Category breakdown */}
+          <div className="space-y-2.5">
+            <CategoryBar label="Value for Money" value={score.value} icon={Wallet} />
+            <CategoryBar label="Range & Efficiency" value={score.range} icon={Battery} />
+            <CategoryBar label="Performance" value={score.performance} icon={Gauge} />
+            <CategoryBar label="Safety & Warranty" value={score.safety} icon={Shield} />
+            <CategoryBar label="Practicality" value={score.practicality} icon={Box} />
+            <CategoryBar label="Charging" value={score.charging} icon={Zap} />
+          </div>
         </div>
-
-        <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">EV Rank</span>
-              <p className="text-lg font-black leading-tight">{marketData.globalRank}</p>
-            </div>
-            <div>
-              <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">Share</span>
-              <div className="flex items-center gap-1">
-                <p className="text-lg font-black leading-tight">{marketData.marketShare}</p>
-                {isUp ? (
-                  <TrendingUp className="h-3 w-3 text-emerald-400" />
-                ) : (
-                  <TrendingDown className="h-3 w-3 text-red-400" />
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-white/5" />
-
-          <div>
-            <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">YTD Sales ({year || 2025})</span>
-            <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-xl font-black">{marketData.ytdSales}</span>
-              <span className={`text-xs font-bold ${marketData.ytdGrowth.startsWith('+') ? 'text-emerald-400' : 'text-red-400'}`}>
-                {marketData.ytdGrowth}
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <span className="text-[10px] font-light text-slate-500 uppercase tracking-wide">EU Sales</span>
-            <p className="text-base font-black mt-0.5">{marketData.euSales}</p>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Quick Stats — Compact 2x2 grid */}
       <div className="grid grid-cols-2 gap-2">
-        <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
-          <Factory className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-          <p className="text-base font-black text-slate-900 leading-tight">{marketData.factories}</p>
-          <p className="text-[10px] font-light text-slate-400">Factories</p>
-        </div>
-        <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
-          <Globe className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-          <p className="text-base font-black text-slate-900 leading-tight">{marketData.countries}</p>
-          <p className="text-[10px] font-light text-slate-400">Countries</p>
-        </div>
         {ncapStars && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <Award className="h-4 w-4 text-slate-400 mx-auto mb-1" />
@@ -127,73 +189,24 @@ export function MarketSidebar({ brandName, modelName, priceEurFrom, ncapStars, m
             <p className="text-[10px] font-light text-slate-400">Markets</p>
           </div>
         )}
-      </div>
-
-      {/* Stock */}
-      {marketData.stockTicker && (
-        <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <DollarSign className="h-3 w-3 text-slate-400" />
-            <span className="text-[10px] font-light uppercase tracking-widest text-slate-400">Stock</span>
+        {year && (
+          <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
+            <Shield className="h-4 w-4 text-slate-400 mx-auto mb-1" />
+            <p className="text-base font-black text-slate-900 leading-tight">{year}</p>
+            <p className="text-[10px] font-light text-slate-400">Model Year</p>
           </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[10px] font-light text-slate-400">{marketData.stockTicker}</p>
-              <p className="text-base font-black text-slate-900">{marketData.stockPrice}</p>
-            </div>
-            <span className={`text-xs font-bold px-2 py-0.5 rounded ${
-              marketData.stockChange?.startsWith('+')
-                ? 'bg-emerald-50 text-emerald-600'
-                : 'bg-red-50 text-red-600'
-            }`}>
-              {marketData.stockChange}
-            </span>
+        )}
+        {rank != null && (
+          <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
+            <Target className="h-4 w-4 text-slate-400 mx-auto mb-1" />
+            <p className="text-base font-black text-slate-900 leading-tight">#{rank}</p>
+            <p className="text-[10px] font-light text-slate-400">Overall Rank</p>
           </div>
-        </div>
-      )}
-
-      {/* Price Context */}
-      {priceEurFrom && marketData.competitorPrice && (
-        <div className="bg-[#E63946]/5 border border-[#E63946]/15 rounded-lg px-3 py-2.5">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Target className="h-3 w-3 text-[#E63946]" />
-            <span className="text-[10px] font-light uppercase tracking-widest text-[#E63946]">Price Context</span>
-          </div>
-          <p className="text-xs font-light text-slate-500 leading-relaxed">
-            <span className="font-bold text-slate-900">{'\u20AC'}{priceEurFrom.toLocaleString()}</span> is{' '}
-            <span className="font-bold text-emerald-600">
-              {Math.round(((marketData.competitorPrice - priceEurFrom) / marketData.competitorPrice) * 100)}% less
-            </span>{' '}
-            than avg. EU competitor.
-          </p>
-        </div>
-      )}
-
-      {/* Top Markets */}
-      <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5">
-        <div className="flex items-center gap-1.5 mb-2">
-          <Users className="h-3 w-3 text-slate-400" />
-          <span className="text-[10px] font-light uppercase tracking-widest text-slate-400">Top Markets</span>
-        </div>
-        <div className="space-y-1.5">
-          {marketData.topMarkets.map((market, i) => (
-            <div key={market} className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <span className="w-4 h-4 rounded bg-slate-100 flex items-center justify-center text-[9px] font-bold text-slate-500">
-                  {i + 1}
-                </span>
-                <span className="text-xs font-light text-slate-600">{market}</span>
-              </div>
-              <div className="h-1 w-12 bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-[#E63946] rounded-full" style={{ width: `${100 - i * 18}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
+        )}
       </div>
 
       <p className="text-[9px] text-slate-400 px-1">
-        Demo data. Real-time MCP integration coming soon.
+        Score based on specs, pricing, safety, and efficiency vs. all models on the platform.
       </p>
     </div>
   );

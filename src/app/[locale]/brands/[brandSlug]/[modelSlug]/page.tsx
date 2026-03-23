@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { db } from '@/db';
 import { models, brands } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { computeScores } from '@/lib/compute-score';
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { ProductGallery } from '@/components/catalog/ProductGallery';
@@ -146,6 +147,19 @@ export default async function ModelDetailPage({
 
   if (!model || !model.isPublished) notFound();
   if (model.brand.slug !== brandSlug) notFound();
+
+  // ─── Compute scores across all published models ────────────────────────
+  const allPublishedModels = await db.query.models.findMany({
+    where: eq(models.isPublished, true),
+  });
+  const scoresMap = computeScores(allPublishedModels);
+  const modelScore = scoresMap.get(model.id) ?? null;
+
+  // Determine rank (sorted by overall score descending)
+  const ranked = [...scoresMap.entries()]
+    .sort(([, a], [, b]) => b.overall - a.overall);
+  const modelRank = ranked.findIndex(([id]) => id === model.id) + 1;
+  const totalModels = ranked.length;
 
   const description =
     locale === 'ro' ? model.descriptionRo : model.descriptionEn;
@@ -673,6 +687,9 @@ export default async function ModelDetailPage({
                 markets={model.markets}
                 year={model.year}
                 cutoutImageUrl={cutoutImage?.url ?? null}
+                score={modelScore}
+                rank={modelRank || null}
+                totalModels={totalModels}
               />
             </div>
           </div>

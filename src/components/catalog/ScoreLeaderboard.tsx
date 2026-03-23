@@ -61,7 +61,7 @@ function ScoreBadge({ value, size = 'md' }: { value: number; size?: 'sm' | 'md' 
   };
 
   return (
-    <div className={`${sizeClasses[size]} rounded-xl bg-gradient-to-br ${color} flex items-center justify-center font-black text-white shadow-sm`}>
+    <div className={`${sizeClasses[size]} rounded-xl bg-gradient-to-br ${color} flex items-center justify-center font-bold text-white shadow-sm`}>
       {value}
     </div>
   );
@@ -199,11 +199,11 @@ export function ScoreLeaderboard({ models, locale }: ScoreLeaderboardProps) {
                   </div>
                 ) : rank === 2 ? (
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-300 to-slate-400 flex items-center justify-center shadow-sm">
-                    <span className="text-xs font-black text-white">2</span>
+                    <span className="text-xs font-bold text-white">2</span>
                   </div>
                 ) : rank === 3 ? (
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-600 to-amber-700 flex items-center justify-center shadow-sm">
-                    <span className="text-xs font-black text-white">3</span>
+                    <span className="text-xs font-bold text-white">3</span>
                   </div>
                 ) : (
                   <span className="text-sm font-bold text-slate-300">{rank}</span>
@@ -229,7 +229,7 @@ export function ScoreLeaderboard({ models, locale }: ScoreLeaderboardProps) {
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-sm font-black text-slate-900 group-hover:text-[#E63946] transition-colors truncate">
+                    <span className="text-sm font-bold text-slate-900 group-hover:text-[#E63946] transition-colors truncate">
                       {model.name}
                     </span>
                     {model.propulsion && (
@@ -244,7 +244,7 @@ export function ScoreLeaderboard({ models, locale }: ScoreLeaderboardProps) {
                     )}
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[11px] font-light text-slate-400">{model.brandName}</span>
+                    <span className="text-[11px] font-normal text-slate-400">{model.brandName}</span>
                     {model.priceEurFrom && (
                       <>
                         <span className="text-slate-200">·</span>

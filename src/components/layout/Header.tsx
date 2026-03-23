@@ -52,12 +52,12 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-1 z-10">
             <span
-              className={`text-xl lg:text-2xl font-extrabold tracking-tight transition-colors duration-300 ${
+              className={`text-xl lg:text-2xl font-semibold tracking-tight transition-colors duration-300 ${
                 scrolled || !isHome ? 'text-slate-900' : 'text-white'
               }`}
             >
               China<span className="text-[#E63946]">Cars</span>
-              <span className="font-light opacity-60">.Global</span>
+              <span className="font-normal opacity-60">.Global</span>
             </span>
           </Link>
 
@@ -129,7 +129,7 @@ export function Header() {
           <div className="flex items-center justify-between p-6 border-b border-slate-100">
             <span className="text-lg font-bold text-slate-900">
               China<span className="text-[#E63946]">Cars</span>
-              <span className="font-light text-slate-400">.Global</span>
+              <span className="font-normal text-slate-400">.Global</span>
             </span>
             <button
               onClick={() => setMenuOpen(false)}

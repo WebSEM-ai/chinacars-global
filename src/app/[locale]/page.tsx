@@ -134,7 +134,7 @@ export default async function HomePage({
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <stat.icon className="mx-auto h-6 w-6 text-[#E63946] mb-2" />
-                  <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+                  <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">
                     {stat.value}
                   </p>
                   <p className="mt-1 text-xs sm:text-sm text-slate-500">{stat.label}</p>

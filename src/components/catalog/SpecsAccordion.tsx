@@ -60,7 +60,7 @@ export function SpecsAccordion({ categories }: { categories: SpecCategory[] }) {
                   {cat.icon}
                 </div>
                 <span className="font-bold text-sm tracking-tight">{cat.title}</span>
-                <span className={`text-[10px] font-light px-1.5 py-0.5 rounded ${
+                <span className={`text-[10px] font-normal px-1.5 py-0.5 rounded ${
                   isOpen
                     ? 'bg-white/10 text-white/50'
                     : 'bg-slate-100 text-slate-400'
@@ -84,7 +84,7 @@ export function SpecsAccordion({ categories }: { categories: SpecCategory[] }) {
                       <div key={i} className={`flex items-center justify-between py-2 px-3 ${
                         isOpen ? '' : ''
                       }`}>
-                        <span className={`text-xs font-light ${isOpen ? 'text-slate-400' : 'text-slate-400'}`}>
+                        <span className={`text-xs font-normal ${isOpen ? 'text-slate-400' : 'text-slate-400'}`}>
                           {spec.label}
                         </span>
                         <span className={`text-xs font-bold text-right ${
@@ -102,7 +102,7 @@ export function SpecsAccordion({ categories }: { categories: SpecCategory[] }) {
                             <>
                               {spec.value}
                               {spec.unit && (
-                                <span className={`font-light ml-1 ${isOpen ? 'text-slate-500' : 'text-slate-400'}`}>
+                                <span className={`font-normal ml-1 ${isOpen ? 'text-slate-500' : 'text-slate-400'}`}>
                                   {spec.unit}
                                 </span>
                               )}

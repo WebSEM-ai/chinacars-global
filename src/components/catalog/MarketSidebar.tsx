@@ -54,8 +54,8 @@ function ScoreRing({ value, size = 80 }: { value: number; size?: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-black text-white leading-none">{value}</span>
-        <span className="text-[8px] font-light uppercase tracking-wider text-slate-500 mt-0.5">/100</span>
+        <span className="text-2xl font-bold text-white leading-none">{value}</span>
+        <span className="text-[8px] font-normal uppercase tracking-wider text-slate-500 mt-0.5">/100</span>
       </div>
     </div>
   );
@@ -81,7 +81,7 @@ function CategoryBar({
       <Icon className="h-3 w-3 text-slate-500 flex-shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-0.5">
-          <span className="text-[10px] font-light text-slate-400 truncate">{label}</span>
+          <span className="text-[10px] font-normal text-slate-400 truncate">{label}</span>
           <span className="text-[10px] font-bold text-white ml-1">{value}</span>
         </div>
         <div className="h-1 bg-white/10 rounded-full overflow-hidden">
@@ -121,8 +121,8 @@ export function MarketSidebar({
             />
           </div>
           <div className="px-4 pb-3 text-center">
-            <p className="text-[10px] font-light uppercase tracking-widest text-slate-400">{brandName}</p>
-            <p className="text-sm font-black text-slate-900">{modelName}</p>
+            <p className="text-[10px] font-normal uppercase tracking-widest text-slate-400">{brandName}</p>
+            <p className="text-sm font-bold text-slate-900">{modelName}</p>
           </div>
         </div>
       )}
@@ -132,7 +132,7 @@ export function MarketSidebar({
         <div className="bg-slate-900 rounded-xl p-4 text-white">
           <div className="flex items-center gap-2 mb-4">
             <Target className="h-3.5 w-3.5 text-[#E63946]" />
-            <h3 className="text-[10px] font-light uppercase tracking-widest text-slate-500">
+            <h3 className="text-[10px] font-normal uppercase tracking-widest text-slate-500">
               ChinaCars Score
             </h3>
           </div>
@@ -141,20 +141,20 @@ export function MarketSidebar({
           <div className="flex items-center gap-4 mb-5">
             <ScoreRing value={score.overall} />
             <div className="flex-1">
-              <p className="text-xs font-light text-slate-500 mb-1">
+              <p className="text-xs font-normal text-slate-500 mb-1">
                 {score.overall >= 80 ? 'Excellent' :
                  score.overall >= 65 ? 'Very Good' :
                  score.overall >= 50 ? 'Good' :
                  'Average'}
               </p>
               {rank != null && totalModels > 0 && (
-                <p className="text-xs font-light text-slate-400">
-                  Ranked <span className="font-black text-white">#{rank}</span>
+                <p className="text-xs font-normal text-slate-400">
+                  Ranked <span className="font-bold text-white">#{rank}</span>
                   <span className="text-slate-600"> of {totalModels}</span>
                 </p>
               )}
               {priceEurFrom && (
-                <p className="text-lg font-black text-[#E63946] mt-1">
+                <p className="text-lg font-bold text-[#E63946] mt-1">
                   €{priceEurFrom.toLocaleString()}
                 </p>
               )}
@@ -178,29 +178,29 @@ export function MarketSidebar({
         {ncapStars && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <Award className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-            <p className="text-base font-black text-slate-900 leading-tight">{ncapStars}/5</p>
-            <p className="text-[10px] font-light text-slate-400">Euro NCAP</p>
+            <p className="text-base font-bold text-slate-900 leading-tight">{ncapStars}/5</p>
+            <p className="text-[10px] font-normal text-slate-400">Euro NCAP</p>
           </div>
         )}
         {markets && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <MapPin className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-            <p className="text-base font-black text-slate-900 leading-tight">{markets.length}</p>
-            <p className="text-[10px] font-light text-slate-400">Markets</p>
+            <p className="text-base font-bold text-slate-900 leading-tight">{markets.length}</p>
+            <p className="text-[10px] font-normal text-slate-400">Markets</p>
           </div>
         )}
         {year && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <Shield className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-            <p className="text-base font-black text-slate-900 leading-tight">{year}</p>
-            <p className="text-[10px] font-light text-slate-400">Model Year</p>
+            <p className="text-base font-bold text-slate-900 leading-tight">{year}</p>
+            <p className="text-[10px] font-normal text-slate-400">Model Year</p>
           </div>
         )}
         {rank != null && (
           <div className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-center">
             <Target className="h-4 w-4 text-slate-400 mx-auto mb-1" />
-            <p className="text-base font-black text-slate-900 leading-tight">#{rank}</p>
-            <p className="text-[10px] font-light text-slate-400">Overall Rank</p>
+            <p className="text-base font-bold text-slate-900 leading-tight">#{rank}</p>
+            <p className="text-[10px] font-normal text-slate-400">Overall Rank</p>
           </div>
         )}
       </div>

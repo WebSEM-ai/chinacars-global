@@ -101,7 +101,7 @@ export function HeroSlider({
       <div className="relative h-full flex flex-col items-center justify-center px-4 sm:px-6 pt-16 lg:pt-[72px]">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Title */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-white leading-[1.1] mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
             <span className="block">{title.split(' ').slice(0, -1).join(' ')}</span>
             <span className="block text-[#E63946]">{title.split(' ').slice(-1)}</span>
           </h1>

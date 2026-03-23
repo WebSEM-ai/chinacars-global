@@ -6,7 +6,9 @@ import { eq, desc } from 'drizzle-orm';
 import { ModelCard } from '@/components/catalog/ModelCard';
 import { BrandCard } from '@/components/catalog/BrandCard';
 import { BrandCarousel } from '@/components/catalog/BrandCarousel';
+import { ScoreLeaderboard } from '@/components/catalog/ScoreLeaderboard';
 import { HeroSlider } from '@/components/catalog/HeroSlider';
+import { computeScores } from '@/lib/compute-score';
 import {
   Car,
   Globe,
@@ -17,6 +19,7 @@ import {
   Battery,
   TrendingUp,
   Award,
+  Trophy,
 } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -73,6 +76,37 @@ export default async function HomePage({
     orderBy: [desc(brands.sortOrder)],
   });
 
+  // Query all published models for leaderboard scoring
+  const allPublishedModels = await db.query.models.findMany({
+    where: eq(models.isPublished, true),
+    with: {
+      brand: true,
+      images: true,
+    },
+  });
+
+  // Compute scores for all models
+  const scoresMap = computeScores(allPublishedModels);
+
+  // Build ranked leaderboard data
+  const leaderboardModels = allPublishedModels
+    .map((model) => {
+      const score = scoresMap.get(model.id);
+      const heroImage = model.images.find((img) => img.type === 'hero') || model.images[0];
+      return {
+        slug: model.slug,
+        brandSlug: model.brand.slug,
+        brandName: model.brand.name,
+        name: model.name,
+        imageUrl: heroImage?.url ?? null,
+        propulsion: model.propulsion,
+        priceEurFrom: model.priceEurFrom,
+        year: model.year,
+        score: score ?? { overall: 0, value: 0, range: 0, performance: 0, safety: 0, practicality: 0, charging: 0 },
+      };
+    })
+    .sort((a, b) => b.score.overall - a.score.overall);
+
   const stats = [
     { icon: Car, value: '7M+', label: t('statsVehiclesExported') },
     { icon: Building2, value: '30+', label: t('statsBrands') },
@@ -125,6 +159,26 @@ export default async function HomePage({
                 logoUrl: b.logoUrl,
               }))}
             />
+          </div>
+        </section>
+      )}
+
+      {/* ─── Score Leaderboard ──────────────────────────────────── */}
+      {leaderboardModels.length > 0 && (
+        <section className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+            <div className="mb-8">
+              <div className="flex items-center gap-2 mb-2">
+                <Trophy className="h-6 w-6 text-[#E63946]" />
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+                  {t('rankingTitle')}
+                </h2>
+              </div>
+              <p className="text-lg text-slate-500 max-w-2xl">
+                {t('rankingSubtitle')}
+              </p>
+            </div>
+            <ScoreLeaderboard models={leaderboardModels} locale={locale} />
           </div>
         </section>
       )}
